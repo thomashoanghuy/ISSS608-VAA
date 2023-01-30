@@ -2,4 +2,6 @@
 title: "ISSS608-VAA"
 ---
 
-This is In Class Exercises For ISSS608
+**Welcome to Capybara\'s homepage.**
+
+This is my website to practice Data Visualization and web-building skills
