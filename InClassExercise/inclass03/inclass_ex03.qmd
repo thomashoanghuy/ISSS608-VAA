@@ -1,0 +1,49 @@
+---
+title: "In Class Exercise 3"
+author: "Thomas Hoang Huy"
+date: 28 Jan 2023
+date-modified: "`r Sys.Date()`"
+execute: 
+  echo: true
+  eval: true
+  warning: false
+---
+
+Installing and loading R packages
+
+Two packages will be installed and loaded. They are tidyverse and ggiraph
+
+```{r}
+pacman::p_load(tidyverse)
+```
+
+```{r}
+exam_data <- read_csv("data/Exam_data.csv")
+```
+
+Getting Started  Installing and loading R packages  Two packages will be install and loaded, they are: tidyverse, ggiraph. 
+
+Always to load tidyverse last, to avoid any potential conflicts with tidyverse.
+
+```{r}
+pacman::p_load(ggiraph, tidyverse)
+```
+
+```{r}
+exam_data <- read_csv('data/Exam_data.csv', show_col_types = FALSE)
+```
+
+```{r}
+ggplot(data = exam_data,
+       aes(x = MATHS)) + geom_dotplot(dotsize = 0.5)
+```
+
+```{r}
+p <- ggplot(data = exam_data,
+            aes(x = MATHS)) + geom_dotplot_interactive(aes(tooltip = ID),
+                                                       stackgroups = TRUE,
+                                                       binwidth = 2,
+                                                       method = "histodot") + scale_y_continuous(NULL, breaks = NULL)
+
+girafe(ggobj = p, width_svg = 10,height_svg =  10* 0.5)
+```

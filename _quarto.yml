@@ -9,7 +9,12 @@ website:
       menu:
         - text: "In Class Exercise 3"
           href: "inclass03/inclassexercise03/inclass_ex03.html"
-
+    - text: "Takehome Exercise"
+      menu:
+        - text: "TakeHome Exercise 1"
+          href: "TakehomeEx/TakehomeEx01.html"
+        - text: "TakeHome Exercise 2"
+          href: "TakehomeEx/TakehomeEx02.html"         
 format:
   html:
     theme: cosmo
