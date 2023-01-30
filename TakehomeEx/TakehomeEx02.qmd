@@ -1,5 +1,5 @@
 ---
-title: "Take Home 2"
+title: "TakeHome Exercise 2"
 format:
   html:
     toc: true
