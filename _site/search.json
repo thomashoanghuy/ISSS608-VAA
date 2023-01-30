@@ -100,21 +100,21 @@
   {
     "objectID": "TakehomeEx/TakehomeEx02.html",
     "href": "TakehomeEx/TakehomeEx02.html",
-    "title": "Take Home 2",
+    "title": "TakeHome Exercise 2",
     "section": "",
     "text": "In the first task, we are supposed to create Age-sex Pyramid to cover 9 planning areas of Singapore in term of Male/ Female and the age group.\nBelow is one of the DataViz that was created by a classmate.\nhttps://public.tableau.com/app/profile/ruipeng.wang/viz/take_home_01/Dashboard1?fbclid=IwAR1xjLcdtI9B6IQsXvE8DeuHGT0Xe1sL20M6RPAZ2gvhEV_hLizpZ9QdADg\n\nOriginal DataViz\nCritiques:\n\nClarity: The viz was created for 9 planning areas with 9 different populations. However, they use to same absolute scales in terms of number of people. Therefore, the areas with small number of populations ( Downtown Core and Outram) when putting in the same x-axis scale as other areas, does not have high enough number of people, to show case the distributions as Age-sex pyramid.\nClarity Some age groups have data labels ( number of people in that age group), however many age groups do not have any data labels. It looks like the data label are randomly assigned.\nAesthetics Age-sex pyramid of 9 area, should not occupy such big area of spaces (taking up entire horizontal dataviz). There are other designs that can save spaces for other graphs / charts that will portray more information from the data."
   },
   {
     "objectID": "TakehomeEx/TakehomeEx02.html#age-sex-pyramid-graph-for-bedok",
     "href": "TakehomeEx/TakehomeEx02.html#age-sex-pyramid-graph-for-bedok",
-    "title": "Take Home 2",
+    "title": "TakeHome Exercise 2",
     "section": "AGE-SEX PYRAMID GRAPH FOR BEDOK",
     "text": "AGE-SEX PYRAMID GRAPH FOR BEDOK\nWe use fill = bedok_df$ID (the new column added) is to separate the 2 genders.\n\nggplot(bedok_df,\n       aes( x = bedok_df$`Population Perc` , y = bedok_df$`AGE GROUP` , fill = bedok_df$ID ))+\n  geom_bar(stat = \"identity\") +\n  ggtitle(\"Distribution of Bedok\")+\n  ylab(\"AGE GROUP\")+\n  xlab(\"Percentage of Area Population\") +\n  labs(fill = \"Gender\")+\n  scale_x_continuous(breaks = scales::pretty_breaks(n = 10))\n\nWarning: Use of `` bedok_df$`Population Perc` `` is discouraged.\nℹ Use `Population Perc` instead.\n\n\nWarning: Use of `` bedok_df$`AGE GROUP` `` is discouraged.\nℹ Use `AGE GROUP` instead.\n\n\nWarning: Use of `bedok_df$ID` is discouraged.\nℹ Use `ID` instead.\n\n\n\n\n\nFinally we have created a Age-Sex pyramid, using percentage of the Population of the area, rather than their absolute numbers.\nAs such, even with the area of low population (like Outram or Downtown Core) , each age groups will still be better visualized using percentage of its own population.\nWe can repeat this same steps for any planning areas in our original data."
   },
   {
     "objectID": "TakehomeEx/TakehomeEx02.html#pyramid-graph-for-9-planning-areas-population-by-gender",
     "href": "TakehomeEx/TakehomeEx02.html#pyramid-graph-for-9-planning-areas-population-by-gender",
-    "title": "Take Home 2",
+    "title": "TakeHome Exercise 2",
     "section": "PYRAMID GRAPH FOR 9 PLANNING AREAS POPULATION, BY GENDER",
     "text": "PYRAMID GRAPH FOR 9 PLANNING AREAS POPULATION, BY GENDER\nWith the combined dataframe, we can draw the pyramid graph using the ggplot2 now\n\nggplot(sg_pop,\n       aes( x = Population , y = Area , fill = Gender))+\n  geom_bar(stat = \"identity\") +\n  ggtitle(\"SINGAPORE POPULATION DISTRIBUTION\")+\n  ylab(\"AREA\")+\n  xlab(\"Population\") +\n  labs(fill = \"Gender\")\n\n\n\n  scale_x_continuous(labels = scales::comma_format(big.mark = ',' , decimal.mark = '.') , breaks = scales::pretty_breaks(n = 5))\n\n<ScaleContinuousPosition>\n Range:  \n Limits:    0 --    1\n\n\nAs you can see, Outram and Downtown Core have the lowest number of population among the 9 chosen area. While Woodlands have the largest population."
   }
