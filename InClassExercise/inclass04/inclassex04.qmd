@@ -21,6 +21,5 @@ exam_data = read_csv("data/Exam_data.csv")
 plot_ly(data = exam_data,
         x = ~ENGLISH,
         y = ~MATHS,
-        color = ~RACE,
-        type = "scatter")
+        color = ~RACE)
 ```
