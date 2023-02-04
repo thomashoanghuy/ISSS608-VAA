@@ -18,7 +18,7 @@
     "href": "index.html",
     "title": "ISSS608-VAA",
     "section": "",
-    "text": "Welcome to Capybara's homepage.\nThis is my website to practice Data Visualization and web-building skills"
+    "text": "Welcome to Capybara’s homepage.\nThis is my website to practice Data Visualization and web-building skills"
   },
   {
     "objectID": "InClassExercise/inclass03/inclass_ex03.html",
@@ -117,5 +117,12 @@
     "title": "TakeHome Exercise 2",
     "section": "PYRAMID GRAPH FOR 9 PLANNING AREAS POPULATION, BY GENDER",
     "text": "PYRAMID GRAPH FOR 9 PLANNING AREAS POPULATION, BY GENDER\nWith the combined dataframe, we can draw the pyramid graph using the ggplot2 now\n\nggplot(sg_pop,\n       aes( x = Population , y = Area , fill = Gender))+\n  geom_bar(stat = \"identity\") +\n  ggtitle(\"SINGAPORE POPULATION DISTRIBUTION\")+\n  ylab(\"AREA\")+\n  xlab(\"Population\") +\n  labs(fill = \"Gender\")\n\n\n\n  scale_x_continuous(labels = scales::comma_format(big.mark = ',' , decimal.mark = '.') , breaks = scales::pretty_breaks(n = 5))\n\n<ScaleContinuousPosition>\n Range:  \n Limits:    0 --    1\n\n\nAs you can see, Outram and Downtown Core have the lowest number of population among the 9 chosen area. While Woodlands have the largest population."
+  },
+  {
+    "objectID": "InClassExercise/inclass04/inclassex04.html",
+    "href": "InClassExercise/inclass04/inclassex04.html",
+    "title": "In-Class Exercise 4",
+    "section": "",
+    "text": "pacman:: p_load(plotly , DT , patchwork , tidyverse)\n\n\nexam_data = read_csv(\"data/Exam_data.csv\")\n\nRows: 322 Columns: 7\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): ID, CLASS, GENDER, RACE\ndbl (3): ENGLISH, MATHS, SCIENCE\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\n\n\nplot_ly(data = exam_data,\n        x = ~ENGLISH,\n        y = ~MATHS,\n        color = ~RACE,\n        type = \"scatter\")\n\nNo scatter mode specifed:\n  Setting the mode to markers\n  Read more about this attribute -> https://plotly.com/r/reference/#scatter-mode"
   }
 ]
