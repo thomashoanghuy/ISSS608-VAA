@@ -1,0 +1,72 @@
+---
+title: "TakehomeEx03"
+---
+
+# The Task 
+
+In this take-home exercise, we will study the patterns of the resale prices of public housing property by residential towns and estates in Singapore by using appropriate analytical visualisation techniques learned in Lesson 4: Fundamentals of Visual Analytics.
+
+For the purpose of this study, the focus should be on 3-ROOM, 4-ROOM and 5-ROOM types.
+
+# The Data
+
+It can be downloaded from Data.gov.sg for Resale Flat Prices based on registration date between Jan 2017 onwards
+
+<https://data.gov.sg/dataset/resale-flat-prices>
+
+```{r}
+pacman::p_load(tidyverse)
+pacman::p_load(readxl)
+pacman::p_load(readr)
+```
+
+```{r}
+overall_data <- read_csv("data3/resale-flat-prices-based-on-registration-date-from-jan-2017-onwards.csv")
+tail(overall_data)
+```
+
+Let us start with 3 Room dataset
+
+3-ROOM
+
+```{r}
+three_roomdf = overall_data[overall_data$`flat_type` == '3 ROOM',]
+tail(three_roomdf)
+```
+
+Each of these units have different floor area, hence we cannot just compare the absolute values of the resale prices. We need to calculate by the average prices for square meter for each of these units.
+
+```{r}
+three_roomdf$price_per_sqm = three_roomdf$`resale_price` / three_roomdf$floor_area_sqm
+tail(three_roomdf)
+```
+
+```{r}
+three_roomdf_amk = three_roomdf[three_roomdf$`town` == "ANG MO KIO",]
+tail(three_roomdf_amk)
+```
+
+```{r}
+three_roomdf_amk1 = three_roomdf_amk[c("month"  , "price_per_sqm" )]
+amk_monthly_avg = three_roomdf_amk1 %>%
+group_by(month) %>%
+summarise(average_price_sqm = mean(price_per_sqm))
+```
+
+```{r}
+amk_monthly_avg$month[1]
+# tail(amk_monthly_avg,1)[1]
+```
+
+```{r}
+x_axis_month <- as.Date(amk_monthly_avg$month, format = "%Y-%m-%d")
+```
+
+```{r}
+p <- ggplot(amk_monthly_avg, aes(x= amk_monthly_avg$month, y=amk_monthly_avg$average_price_sqm)) +
+  geom_point() +
+  xlab("") +
+  theme(axis.text.x=element_text(angle=60, hjust=1))
+  # scale_x_date(breaks = "2 month", limits = c(as.Date("2017-01-01"), as.Date("2023-02-01")))
+p
+```

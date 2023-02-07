@@ -16,7 +16,9 @@ website:
         - text: "TakeHome Exercise 1"
           href: "TakehomeEx/TakehomeEx01.html"
         - text: "TakeHome Exercise 2"
-          href: "TakehomeEx/TakehomeEx02.html"         
+          href: "TakehomeEx/TakehomeEx02.html"
+        - text: "Takehome Exercise 3"  
+          href: "TakehomeEx/TakehomeEx03.html"
 format:
   html:
     theme: cosmo
