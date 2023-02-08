@@ -75,12 +75,13 @@ df_345$price_per_sqm = df_345$`resale_price` / df_345$floor_area_sqm
 tail(df_345)
 ```
 
-```{r fig.height = 5, fig.width = 10}
-ggbetweenstats(
+```{r}
+p2 <- ggbetweenstats(
   data = df_345,
   x = flat_type, 
   y = price_per_sqm,
   type = "np",
   messages = FALSE
 )
+p2
 ```
