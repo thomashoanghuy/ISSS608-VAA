@@ -192,7 +192,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
    
   <ul>
   <li><a href="#the-task" id="toc-the-task" class="nav-link active" data-scroll-target="#the-task">The Task</a></li>
-  <li><a href="#the-data" id="toc-the-data" class="nav-link" data-scroll-target="#the-data">The Data</a></li>
+  <li><a href="#the-data" id="toc-the-data" class="nav-link" data-scroll-target="#the-data">The Data</a>
+  <ul class="collapse">
+  <li><a href="#two-sample-mean-test" id="toc-two-sample-mean-test" class="nav-link" data-scroll-target="#two-sample-mean-test">Two sample mean test:</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -226,9 +229,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>It can be downloaded from Data.gov.sg for Resale Flat Prices based on registration date between Jan 2017 onwards</p>
 <p><a href="https://data.gov.sg/dataset/resale-flat-prices" class="uri">https://data.gov.sg/dataset/resale-flat-prices</a></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(tidyverse)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(readxl)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(readr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(readxl)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(readr)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(ggstatsplot)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>overall_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data3/resale-flat-prices-based-on-registration-date-from-jan-2017-onwards.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -323,22 +327,11 @@ num (1): resale_price
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summarise</span>(<span class="at">average_price_sqm =</span> <span class="fu">mean</span>(price_per_sqm))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>amk_monthly_avg<span class="sc">$</span>month[<span class="dv">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "2017-01"</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># tail(amk_monthly_avg,1)[1]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>x_axis_month <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(amk_monthly_avg<span class="sc">$</span>month, <span class="at">format =</span> <span class="st">"%Y-%m-%d"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(amk_monthly_avg, <span class="fu">aes</span>(<span class="at">x=</span> amk_monthly_avg<span class="sc">$</span>month, <span class="at">y=</span>amk_monthly_avg<span class="sc">$</span>average_price_sqm)) <span class="sc">+</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">""</span>) <span class="sc">+</span></span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x=</span><span class="fu">element_text</span>(<span class="at">angle=</span><span class="dv">60</span>, <span class="at">hjust=</span><span class="dv">1</span>))</span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># scale_x_date(breaks = "2 month", limits = c(as.Date("2017-01-01"), as.Date("2023-02-01")))</span></span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>p</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(amk_monthly_avg, <span class="fu">aes</span>(<span class="at">x=</span> amk_monthly_avg<span class="sc">$</span>month, <span class="at">y=</span>amk_monthly_avg<span class="sc">$</span>average_price_sqm)) <span class="sc">+</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x=</span><span class="fu">element_text</span>(<span class="at">angle=</span><span class="dv">90</span>, <span class="at">hjust=</span><span class="dv">1</span>))<span class="sc">+</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Month"</span>)<span class="sc">+</span><span class="fu">ylab</span>(<span class="st">"Average Price 3 room flat in Ang Mo Kio"</span>)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>p</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: Use of `amk_monthly_avg$month` is discouraged.
 ℹ Use `month` instead.</code></pre>
@@ -348,11 +341,48 @@ num (1): resale_price
 ℹ Use `average_price_sqm` instead.</code></pre>
 </div>
 <div class="cell-output-display">
-<p><img src="TakehomeEx03_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
+<p><img src="TakehomeEx03_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<section id="two-sample-mean-test" class="level2">
+<h2 class="anchored" data-anchor-id="two-sample-mean-test">Two sample mean test:</h2>
+<p>Let’s pull out data for 3 types of flats, 3 ROOM / 4 ROOM and 5 ROOM</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>df_345 <span class="ot">&lt;-</span> <span class="fu">subset</span>(overall_data, flat_type <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"3 ROOM"</span>, <span class="st">"4 ROOM"</span>, <span class="st">"5 ROOM"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>df_345<span class="sc">$</span>price_per_sqm <span class="ot">=</span> df_345<span class="sc">$</span><span class="st">`</span><span class="at">resale_price</span><span class="st">`</span> <span class="sc">/</span> df_345<span class="sc">$</span>floor_area_sqm</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(df_345)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 12
+  month   town   flat_type block stree…¹ store…² floor…³ flat_…⁴ lease…⁵ remai…⁶
+  &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt;  
+1 2023-02 YISHUN 4 ROOM    720   YISHUN… 01 TO …      84 Simpli…    1985 61 yea…
+2 2023-02 YISHUN 4 ROOM    867   YISHUN… 04 TO …      84 Simpli…    1988 64 yea…
+3 2023-02 YISHUN 5 ROOM    347A  YISHUN… 13 TO …     112 DBSS       2013 89 yea…
+4 2023-02 YISHUN 5 ROOM    785   YISHUN… 10 TO …     121 Improv…    1988 64 yea…
+5 2023-02 YISHUN 5 ROOM    336C  YISHUN… 07 TO …     112 Improv…    2015 91 yea…
+6 2023-02 YISHUN 5 ROOM    513D  YISHUN… 07 TO …     120 3Gen       2018 94 yea…
+# … with 2 more variables: resale_price &lt;dbl&gt;, price_per_sqm &lt;dbl&gt;, and
+#   abbreviated variable names ¹​street_name, ²​storey_range, ³​floor_area_sqm,
+#   ⁴​flat_model, ⁵​lease_commence_date, ⁶​remaining_lease</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggbetweenstats</span>(</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> df_345,</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> flat_type, </span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> price_per_sqm,</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">type =</span> <span class="st">"np"</span>,</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">messages =</span> <span class="cn">FALSE</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="TakehomeEx03_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="1920"></p>
 </div>
 </div>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

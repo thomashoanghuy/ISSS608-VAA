@@ -2,7 +2,7 @@
 title: "TakehomeEx03"
 ---
 
-# The Task 
+# The Task
 
 In this take-home exercise, we will study the patterns of the resale prices of public housing property by residential towns and estates in Singapore by using appropriate analytical visualisation techniques learned in Lesson 4: Fundamentals of Visual Analytics.
 
@@ -15,9 +15,10 @@ It can be downloaded from Data.gov.sg for Resale Flat Prices based on registrati
 <https://data.gov.sg/dataset/resale-flat-prices>
 
 ```{r}
-pacman::p_load(tidyverse)
 pacman::p_load(readxl)
 pacman::p_load(readr)
+pacman::p_load(ggstatsplot)
+pacman::p_load(tidyverse)
 ```
 
 ```{r}
@@ -54,19 +55,32 @@ summarise(average_price_sqm = mean(price_per_sqm))
 ```
 
 ```{r}
-amk_monthly_avg$month[1]
-# tail(amk_monthly_avg,1)[1]
-```
-
-```{r}
-x_axis_month <- as.Date(amk_monthly_avg$month, format = "%Y-%m-%d")
-```
-
-```{r}
 p <- ggplot(amk_monthly_avg, aes(x= amk_monthly_avg$month, y=amk_monthly_avg$average_price_sqm)) +
   geom_point() +
-  xlab("") +
-  theme(axis.text.x=element_text(angle=60, hjust=1))
-  # scale_x_date(breaks = "2 month", limits = c(as.Date("2017-01-01"), as.Date("2023-02-01")))
+  theme(axis.text.x=element_text(angle=90, hjust=1))+
+  xlab("Month")+ylab("Average Price 3 room flat in Ang Mo Kio")
 p
+```
+
+## Two sample mean test:
+
+Let's pull out data for 3 types of flats, 3 ROOM / 4 ROOM and 5 ROOM
+
+```{r}
+df_345 <- subset(overall_data, flat_type %in% c("3 ROOM", "4 ROOM", "5 ROOM"))
+```
+
+```{r}
+df_345$price_per_sqm = df_345$`resale_price` / df_345$floor_area_sqm
+tail(df_345)
+```
+
+```{r fig.height = 10, fig.width = 20}
+ggbetweenstats(
+  data = df_345,
+  x = flat_type, 
+  y = price_per_sqm,
+  type = "np",
+  messages = FALSE
+)
 ```
