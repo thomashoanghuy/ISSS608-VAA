@@ -1,0 +1,380 @@
+---
+title: "In-Class Exercise 05" 
+---
+
+```{r}
+pacman::p_load(corrplot, tidyverse, ggstatsplot)
+```
+
+#IMPORTING AND PREPARING THE DATASET#
+
+```{r}
+wine = read_csv("data/wine_quality.csv")
+```
+
+```{r}
+pairs(wine[,1:11])
+```
+
+```{r , fig.width= 18 , fig.height= 9}
+
+#| fig-dpi: 75
+#these will affect the placement of the graph on the quarto page (maximum is 14)
+#fig dpi is default 30, if increase sharpness by increase to 75 or 100
+ggstatsplot::ggcorrmat(
+  data = wine, 
+  cor.vars = 1:11, 
+    ggcorrplot.args = list(outline.color = "black", 
+                         hc.order = TRUE,
+                         tl.cex = 10),
+  title    = "Correlogram for wine dataset",
+  subtitle = "Four pairs are no significant at p < 0.05"
+) 
+
+```
+
+
+```{r fig.width= 18, fig.height= 9}
+grouped_ggcorrmat(
+  data = wine,
+  cor.vars = 1:11,
+  grouping.var = type,
+  type = "robust",
+  p.adjust.method = "holm",
+  plotgrid.args = list(ncol = 2),
+  ggcorrplot.args = list(outline.color = "black", 
+                         hc.order = TRUE,
+                         tl.cex = 10),
+  annotation.args = list(
+    tag_levels = "a",
+    title = "Correlogram for wine dataset",
+    subtitle = "The measures are: alcohol, sulphates, fixed acidity, citric acid, chlorides, residual sugar, density, free sulfur dioxide and volatile acidity",
+    caption = "Dataset: UCI Machine Learning Repository"
+  )
+)
+```
+
+
+```{r}
+wine.cor = cor(wine[,1:11])
+```
+
+
+
+```{r , fig.width= 14, fig.height= 7 }
+corrplot(wine.cor)
+```
+
+```{r}
+corrplot(wine.cor, 
+         method = "ellipse", 
+         type="lower",
+         diag = FALSE,
+         tl.col = "black")
+```
+
+
+```{r, fig.width= 18 , fig.height= 9}
+corrplot.mixed(wine.cor, 
+               lower = "ellipse", 
+               upper = "number",
+               tl.pos = "lt",
+               diag = "l",
+               tl.col = "black")
+```
+
+
+##Combining corrgram with the significant test##
+
+With corrplot package, we can use the cor.mtest() to compute the p-values and confidence interval for each pair of variables.
+
+```{r}
+wine.sig = cor.mtest(wine.cor, conf.level= .95)
+```
+
+
+We can then use the p.mat argument of corrplot function as shown in the code chunk below.
+
+```{r , fig.width= 14, fig.height= 7}
+corrplot(wine.cor,
+         method = "number",
+         type = "lower",
+         diag = FALSE,
+         tl.col = "black",
+         tl.srt = 45,
+         p.mat = wine.sig$p,
+         sig.level = .05)
+```
+
+###Reorder a corrgram
+By default, the order of attributes of a corrgram is sorted according to the correlation matrix (i.e. “original”). The default setting can be over-write by using the order argument of corrplot(). Currently, corrplot package support four sorting methods, they are:
+
+“AOE” is for the angular order of the eigenvectors. 
+“FPC” for the first principal component order.
+“hclust” for hierarchical clustering order, and “hclust.method” for the agglomeration method to be used.
+“hclust.method” should be one of “ward”, “single”, “complete”, “average”, “mcquitty”, “median” or “centroid”.
+“alphabet” for alphabetical order.
+
+```{r , fig.width= 14, fig.height= 7}
+corrplot.mixed(wine.cor, 
+               lower = "ellipse", 
+               upper = "number",
+               tl.pos = "lt",
+               diag = "l",
+               order="AOE",
+               tl.col = "black")
+```
+
+```{r}
+pop_data <- read_csv("data/respopagsex2000to2018_tidy.csv")  
+```
+```{r}
+tail(pop_data)
+```
+
+```{r}
+agpop_mutated <- pop_data %>%
+  mutate(`Year` = as.character(Year))%>%
+  spread(AG, Population)%>%
+  mutate(YOUNG = rowSums(.[4:8]))%>%
+  mutate(ACTIVE = rowSums(.[9:16]))  %>%
+  mutate(OLD = rowSums(.[17:21])) %>%
+  mutate(TOTAL = rowSums(.[22:24])) %>%
+  filter(Year == 2018)%>%
+  filter(TOTAL > 0)
+```
+
+```{r}
+agpop_mutated
+```
+
+
+```{r}
+agpop_mutated %>%
+select("PA" , "SZ" , "YOUNG" , "ACTIVE" , "OLD" , "TOTAL")
+```
+
+```{r}
+pacman::p_load(ggtern, plotly, tidyverse)
+```
+
+
+```{r}
+ggtern(data=agpop_mutated,aes(x=YOUNG,y=ACTIVE, z=OLD)) + geom_point()+
+  labs(title = "Population Structure, 2015")+
+  theme_rgbg()
+```
+##If you write it in basic plot_ly, the graph will be more interactive interface compared to using ggtern##
+
+```{r}
+label <- function(txt) {
+  list(
+    text = txt, 
+    x = 0.1, y = 1,
+    ax = 0, ay = 0,
+    xref = "paper", yref = "paper", 
+    align = "center",
+    font = list(family = "serif", size = 15, color = "white"),
+    bgcolor = "#b3b3b3", bordercolor = "black", borderwidth = 2
+  )
+}
+
+axis <- function(txt) {
+  list(
+    title = txt, tickformat = ".0%", tickfont = list(size = 10)
+  )
+}
+
+ternaryAxes <- list(
+  aaxis = axis("Young"), 
+  baxis = axis("Active"), 
+  caxis = axis("Old")
+)
+
+plot_ly(
+  agpop_mutated, 
+  a = ~YOUNG, 
+  b = ~ACTIVE, 
+  c = ~OLD, 
+  color = I("black"), 
+  type = "scatterternary"
+) %>%
+  layout(
+    annotations = label("Ternary Markers"), 
+    ternary = ternaryAxes
+  )
+```
+
+
+
+```{r}
+pacman::p_load(seriation, dendextend, heatmaply, tidyverse)
+```
+
+
+```{r}
+wh <- read_csv("data/WHData-2018.csv")
+```
+
+```{r}
+row.names(wh) <- wh$Country
+```
+##Purpose of the above step is to take the column Country TO MAKE THEM the names of the rows in the dataframe, instead of automatic 1,2,3,4 numeric name##
+```{r}
+wh
+```
+
+
+```{r}
+wh1 <- dplyr::select(wh, c(3, 7:12))
+wh_matrix <- data.matrix(wh)
+```
+
+##wh_matrix is MATRIX, not a data table as per original wh dataframe anymore. We can only draw heatmap on matrix, rather than plain dataframe.##
+
+
+###We use heatmaply to draw this matrix into heatmap, notice that the graph is interactive!###
+```{r}
+wh_heatmap <- heatmaply(wh_matrix[, -c(1, 2, 4, 5)],
+          scale = "column")
+wh_heatmap
+```
+
+###Note: Normalising method###
+When variables in the data comes from possibly different (and non-normal) distributions, the normalize function can be used to bring data to the 0 to 1 scale by subtracting the minimum and dividing by the maximum of all observations.
+This preserves the shape of each variable’s distribution while making them easily comparable on the same “scale”.
+
+
+
+On other hands, 
+###Note: Percentising method###
+1) This is similar to ranking the variables, but instead of keeping the rank values, divide them by the maximal rank.
+2) This is done by using the ecdf of the variables on their own values, bringing each value to its empirical percentile.
+3) The benefit of the percentize function is that each value has a relatively clear interpretation, it is the percent of observations that got that value or below it.
+
+```{r}
+heatmaply(percentize(wh_matrix[, -c(1, 2, 4, 5)]))
+```
+
+
+#Clustering Algo#
+heatmaply supports a variety of hierarchical clustering algorithm. The main arguments provided are:
+
+##1) Manual approach##
+In the code chunk below, the heatmap is plotted by using hierachical clustering algorithm with “Euclidean distance” and “ward.D” method.
+
+```{r}
+heatmaply(normalize(wh_matrix[, -c(1, 2, 4, 5)]),
+          dist_method = "euclidean",
+          hclust_method = "ward.D")
+```
+
+
+##2) Statistical approach##
+###First, we have to find best clustering method should be used on this dataset###
+We use dend_expend for this 
+
+```{r}
+wh_d <- dist(normalize(wh_matrix[, -c(1, 2, 4, 5)]), method = "euclidean")
+dend_expend(wh_d)[[3]]
+```
+
+As you can see, average method is the most optimum with the highest score 0.67
+
+###Second, we need to find what is the optimal number of cluster###
+We should use find_k() for this step
+
+```{r}
+wh_clust <- hclust(wh_d, method = "average")
+num_k <- find_k(wh_clust)
+plot(num_k)
+```
+As we can see, the optimal k = 3.
+
+
+With that, we can use this statistical analysis result to do the code
+
+```{r}
+heatmaply(normalize(wh_matrix[, -c(1, 2, 4, 5)]),
+          dist_method = "euclidean",
+          hclust_method = "average",
+          k_row = 3)
+```
+
+
+
+#Finishing#
+In the code chunk below the following arguments are used:
+
+k_row is used to produce 5 groups.
+margins is used to change the top margin to 60 and row margin to 200.
+fontsizw_row and fontsize_col are used to change the font size for row and column labels to 4.
+main is used to write the main title of the plot.
+xlab and ylab are used to write the x-axis and y-axis labels respectively.
+
+```{r, fig.width= 18 , fig.height= 25}
+heatmaply(normalize(wh_matrix[, -c(1, 2, 4, 5)]),
+          Colv=NA,
+          seriate = "none",
+          colors = Blues,
+          k_row = 5,
+          margins = c(NA,200,60,NA),
+          fontsize_row = 4,
+          fontsize_col = 5,
+          main="World Happiness Score and Variables by Country, 2018 \nDataTransformation using Normalise Method",
+          xlab = "World Happiness Indicators",
+          ylab = "World Countries"
+          )
+```
+
+
+
+##Plotting Static Parallel Coordinates Plot##
+```{r}
+pacman::p_load(GGally, parallelPlot, tidyverse)
+```
+
+
+
+```{r}
+ggparcoord(data = wh, 
+           columns = c(7:12))
+```
+
+##Plotting Static Parallel Coordinates with BOX PLOT##
+```{r}
+ggparcoord(data = wh, 
+           columns = c(7:12), 
+           groupColumn = 2,
+           scale = "uniminmax",
+           alphaLines = 0.2,
+           boxplot = TRUE, 
+           title = "Parallel Coordinates Plot of World Happines Variables")
+```
+
+##DRAWING PARALLEL COORDINATE WITH PARRALLEL PLOT USING parallelplot, will allow BRUSHING (INTERACTIVE)##
+Mean you can choose a column (for example Happiness Score) and we can highlight a portion of that column, and it will make highlight the rest of the data.
+
+We can see what whether people with highest happiness score, such as 8 / 7.5 / 7, whether they have highest GDP, highest SOCIAL SUPPORT or HEALTHY LIFE EXPECTATION
+
+```{r}
+wh <- wh %>%
+  select("Happiness score", c(7:12))
+parallelPlot(wh,
+             width = 320,
+             height = 250)
+```
+
+```{r}
+parallelPlot(wh,
+             rotateTitle = TRUE)
+```
+
+
+```{r}
+histoVisibility <- rep(TRUE, ncol(wh))
+parallelPlot(wh,
+             rotateTitle = TRUE,
+             histoVisibility = histoVisibility)
+```
+
