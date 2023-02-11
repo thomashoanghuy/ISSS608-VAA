@@ -55,10 +55,11 @@ summarise(average_price_sqm = mean(price_per_sqm))
 ```
 
 ```{r}
-p <- ggplot(amk_monthly_avg, aes(x= amk_monthly_avg$month, y=amk_monthly_avg$average_price_sqm)) +
-  geom_point() +
+p = ggplot(amk_monthly_avg, aes(x= amk_monthly_avg$month, y=amk_monthly_avg$average_price_sqm , group = 1)) +
+  geom_line() + geom_point()+
   theme(axis.text.x=element_text(angle=90, hjust=1))+
   xlab("Month")+ylab("Average Price 3 room flat in Ang Mo Kio")
+
 p
 ```
 
