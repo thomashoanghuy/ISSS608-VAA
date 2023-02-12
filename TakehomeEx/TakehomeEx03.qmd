@@ -10,6 +10,8 @@ For the purpose of this study, the focus should be on 3-ROOM, 4-ROOM and 5-ROOM 
 
 # The Data
 
+The data is the transactions data of HDB units in Singapore, spanning across different areas in Singapore. It includes many different types of data, such as types of flats, the address, remaining amount of leases and the resale prices for these units etc....
+
 It can be downloaded from Data.gov.sg for Resale Flat Prices based on registration date between Jan 2017 onwards
 
 <https://data.gov.sg/dataset/resale-flat-prices>
@@ -26,9 +28,13 @@ overall_data <- read_csv("data3/resale-flat-prices-based-on-registration-date-fr
 tail(overall_data)
 ```
 
-Let us start with 3 Room dataset
+# Time Series Data Analysis
 
-3-ROOM
+There is an unanimous agreement among Singaporeans that housing prices, including HDB prices, are ever increasing due to constraint limits of land areas in Singapore. Resale prices of HDB, then, would also follow the same notion.
+
+Let us examine the data to see if the above statement is true.
+
+Let us start with 3 Room dataset for entire Singapore
 
 ```{r}
 three_roomdf = overall_data[overall_data$`flat_type` == '3 ROOM',]
@@ -42,10 +48,16 @@ three_roomdf$price_per_sqm = three_roomdf$`resale_price` / three_roomdf$floor_ar
 tail(three_roomdf)
 ```
 
+Next, let's create a dataset for 1 area ANG MO KIO as an example
+
 ```{r}
 three_roomdf_amk = three_roomdf[three_roomdf$`town` == "ANG MO KIO",]
 tail(three_roomdf_amk)
 ```
+
+Now we have a time series dataset about the average price per square meter for 3 rooms unit in Ang Mo Kio area, from 2017 to 2023.
+
+The following chunk of code will visualize this time series dataset, to see how much did the average prices of 3 rooms unit HDB in ANG MO KIO have changed in the last 7 years.
 
 ```{r}
 three_roomdf_amk1 = three_roomdf_amk[c("month"  , "price_per_sqm" )]
@@ -56,14 +68,74 @@ summarise(average_price_sqm = mean(price_per_sqm))
 
 ```{r}
 p = ggplot(amk_monthly_avg, aes(x= amk_monthly_avg$month, y=amk_monthly_avg$average_price_sqm , group = 1)) +
-  geom_line() + geom_point()+
+  geom_smooth() + geom_point()+
   theme(axis.text.x=element_text(angle=90, hjust=1))+
   xlab("Month")+ylab("Average Price 3 room flat in Ang Mo Kio")
 
 p
 ```
 
-## Two sample mean test:
+As you can see, the average resale price for 3 rooms HDB units do not always increase. From 2017, the average was around \$4500 per square meter, it actually decrease up to 2019 before it started to increase again.
+
+Let's see if the average resales prices for 4 rooms units and 5-rooms units display similar trends.
+
+```{r}
+four_roomdf = overall_data[overall_data$`flat_type` == '4 ROOM',]
+five_roomdf = overall_data[overall_data$`flat_type` == '5 ROOM',]
+
+```
+
+```{r}
+four_roomdf$price_per_sqm = four_roomdf$`resale_price` / four_roomdf$`floor_area_sqm`
+five_roomdf$price_per_sqm = five_roomdf$`resale_price` / five_roomdf$`floor_area_sqm`
+```
+
+```{r}
+four_roomdf_amk = four_roomdf[four_roomdf$`town` == "ANG MO KIO",]
+five_roomdf_amk = five_roomdf[five_roomdf$`town` == "ANG MO KIO",]
+```
+
+## 4-ROOM average resale prices for Ang Mo Kio
+
+```{r}
+four_roomdf_amk1 = four_roomdf_amk[c("month"  , "price_per_sqm" )]
+amk_monthly_avg2 = four_roomdf_amk1 %>%
+group_by(month) %>%
+summarise(average_price_sqm2 = mean(price_per_sqm))
+```
+
+```{r}
+p1 = ggplot(amk_monthly_avg2, aes(x= amk_monthly_avg2$month, y=amk_monthly_avg2$average_price_sqm2 , group = 1)) +
+  geom_smooth() + geom_point()+
+  theme(axis.text.x=element_text(angle=90, hjust=1))+
+  xlab("Month")+ylab("Average Price 4 room flat in Ang Mo Kio")
+
+p1
+```
+
+## 5-ROOM average resale prices for Ang Mo Kio
+
+```{r}
+five_roomdf_amk1 = five_roomdf_amk[c("month"  , "price_per_sqm" )]
+amk_monthly_avg3 = five_roomdf_amk1 %>%
+group_by(month) %>%
+summarise(average_price_sqm2 = mean(price_per_sqm))
+```
+
+```{r}
+p2 = ggplot(amk_monthly_avg3, aes(x= amk_monthly_avg3$month, y=amk_monthly_avg3$average_price_sqm2 , group = 1)) +
+  geom_smooth() + geom_point()+
+  theme(axis.text.x=element_text(angle=90, hjust=1))+
+  xlab("Month")+ylab("Average Price 5 room flat in Ang Mo Kio")
+
+p2
+```
+
+As you can see, in Ang Mo Kio, 4 rooms and 5 room types of flats have similar trends, from 2017, it was on the downtrend up til 2019 before started picking up and increased until current year 2023.
+
+The difference are, for 4 room and 5 rooms units, there are some months where there are huge outliers, and the standard deviation away from the trend-line are much bigger compared to 3-Room type of flats. This means for 4 rooms and 5 room types of flats, there are certain transactions that are priced at much higher prices compared to the group's monthly average.
+
+# Sample mean test:
 
 Let's pull out data for 3 types of flats, 3 ROOM / 4 ROOM and 5 ROOM
 
@@ -76,7 +148,7 @@ df_345$price_per_sqm = df_345$`resale_price` / df_345$floor_area_sqm
 tail(df_345)
 ```
 
-```{r}
+```{r, fig.width= 14 , fig.height= 14}
 p2 <- ggbetweenstats(
   data = df_345,
   x = flat_type, 
@@ -86,3 +158,5 @@ p2 <- ggbetweenstats(
 )
 p2
 ```
+
+Across Singapore as the country, the mean prices per square meter across 3 types of flats are not that much different from each other. However among 4-Room and 5-Room types of flats, there are more concentrations of transactions on the higher spectrums of price per sqm, above \$12,500 / sqm. For 4 room units, there are even transactions that approaching \$15,000 /sqm
