@@ -25,7 +25,54 @@ pacman::p_load(tidyverse)
 
 ```{r}
 overall_data <- read_csv("data3/resale-flat-prices-based-on-registration-date-from-jan-2017-onwards.csv")
-tail(overall_data)
+```
+
+Let's convert the month column into a month of Month and Year instead.
+
+```{r}
+house_data <- overall_data %>%
+  separate(month,
+           into = c("year_no", "month_no"),
+           sep = "-",
+           convert = TRUE)
+```
+
+```{r}
+house_data$price_per_sqm = house_data$resale_price / house_data$floor_area_sqm
+
+tail(house_data)
+```
+
+Another factors that can affect the prices is the remaining numbers of years on the leases. The more years remaining, the higher the resales prices of the flat.
+
+Let's convert the columns Remaining Leases of the dataset into numeric values. To achieve this, we can convert the columns into a list of texts
+
+```{r}
+texts = c(house_data$remaining_lease)
+numeric_years <- numeric(length(texts))
+```
+
+We calculate the length of the list and convert this into equally long list , too
+
+Convert Remaining lease into numeric forms by using a For loop. We will iterate through the 2 created lists to convert texts (eg. "61 years 7 months") into numeric years by formula YEARS + MONTHS / 12
+
+```{r}
+
+for (i in 1:length(texts)) {
+  text <- strsplit(texts[i], " ")[[1]]
+  years <- as.numeric(text[1])
+  months <- as.numeric(text[3])
+  numeric_years[i] <- years + (months / 12)
+}
+
+
+```
+
+Finally we created another columns in our dataset, and we can add the list of numeric years back into our data set as new columns.
+
+```{r}
+house_data$lease_remains = numeric_years 
+
 ```
 
 # Time Series Data Analysis
@@ -38,21 +85,14 @@ Let us start with 3 Room dataset for entire Singapore
 
 ```{r}
 three_roomdf = overall_data[overall_data$`flat_type` == '3 ROOM',]
-tail(three_roomdf)
-```
-
-Each of these units have different floor area, hence we cannot just compare the absolute values of the resale prices. We need to calculate by the average prices for square meter for each of these units.
-
-```{r}
-three_roomdf$price_per_sqm = three_roomdf$`resale_price` / three_roomdf$floor_area_sqm
-tail(three_roomdf)
+three_roomdf$price_per_sqm = three_roomdf$`resale_price` / three_roomdf$`floor_area_sqm`
 ```
 
 Next, let's create a dataset for 1 area ANG MO KIO as an example
 
 ```{r}
 three_roomdf_amk = three_roomdf[three_roomdf$`town` == "ANG MO KIO",]
-tail(three_roomdf_amk)
+
 ```
 
 Now we have a time series dataset about the average price per square meter for 3 rooms unit in Ang Mo Kio area, from 2017 to 2023.
@@ -60,14 +100,17 @@ Now we have a time series dataset about the average price per square meter for 3
 The following chunk of code will visualize this time series dataset, to see how much did the average prices of 3 rooms unit HDB in ANG MO KIO have changed in the last 7 years.
 
 ```{r}
-three_roomdf_amk1 = three_roomdf_amk[c("month"  , "price_per_sqm" )]
+three_roomdf_amk1 = three_roomdf_amk[c("month" , "price_per_sqm" )]
+
 amk_monthly_avg = three_roomdf_amk1 %>%
 group_by(month) %>%
-summarise(average_price_sqm = mean(price_per_sqm))
+summarise(amk_monthly_avg_per_month = mean(price_per_sqm))
+
+amk_monthly_avg
 ```
 
 ```{r}
-p = ggplot(amk_monthly_avg, aes(x= amk_monthly_avg$month, y=amk_monthly_avg$average_price_sqm , group = 1)) +
+p = ggplot(amk_monthly_avg, aes(x= amk_monthly_avg$month, y=amk_monthly_avg$amk_monthly_avg_per_month , group = 1)) +
   geom_smooth() + geom_point()+
   theme(axis.text.x=element_text(angle=90, hjust=1))+
   xlab("Month")+ylab("Average Price 3 room flat in Ang Mo Kio")
@@ -135,7 +178,9 @@ As you can see, in Ang Mo Kio, 4 rooms and 5 room types of flats have similar tr
 
 The difference are, for 4 room and 5 rooms units, there are some months where there are huge outliers, and the standard deviation away from the trend-line are much bigger compared to 3-Room type of flats. This means for 4 rooms and 5 room types of flats, there are certain transactions that are priced at much higher prices compared to the group's monthly average.
 
-# Sample mean test:
+The above chunks of code can be applied to any other areas in Singapore to derive time series analysis on average prices of resales flat in Singapore.
+
+# Three Sample mean test:
 
 Let's pull out data for 3 types of flats, 3 ROOM / 4 ROOM and 5 ROOM
 
@@ -159,4 +204,15 @@ p2 <- ggbetweenstats(
 p2
 ```
 
-Across Singapore as the country, the mean prices per square meter across 3 types of flats are not that much different from each other. However among 4-Room and 5-Room types of flats, there are more concentrations of transactions on the higher spectrums of price per sqm, above \$12,500 / sqm. For 4 room units, there are even transactions that approaching \$15,000 /sqm
+Across Singapore as the country, the median prices per square meter across 3 types of flats are not that much different from each other. However among 4-Room and 5-Room types of flats, there are more concentrations of transactions on the higher spectrums of price per sqm, above \$12,500 / sqm. For 4 room units, there are even transactions that approaching \$15,000 /sqm.
+
+## LEASE REMAINS NUMBER OF YEARS VERSUS AVERGE PRICE PER SQM
+
+```{r}
+ggplot(data= overall_data, mapping = aes(x = overall_data$lease_remains, y = overall_data$price_per_sqm)) + 
+  geom_smooth() +
+  theme_bw()+
+  xlab("Years of Lease Remains") + ylab("Average Price per Square meters")
+```
+
+The above charts show us that the average prices of HDB units in Singapore, it is not necessary that the longer remaining of the lease, the higher the resale prices of the unit. The units with the highest price per square meter, are those with remaining lease between 87-92 years. While the lowest in resale prices per square meter are around 67 or 77 years of leases.
