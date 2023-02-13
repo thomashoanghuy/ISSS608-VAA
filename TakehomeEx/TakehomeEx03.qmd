@@ -1,5 +1,5 @@
 ---
-title: "TakehomeEx03"
+title: "Take Home Exercise 03"
 ---
 
 # The Task
@@ -21,6 +21,8 @@ pacman::p_load(readxl)
 pacman::p_load(readr)
 pacman::p_load(ggstatsplot)
 pacman::p_load(tidyverse)
+pacman::p_load(gganimate)
+pacman::p_load(transformr , gifski)
 ```
 
 ```{r}
@@ -68,7 +70,7 @@ for (i in 1:length(texts)) {
 
 ```
 
-Finally we created another columns in our dataset, and we can add the list of numeric years back into our data set as new columns.
+Finally we created another columns in our dataset, and we can add the list of numeric years of remaining lease back into our data set as new columns.
 
 ```{r}
 house_data$lease_remains = numeric_years 
@@ -88,32 +90,25 @@ three_roomdf = overall_data[overall_data$`flat_type` == '3 ROOM',]
 three_roomdf$price_per_sqm = three_roomdf$`resale_price` / three_roomdf$`floor_area_sqm`
 ```
 
-Next, let's create a dataset for 1 area ANG MO KIO as an example
+Now we have a time series dataset about the average price per square meter for 3 rooms unit from 2017 to 2023.
+
+The following chunk of code will visualize this time series dataset, to see how much did the average prices of 3 rooms unit HDB have changed in the last 7 years.
 
 ```{r}
-three_roomdf_amk = three_roomdf[three_roomdf$`town` == "ANG MO KIO",]
+three_roomdf1 = three_roomdf[c("month" , "price_per_sqm" )]
 
-```
-
-Now we have a time series dataset about the average price per square meter for 3 rooms unit in Ang Mo Kio area, from 2017 to 2023.
-
-The following chunk of code will visualize this time series dataset, to see how much did the average prices of 3 rooms unit HDB in ANG MO KIO have changed in the last 7 years.
-
-```{r}
-three_roomdf_amk1 = three_roomdf_amk[c("month" , "price_per_sqm" )]
-
-amk_monthly_avg = three_roomdf_amk1 %>%
+threeroom_monthly_avg = three_roomdf1 %>%
 group_by(month) %>%
-summarise(amk_monthly_avg_per_month = mean(price_per_sqm))
+summarise(three_roomdf_avg_monthly = mean(price_per_sqm))
 
-amk_monthly_avg
+threeroom_monthly_avg
 ```
 
 ```{r}
-p = ggplot(amk_monthly_avg, aes(x= amk_monthly_avg$month, y=amk_monthly_avg$amk_monthly_avg_per_month , group = 1)) +
+p = ggplot(threeroom_monthly_avg, aes(x= threeroom_monthly_avg$month, y=threeroom_monthly_avg$three_roomdf_avg_monthly , group = 1)) +
   geom_smooth() + geom_point()+
   theme(axis.text.x=element_text(angle=90, hjust=1))+
-  xlab("Month")+ylab("Average Price 3 room flat in Ang Mo Kio")
+  xlab("Month")+ylab("Average Price 3 room flat")
 
 p
 ```
@@ -133,64 +128,64 @@ four_roomdf$price_per_sqm = four_roomdf$`resale_price` / four_roomdf$`floor_area
 five_roomdf$price_per_sqm = five_roomdf$`resale_price` / five_roomdf$`floor_area_sqm`
 ```
 
-```{r}
-four_roomdf_amk = four_roomdf[four_roomdf$`town` == "ANG MO KIO",]
-five_roomdf_amk = five_roomdf[five_roomdf$`town` == "ANG MO KIO",]
-```
-
-## 4-ROOM average resale prices for Ang Mo Kio
+## 4-ROOM average resale prices
 
 ```{r}
-four_roomdf_amk1 = four_roomdf_amk[c("month"  , "price_per_sqm" )]
-amk_monthly_avg2 = four_roomdf_amk1 %>%
+four_roomdf1 = four_roomdf[c("month"  , "price_per_sqm" )]
+fourrooms_monthly_avg2 = four_roomdf1 %>%
 group_by(month) %>%
 summarise(average_price_sqm2 = mean(price_per_sqm))
 ```
 
 ```{r}
-p1 = ggplot(amk_monthly_avg2, aes(x= amk_monthly_avg2$month, y=amk_monthly_avg2$average_price_sqm2 , group = 1)) +
+p1 = ggplot(fourrooms_monthly_avg2, aes(x= fourrooms_monthly_avg2$month, y=fourrooms_monthly_avg2$average_price_sqm2 , group = 1)) +
   geom_smooth() + geom_point()+
   theme(axis.text.x=element_text(angle=90, hjust=1))+
-  xlab("Month")+ylab("Average Price 4 room flat in Ang Mo Kio")
+  xlab("Month")+ylab("Average Price 4 room flat")
 
 p1
 ```
 
-## 5-ROOM average resale prices for Ang Mo Kio
+## 5-ROOM average resale prices
 
 ```{r}
-five_roomdf_amk1 = five_roomdf_amk[c("month"  , "price_per_sqm" )]
-amk_monthly_avg3 = five_roomdf_amk1 %>%
+five_roomdf1 = five_roomdf[c("month"  , "price_per_sqm" )]
+fiveroom_monthly_avg3 = five_roomdf1 %>%
 group_by(month) %>%
 summarise(average_price_sqm2 = mean(price_per_sqm))
 ```
 
 ```{r}
-p2 = ggplot(amk_monthly_avg3, aes(x= amk_monthly_avg3$month, y=amk_monthly_avg3$average_price_sqm2 , group = 1)) +
-  geom_smooth() + geom_point()+
-  theme(axis.text.x=element_text(angle=90, hjust=1))+
-  xlab("Month")+ylab("Average Price 5 room flat in Ang Mo Kio")
-
-p2
+fiveroom_monthly_avg4 <- fiveroom_monthly_avg3 %>%
+  separate(month,
+           into = c("year_no", "month_no"),
+           sep = "-",
+           convert = TRUE)
 ```
 
-As you can see, in Ang Mo Kio, 4 rooms and 5 room types of flats have similar trends, from 2017, it was on the downtrend up til 2019 before started picking up and increased until current year 2023.
+```{r}
+p2 = ggplot(fiveroom_monthly_avg4, aes(x= fiveroom_monthly_avg3$month, y=fiveroom_monthly_avg3$average_price_sqm2 , group = 1)) +
+  geom_smooth() + geom_point()
+  theme(axis.text.x=element_text(angle=90, hjust=1))+
+  xlab("Month")+ylab("Average Price 5 room flat")
 
-The difference are, for 4 room and 5 rooms units, there are some months where there are huge outliers, and the standard deviation away from the trend-line are much bigger compared to 3-Room type of flats. This means for 4 rooms and 5 room types of flats, there are certain transactions that are priced at much higher prices compared to the group's monthly average.
+animate (p2 + transition_time(fiveroom_monthly_avg4$month_no) + labs(title = "Month from 2017 - 2023: {frame_time}")  )
+```
 
-The above chunks of code can be applied to any other areas in Singapore to derive time series analysis on average prices of resales flat in Singapore.
+As you can see, 4 rooms and 5 room types of flats have similar trends, from 2017, it was on the downtrend up til 2019 before started picking up and increased until current year 2023.
+
+The difference are, for 4 room and 5 rooms units, there are some months where there are big outliers, and the standard deviation away from the trend-line are much bigger compared to 3-Room type of flats. This means for 4 rooms and 5 room types of flats, there are certain transactions that are priced at much different prices compared to the group's trend line
 
 # Three Sample mean test:
 
 Let's pull out data for 3 types of flats, 3 ROOM / 4 ROOM and 5 ROOM
 
 ```{r}
-df_345 <- subset(overall_data, flat_type %in% c("3 ROOM", "4 ROOM", "5 ROOM"))
+df_345 <- subset(house_data, flat_type %in% c("3 ROOM", "4 ROOM", "5 ROOM"))
 ```
 
 ```{r}
 df_345$price_per_sqm = df_345$`resale_price` / df_345$floor_area_sqm
-tail(df_345)
 ```
 
 ```{r, fig.width= 14 , fig.height= 14}
@@ -206,13 +201,40 @@ p2
 
 Across Singapore as the country, the median prices per square meter across 3 types of flats are not that much different from each other. However among 4-Room and 5-Room types of flats, there are more concentrations of transactions on the higher spectrums of price per sqm, above \$12,500 / sqm. For 4 room units, there are even transactions that approaching \$15,000 /sqm.
 
-## LEASE REMAINS NUMBER OF YEARS VERSUS AVERGE PRICE PER SQM
+## AVERGE PRICE PER SQM versus LEASE REMAINS NUMBER OF YEARS
 
 ```{r}
-ggplot(data= overall_data, mapping = aes(x = overall_data$lease_remains, y = overall_data$price_per_sqm)) + 
-  geom_smooth() +
-  theme_bw()+
-  xlab("Years of Lease Remains") + ylab("Average Price per Square meters")
+p3 <-ggplot(df_345,
+       aes(x = lease_remains,
+           y = price_per_sqm ,
+           colour = flat_type)) +
+  geom_point() +
+  labs(title = "Resale price per square meter verus Remaining lease years",
+       x = "Remaining Lease (Years)",
+       y = "Resale price ($psm)",
+       fill ="Flat type",
+       caption = "Month From 2017 - 2023: {frame_time}")+
+  geom_smooth(method="lm",
+              se = FALSE,
+              color = "yellow",
+              formula = y ~ x)+
+  facet_grid(flat_type ~ .)+
+  theme(legend.position = "none")+
+  transition_time(df_345$month_no) + ease_aes('linear')
+  
+animate(p3, nframes = 10 , fps = 0.5)
 ```
 
-The above charts show us that the average prices of HDB units in Singapore, it is not necessary that the longer remaining of the lease, the higher the resale prices of the unit. The units with the highest price per square meter, are those with remaining lease between 87-92 years. While the lowest in resale prices per square meter are around 67 or 77 years of leases.
+The above charts show us that the average prices of HDB units in Singapore against the remaining lease years of the units for at least 3 groups, the 3-ROOM, 4 ROOM and 5 ROOM. While the yellow line shows that there are certain truth when the longer the remaining lease are, the higher the average prices of the units.
+
+However the steepness of the yellow line shows that the correlation is not really extreme, across 40 years between 50 years remaining units and 95 years units, the average price per square meter does not increase that much. In other words, this shows that even average values of HDB does not depreciate due to the lease running down.
+
+# Conclusion
+
+In conclusion, HDB in Singapore have not always increased for the last 7 years. Between 2017 to end of 2019, the prices of 3 room, 4 rooms and 5 rooms units have remained relatively stable and even decreased. However it has been a steep increase since 2020 until current 2023, this can be explained due to macro factors: the Covid19 lockdown has severely affected the construction labours force, which lead to shortage in supply of new HDB flats, which in turns, increase the average resale prices so much over the last 3 years.
+
+This exercise has given me a lot more experience in wrangling data and even deployment of a For-loop in R language to modify a column (Remaining leases in years) into numeric values. It has also taught me to utilize bivariate analysis and visualization to draw the relationships between different continuous variables of the dataset. I have also learned how to deploy new package such as gganimate.
+
+Upon inspecting the data, I can see that one area of improvement for myself are on data wrangling because I feel like there can be more insights to be drawn from dataset ( such as "Storey Range" or different planning areas, these factors can affect the average prices of HDB units as well)
+
+On other hands, I still encounter problems modifying and controlling the different packages within ggplots and manipulating the aes() and preparation of data that can fit suitably on X and Y axis of ggplot.
