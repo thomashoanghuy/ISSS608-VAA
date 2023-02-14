@@ -6,6 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="dcterms.date" content="2024-02-02">
 
 <title>ISSS608-VAA - Take Home Exercise 03</title>
 <style>
@@ -223,7 +224,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="quarto-title-meta">
 
     
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">February 2, 2024</p>
+    </div>
+  </div>
   
+    <div>
+    <div class="quarto-title-meta-heading">Modified</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date-modified">February 14, 2023</p>
+    </div>
+  </div>
     
   </div>
   
@@ -250,30 +263,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>overall_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data3/resale-flat-prices-based-on-registration-date-from-jan-2017-onwards.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 146215 Columns: 11
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr (8): month, town, flat_type, block, street_name, storey_range, flat_mode...
-dbl (2): floor_area_sqm, lease_commence_date
-num (1): resale_price
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
 </div>
 <p>Let’s convert the month column into a month of Month and Year instead.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>house_data <span class="ot">&lt;-</span> overall_data <span class="sc">%&gt;%</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(month,</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">into =</span> <span class="fu">c</span>(<span class="st">"year_no"</span>, <span class="st">"month_no"</span>),</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>           <span class="at">sep =</span> <span class="st">"-"</span>,</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>           <span class="at">convert =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>house_data <span class="ot">&lt;-</span> overall_data <span class="sc">%&gt;%</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(month,</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">into =</span> <span class="fu">c</span>(<span class="st">"year_no"</span>, <span class="st">"month_no"</span>),</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>           <span class="at">sep =</span> <span class="st">"-"</span>,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>           <span class="at">convert =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>house_data<span class="sc">$</span>price_per_sqm <span class="ot">=</span> house_data<span class="sc">$</span>resale_price <span class="sc">/</span> house_data<span class="sc">$</span>floor_area_sqm</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(house_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>house_data<span class="sc">$</span>price_per_sqm <span class="ot">=</span> house_data<span class="sc">$</span>resale_price <span class="sc">/</span> house_data<span class="sc">$</span>floor_area_sqm</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(house_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 13
   year_no month_no town   flat_t…¹ block stree…² store…³ floor…⁴ flat_…⁵ lease…⁶
@@ -293,22 +295,22 @@ num (1): resale_price
 <p>Another factors that can affect the prices is the remaining numbers of years on the leases. The more years remaining, the higher the resales prices of the flat.</p>
 <p>Let’s convert the columns Remaining Leases of the dataset into numeric values. To achieve this, we can convert the columns into a list of texts</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>texts <span class="ot">=</span> <span class="fu">c</span>(house_data<span class="sc">$</span>remaining_lease)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>numeric_years <span class="ot">&lt;-</span> <span class="fu">numeric</span>(<span class="fu">length</span>(texts))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>texts <span class="ot">=</span> <span class="fu">c</span>(house_data<span class="sc">$</span>remaining_lease)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>numeric_years <span class="ot">&lt;-</span> <span class="fu">numeric</span>(<span class="fu">length</span>(texts))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We calculate the length of the list and convert this into equally long list , too</p>
 <p>Convert Remaining lease into numeric forms by using a For loop. We will iterate through the 2 created lists to convert texts (eg. “61 years 7 months”) into numeric years by formula YEARS + MONTHS / 12</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(texts)) {</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  text <span class="ot">&lt;-</span> <span class="fu">strsplit</span>(texts[i], <span class="st">" "</span>)[[<span class="dv">1</span>]]</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  years <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(text[<span class="dv">1</span>])</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  months <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(text[<span class="dv">3</span>])</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  numeric_years[i] <span class="ot">&lt;-</span> years <span class="sc">+</span> (months <span class="sc">/</span> <span class="dv">12</span>)</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(texts)) {</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  text <span class="ot">&lt;-</span> <span class="fu">strsplit</span>(texts[i], <span class="st">" "</span>)[[<span class="dv">1</span>]]</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  years <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(text[<span class="dv">1</span>])</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  months <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(text[<span class="dv">3</span>])</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  numeric_years[i] <span class="ot">&lt;-</span> years <span class="sc">+</span> (months <span class="sc">/</span> <span class="dv">12</span>)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Finally we created another columns in our dataset, and we can add the list of numeric years of remaining lease back into our data set as new columns.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>house_data<span class="sc">$</span>lease_remains <span class="ot">=</span> numeric_years </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>house_data<span class="sc">$</span>lease_remains <span class="ot">=</span> numeric_years </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="time-series-data-analysis" class="level1">
@@ -317,19 +319,19 @@ num (1): resale_price
 <p>Let us examine the data to see if the above statement is true.</p>
 <p>Let us start with 3 Room dataset for entire Singapore</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>three_roomdf <span class="ot">=</span> overall_data[overall_data<span class="sc">$</span><span class="st">`</span><span class="at">flat_type</span><span class="st">`</span> <span class="sc">==</span> <span class="st">'3 ROOM'</span>,]</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>three_roomdf<span class="sc">$</span>price_per_sqm <span class="ot">=</span> three_roomdf<span class="sc">$</span><span class="st">`</span><span class="at">resale_price</span><span class="st">`</span> <span class="sc">/</span> three_roomdf<span class="sc">$</span><span class="st">`</span><span class="at">floor_area_sqm</span><span class="st">`</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>three_roomdf <span class="ot">=</span> overall_data[overall_data<span class="sc">$</span><span class="st">`</span><span class="at">flat_type</span><span class="st">`</span> <span class="sc">==</span> <span class="st">'3 ROOM'</span>,]</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>three_roomdf<span class="sc">$</span>price_per_sqm <span class="ot">=</span> three_roomdf<span class="sc">$</span><span class="st">`</span><span class="at">resale_price</span><span class="st">`</span> <span class="sc">/</span> three_roomdf<span class="sc">$</span><span class="st">`</span><span class="at">floor_area_sqm</span><span class="st">`</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now we have a time series dataset about the average price per square meter for 3 rooms unit from 2017 to 2023.</p>
 <p>The following chunk of code will visualize this time series dataset, to see how much did the average prices of 3 rooms unit HDB have changed in the last 7 years.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>three_roomdf1 <span class="ot">=</span> three_roomdf[<span class="fu">c</span>(<span class="st">"month"</span> , <span class="st">"price_per_sqm"</span> )]</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>threeroom_monthly_avg <span class="ot">=</span> three_roomdf1 <span class="sc">%&gt;%</span></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="fu">group_by</span>(month) <span class="sc">%&gt;%</span></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summarise</span>(<span class="at">three_roomdf_avg_monthly =</span> <span class="fu">mean</span>(price_per_sqm))</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>threeroom_monthly_avg</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>three_roomdf1 <span class="ot">=</span> three_roomdf[<span class="fu">c</span>(<span class="st">"month"</span> , <span class="st">"price_per_sqm"</span> )]</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>threeroom_monthly_avg <span class="ot">=</span> three_roomdf1 <span class="sc">%&gt;%</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="fu">group_by</span>(month) <span class="sc">%&gt;%</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summarise</span>(<span class="at">three_roomdf_avg_monthly =</span> <span class="fu">mean</span>(price_per_sqm))</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>threeroom_monthly_avg</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 74 × 2
    month   three_roomdf_avg_monthly
@@ -348,31 +350,12 @@ num (1): resale_price
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">=</span> <span class="fu">ggplot</span>(threeroom_monthly_avg, <span class="fu">aes</span>(<span class="at">x=</span> threeroom_monthly_avg<span class="sc">$</span>month, <span class="at">y=</span>threeroom_monthly_avg<span class="sc">$</span>three_roomdf_avg_monthly , <span class="at">group =</span> <span class="dv">1</span>)) <span class="sc">+</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>() <span class="sc">+</span> <span class="fu">geom_point</span>()<span class="sc">+</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x=</span><span class="fu">element_text</span>(<span class="at">angle=</span><span class="dv">90</span>, <span class="at">hjust=</span><span class="dv">1</span>))<span class="sc">+</span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Month"</span>)<span class="sc">+</span><span class="fu">ylab</span>(<span class="st">"Average Price 3 room flat"</span>)</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>p</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Use of `threeroom_monthly_avg$month` is discouraged.
-ℹ Use `month` instead.</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Use of `threeroom_monthly_avg$three_roomdf_avg_monthly` is discouraged.
-ℹ Use `three_roomdf_avg_monthly` instead.</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Use of `threeroom_monthly_avg$month` is discouraged.
-ℹ Use `month` instead.</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Use of `threeroom_monthly_avg$three_roomdf_avg_monthly` is discouraged.
-ℹ Use `three_roomdf_avg_monthly` instead.</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>`geom_smooth()` using method = 'loess' and formula = 'y ~ x'</code></pre>
-</div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">=</span> <span class="fu">ggplot</span>(threeroom_monthly_avg, <span class="fu">aes</span>(<span class="at">x=</span> threeroom_monthly_avg<span class="sc">$</span>month, <span class="at">y=</span>threeroom_monthly_avg<span class="sc">$</span>three_roomdf_avg_monthly , <span class="at">group =</span> <span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>() <span class="sc">+</span> <span class="fu">geom_point</span>()<span class="sc">+</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x=</span><span class="fu">element_text</span>(<span class="at">angle=</span><span class="dv">90</span>, <span class="at">hjust=</span><span class="dv">1</span>))<span class="sc">+</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Month"</span>)<span class="sc">+</span><span class="fu">ylab</span>(<span class="st">"Average Price 3 room flat"</span>)</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>p</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="TakehomeEx03_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
 </div>
@@ -380,47 +363,28 @@ num (1): resale_price
 <p>As you can see, the average resale price for 3 rooms HDB units do not always increase. From 2017, the average was around $4500 per square meter, it actually decrease up to 2019 before it started to increase again.</p>
 <p>Let’s see if the average resales prices for 4 rooms units and 5-rooms units display similar trends.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>four_roomdf <span class="ot">=</span> overall_data[overall_data<span class="sc">$</span><span class="st">`</span><span class="at">flat_type</span><span class="st">`</span> <span class="sc">==</span> <span class="st">'4 ROOM'</span>,]</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>five_roomdf <span class="ot">=</span> overall_data[overall_data<span class="sc">$</span><span class="st">`</span><span class="at">flat_type</span><span class="st">`</span> <span class="sc">==</span> <span class="st">'5 ROOM'</span>,]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>four_roomdf <span class="ot">=</span> overall_data[overall_data<span class="sc">$</span><span class="st">`</span><span class="at">flat_type</span><span class="st">`</span> <span class="sc">==</span> <span class="st">'4 ROOM'</span>,]</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>five_roomdf <span class="ot">=</span> overall_data[overall_data<span class="sc">$</span><span class="st">`</span><span class="at">flat_type</span><span class="st">`</span> <span class="sc">==</span> <span class="st">'5 ROOM'</span>,]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>four_roomdf<span class="sc">$</span>price_per_sqm <span class="ot">=</span> four_roomdf<span class="sc">$</span><span class="st">`</span><span class="at">resale_price</span><span class="st">`</span> <span class="sc">/</span> four_roomdf<span class="sc">$</span><span class="st">`</span><span class="at">floor_area_sqm</span><span class="st">`</span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>five_roomdf<span class="sc">$</span>price_per_sqm <span class="ot">=</span> five_roomdf<span class="sc">$</span><span class="st">`</span><span class="at">resale_price</span><span class="st">`</span> <span class="sc">/</span> five_roomdf<span class="sc">$</span><span class="st">`</span><span class="at">floor_area_sqm</span><span class="st">`</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>four_roomdf<span class="sc">$</span>price_per_sqm <span class="ot">=</span> four_roomdf<span class="sc">$</span><span class="st">`</span><span class="at">resale_price</span><span class="st">`</span> <span class="sc">/</span> four_roomdf<span class="sc">$</span><span class="st">`</span><span class="at">floor_area_sqm</span><span class="st">`</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>five_roomdf<span class="sc">$</span>price_per_sqm <span class="ot">=</span> five_roomdf<span class="sc">$</span><span class="st">`</span><span class="at">resale_price</span><span class="st">`</span> <span class="sc">/</span> five_roomdf<span class="sc">$</span><span class="st">`</span><span class="at">floor_area_sqm</span><span class="st">`</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="room-average-resale-prices" class="level2">
 <h2 class="anchored" data-anchor-id="room-average-resale-prices">4-ROOM average resale prices</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>four_roomdf1 <span class="ot">=</span> four_roomdf[<span class="fu">c</span>(<span class="st">"month"</span>  , <span class="st">"price_per_sqm"</span> )]</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>fourrooms_monthly_avg2 <span class="ot">=</span> four_roomdf1 <span class="sc">%&gt;%</span></span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="fu">group_by</span>(month) <span class="sc">%&gt;%</span></span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summarise</span>(<span class="at">average_price_sqm2 =</span> <span class="fu">mean</span>(price_per_sqm))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>four_roomdf1 <span class="ot">=</span> four_roomdf[<span class="fu">c</span>(<span class="st">"month"</span>  , <span class="st">"price_per_sqm"</span> )]</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>fourrooms_monthly_avg2 <span class="ot">=</span> four_roomdf1 <span class="sc">%&gt;%</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="fu">group_by</span>(month) <span class="sc">%&gt;%</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summarise</span>(<span class="at">average_price_sqm2 =</span> <span class="fu">mean</span>(price_per_sqm))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">=</span> <span class="fu">ggplot</span>(fourrooms_monthly_avg2, <span class="fu">aes</span>(<span class="at">x=</span> fourrooms_monthly_avg2<span class="sc">$</span>month, <span class="at">y=</span>fourrooms_monthly_avg2<span class="sc">$</span>average_price_sqm2 , <span class="at">group =</span> <span class="dv">1</span>)) <span class="sc">+</span></span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>() <span class="sc">+</span> <span class="fu">geom_point</span>()<span class="sc">+</span></span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x=</span><span class="fu">element_text</span>(<span class="at">angle=</span><span class="dv">90</span>, <span class="at">hjust=</span><span class="dv">1</span>))<span class="sc">+</span></span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Month"</span>)<span class="sc">+</span><span class="fu">ylab</span>(<span class="st">"Average Price 4 room flat"</span>)</span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>p1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Use of `fourrooms_monthly_avg2$month` is discouraged.
-ℹ Use `month` instead.</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Use of `fourrooms_monthly_avg2$average_price_sqm2` is discouraged.
-ℹ Use `average_price_sqm2` instead.</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Use of `fourrooms_monthly_avg2$month` is discouraged.
-ℹ Use `month` instead.</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Use of `fourrooms_monthly_avg2$average_price_sqm2` is discouraged.
-ℹ Use `average_price_sqm2` instead.</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>`geom_smooth()` using method = 'loess' and formula = 'y ~ x'</code></pre>
-</div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">=</span> <span class="fu">ggplot</span>(fourrooms_monthly_avg2, <span class="fu">aes</span>(<span class="at">x=</span> fourrooms_monthly_avg2<span class="sc">$</span>month, <span class="at">y=</span>fourrooms_monthly_avg2<span class="sc">$</span>average_price_sqm2 , <span class="at">group =</span> <span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>() <span class="sc">+</span> <span class="fu">geom_point</span>()<span class="sc">+</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x=</span><span class="fu">element_text</span>(<span class="at">angle=</span><span class="dv">90</span>, <span class="at">hjust=</span><span class="dv">1</span>))<span class="sc">+</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Month"</span>)<span class="sc">+</span><span class="fu">ylab</span>(<span class="st">"Average Price 4 room flat"</span>)</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>p1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="TakehomeEx03_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
 </div>
@@ -429,449 +393,25 @@ num (1): resale_price
 <section id="room-average-resale-prices-1" class="level2">
 <h2 class="anchored" data-anchor-id="room-average-resale-prices-1">5-ROOM average resale prices</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>five_roomdf1 <span class="ot">=</span> five_roomdf[<span class="fu">c</span>(<span class="st">"month"</span>  , <span class="st">"price_per_sqm"</span> )]</span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>fiveroom_monthly_avg3 <span class="ot">=</span> five_roomdf1 <span class="sc">%&gt;%</span></span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="fu">group_by</span>(month) <span class="sc">%&gt;%</span></span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summarise</span>(<span class="at">average_price_sqm2 =</span> <span class="fu">mean</span>(price_per_sqm))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>five_roomdf1 <span class="ot">=</span> five_roomdf[<span class="fu">c</span>(<span class="st">"month"</span>  , <span class="st">"price_per_sqm"</span> )]</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>fiveroom_monthly_avg3 <span class="ot">=</span> five_roomdf1 <span class="sc">%&gt;%</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="fu">group_by</span>(month) <span class="sc">%&gt;%</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summarise</span>(<span class="at">average_price_sqm2 =</span> <span class="fu">mean</span>(price_per_sqm))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>fiveroom_monthly_avg4 <span class="ot">&lt;-</span> fiveroom_monthly_avg3 <span class="sc">%&gt;%</span></span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(month,</span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">into =</span> <span class="fu">c</span>(<span class="st">"year_no"</span>, <span class="st">"month_no"</span>),</span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>           <span class="at">sep =</span> <span class="st">"-"</span>,</span>
-<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>           <span class="at">convert =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>fiveroom_monthly_avg4 <span class="ot">&lt;-</span> fiveroom_monthly_avg3 <span class="sc">%&gt;%</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(month,</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">into =</span> <span class="fu">c</span>(<span class="st">"year_no"</span>, <span class="st">"month_no"</span>),</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>           <span class="at">sep =</span> <span class="st">"-"</span>,</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>           <span class="at">convert =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">=</span> <span class="fu">ggplot</span>(fiveroom_monthly_avg4, <span class="fu">aes</span>(<span class="at">x=</span> fiveroom_monthly_avg3<span class="sc">$</span>month, <span class="at">y=</span>fiveroom_monthly_avg3<span class="sc">$</span>average_price_sqm2 , <span class="at">group =</span> <span class="dv">1</span>)) <span class="sc">+</span></span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>() <span class="sc">+</span> <span class="fu">geom_point</span>()</span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x=</span><span class="fu">element_text</span>(<span class="at">angle=</span><span class="dv">90</span>, <span class="at">hjust=</span><span class="dv">1</span>))<span class="sc">+</span></span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Month"</span>)<span class="sc">+</span><span class="fu">ylab</span>(<span class="st">"Average Price 5 room flat"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>List of 3
- $ axis.text.x:List of 11
-  ..$ family       : NULL
-  ..$ face         : NULL
-  ..$ colour       : NULL
-  ..$ size         : NULL
-  ..$ hjust        : num 1
-  ..$ vjust        : NULL
-  ..$ angle        : num 90
-  ..$ lineheight   : NULL
-  ..$ margin       : NULL
-  ..$ debug        : NULL
-  ..$ inherit.blank: logi FALSE
-  ..- attr(*, "class")= chr [1:2] "element_text" "element"
- $ x          : chr "Month"
- $ y          : chr "Average Price 5 room flat"
- - attr(*, "class")= chr [1:2] "theme" "gg"
- - attr(*, "complete")= logi FALSE
- - attr(*, "validate")= logi TRUE</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">animate</span> (p2 <span class="sc">+</span> <span class="fu">transition_time</span>(fiveroom_monthly_avg4<span class="sc">$</span>month_no) <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Month from 2017 - 2023: {frame_time}"</span>)  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>`geom_smooth()` using method = 'loess' and formula = 'y ~ x'</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
-parametric, : Chernobyl! trL&gt;n 6
-
-Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
-parametric, : Chernobyl! trL&gt;n 6</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in sqrt(sum.squares/one.delta): NaNs produced</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in stats::qt(level/2 + 0.5, pred$df): NaNs produced</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
-parametric, : Chernobyl! trL&gt;n 6
-
-Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
-parametric, : Chernobyl! trL&gt;n 6</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in sqrt(sum.squares/one.delta): NaNs produced</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in stats::qt(level/2 + 0.5, pred$df): NaNs produced</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
-parametric, : Chernobyl! trL&gt;n 6
-
-Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
-parametric, : Chernobyl! trL&gt;n 6</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in sqrt(sum.squares/one.delta): NaNs produced</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in stats::qt(level/2 + 0.5, pred$df): NaNs produced</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
-parametric, : Chernobyl! trL&gt;n 6
-
-Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
-parametric, : Chernobyl! trL&gt;n 6</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in sqrt(sum.squares/one.delta): NaNs produced</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in stats::qt(level/2 + 0.5, pred$df): NaNs produced</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
-parametric, : Chernobyl! trL&gt;n 6
-
-Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
-parametric, : Chernobyl! trL&gt;n 6</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in sqrt(sum.squares/one.delta): NaNs produced</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in stats::qt(level/2 + 0.5, pred$df): NaNs produced</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
-parametric, : Chernobyl! trL&gt;n 6
-
-Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
-parametric, : Chernobyl! trL&gt;n 6</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in sqrt(sum.squares/one.delta): NaNs produced</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in stats::qt(level/2 + 0.5, pred$df): NaNs produced</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
-parametric, : Chernobyl! trL&gt;n 6
-
-Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
-parametric, : Chernobyl! trL&gt;n 6</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in sqrt(sum.squares/one.delta): NaNs produced</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in stats::qt(level/2 + 0.5, pred$df): NaNs produced</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
-parametric, : Chernobyl! trL&gt;n 6
-
-Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
-parametric, : Chernobyl! trL&gt;n 6</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in sqrt(sum.squares/one.delta): NaNs produced</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in stats::qt(level/2 + 0.5, pred$df): NaNs produced</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
-parametric, : Chernobyl! trL&gt;n 6
-
-Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
-parametric, : Chernobyl! trL&gt;n 6</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in sqrt(sum.squares/one.delta): NaNs produced</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in stats::qt(level/2 + 0.5, pred$df): NaNs produced</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
-parametric, : Chernobyl! trL&gt;n 6
-
-Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
-parametric, : Chernobyl! trL&gt;n 6</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in sqrt(sum.squares/one.delta): NaNs produced</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in stats::qt(level/2 + 0.5, pred$df): NaNs produced</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
--Inf
-
-Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
--Inf
-
-Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
--Inf
-
-Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
--Inf
-
-Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
--Inf
-
-Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
--Inf
-
-Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
--Inf
-
-Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
--Inf
-
-Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
--Inf
-
-Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
--Inf
-
-Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
--Inf
-
-Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
--Inf
-
-Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
--Inf
-
-Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
--Inf
-
-Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
--Inf
-
-Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
--Inf
-
-Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
--Inf
-
-Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
--Inf
-
-Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
--Inf
-
-Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
--Inf
-
-Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
--Inf
-
-Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
--Inf
-
-Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
--Inf
-
-Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
--Inf
-
-Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
--Inf
-
-Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
--Inf
-
-Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
--Inf
-
-Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
--Inf
-
-Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
--Inf
-
-Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
--Inf
-
-Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
--Inf
-
-Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
--Inf
-
-Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
--Inf
-
-Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
--Inf
-
-Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
--Inf
-
-Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
--Inf
-
-Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
--Inf
-
-Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
--Inf
-
-Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
--Inf
-
-Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
--Inf
-
-Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
--Inf
-
-Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
--Inf
-
-Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
--Inf
-
-Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
--Inf
-
-Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
--Inf
-
-Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
--Inf
-
-Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
--Inf
-
-Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
--Inf
-
-Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
--Inf
-
-Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
--Inf
-
-Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
--Inf
-
-Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
--Inf
-
-Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
--Inf
-
-Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
--Inf
-
-Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
--Inf
-
-Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
--Inf
-
-Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
--Inf
-
-Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
--Inf
-
-Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
--Inf
-
-Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
--Inf
-
-Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
--Inf
-
-Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
--Inf
-
-Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
--Inf
-
-Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
--Inf
-
-Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
--Inf
-
-Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
--Inf
-
-Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
--Inf
-
-Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
--Inf
-
-Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
--Inf
-
-Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
--Inf
-
-Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
--Inf
-
-Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
--Inf
-
-Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
--Inf
-
-Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
--Inf
-
-Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
--Inf
-
-Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
--Inf
-
-Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
--Inf
-
-Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
--Inf
-
-Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
--Inf
-
-Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
--Inf
-
-Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
--Inf
-
-Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
--Inf
-
-Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
--Inf
-
-Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
--Inf
-
-Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
--Inf
-
-Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
--Inf
-
-Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
--Inf
-
-Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
--Inf
-
-Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
--Inf
-
-Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
--Inf</code></pre>
-</div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">=</span> <span class="fu">ggplot</span>(fiveroom_monthly_avg4, <span class="fu">aes</span>(<span class="at">x=</span> fiveroom_monthly_avg3<span class="sc">$</span>month, <span class="at">y=</span>fiveroom_monthly_avg3<span class="sc">$</span>average_price_sqm2 , <span class="at">group =</span> <span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>() <span class="sc">+</span> <span class="fu">geom_point</span>()<span class="sc">+</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x=</span><span class="fu">element_text</span>(<span class="at">angle=</span><span class="dv">90</span>, <span class="at">hjust=</span><span class="dv">1</span>))<span class="sc">+</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Month"</span>)<span class="sc">+</span><span class="fu">ylab</span>(<span class="st">"Average Price 5 room flat"</span>)</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="fu">animate</span> (p2 <span class="sc">+</span> <span class="fu">transition_time</span>(fiveroom_monthly_avg4<span class="sc">$</span>month_no) <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Month from 2017 - 2023: {frame_time}"</span>)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="TakehomeEx03_files/figure-html/unnamed-chunk-17-1.gif" class="img-fluid"></p>
 </div>
@@ -884,20 +424,20 @@ Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
 <h1>Three Sample mean test:</h1>
 <p>Let’s pull out data for 3 types of flats, 3 ROOM / 4 ROOM and 5 ROOM</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a>df_345 <span class="ot">&lt;-</span> <span class="fu">subset</span>(house_data, flat_type <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"3 ROOM"</span>, <span class="st">"4 ROOM"</span>, <span class="st">"5 ROOM"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>df_345 <span class="ot">&lt;-</span> <span class="fu">subset</span>(house_data, flat_type <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"3 ROOM"</span>, <span class="st">"4 ROOM"</span>, <span class="st">"5 ROOM"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>df_345<span class="sc">$</span>price_per_sqm <span class="ot">=</span> df_345<span class="sc">$</span><span class="st">`</span><span class="at">resale_price</span><span class="st">`</span> <span class="sc">/</span> df_345<span class="sc">$</span>floor_area_sqm</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>df_345<span class="sc">$</span>price_per_sqm <span class="ot">=</span> df_345<span class="sc">$</span><span class="st">`</span><span class="at">resale_price</span><span class="st">`</span> <span class="sc">/</span> df_345<span class="sc">$</span>floor_area_sqm</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">ggbetweenstats</span>(</span>
-<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> df_345,</span>
-<span id="cb67-3"><a href="#cb67-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> flat_type, </span>
-<span id="cb67-4"><a href="#cb67-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> price_per_sqm,</span>
-<span id="cb67-5"><a href="#cb67-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">type =</span> <span class="st">"np"</span>,</span>
-<span id="cb67-6"><a href="#cb67-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">messages =</span> <span class="cn">FALSE</span></span>
-<span id="cb67-7"><a href="#cb67-7" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb67-8"><a href="#cb67-8" aria-hidden="true" tabindex="-1"></a>p2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">ggbetweenstats</span>(</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> df_345,</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> flat_type, </span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> price_per_sqm,</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">type =</span> <span class="st">"np"</span>,</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">messages =</span> <span class="cn">FALSE</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>p2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="TakehomeEx03_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid" width="1344"></p>
 </div>
@@ -906,59 +446,25 @@ Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
 <section id="averge-price-per-sqm-versus-lease-remains-number-of-years" class="level2">
 <h2 class="anchored" data-anchor-id="averge-price-per-sqm-versus-lease-remains-number-of-years">AVERGE PRICE PER SQM versus LEASE REMAINS NUMBER OF YEARS</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>p3 <span class="ot">&lt;-</span><span class="fu">ggplot</span>(df_345,</span>
-<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> lease_remains,</span>
-<span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">y =</span> price_per_sqm ,</span>
-<span id="cb68-4"><a href="#cb68-4" aria-hidden="true" tabindex="-1"></a>           <span class="at">colour =</span> flat_type)) <span class="sc">+</span></span>
-<span id="cb68-5"><a href="#cb68-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb68-6"><a href="#cb68-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Resale price per square meter verus Remaining lease years"</span>,</span>
-<span id="cb68-7"><a href="#cb68-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Remaining Lease (Years)"</span>,</span>
-<span id="cb68-8"><a href="#cb68-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Resale price ($psm)"</span>,</span>
-<span id="cb68-9"><a href="#cb68-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">fill =</span><span class="st">"Flat type"</span>,</span>
-<span id="cb68-10"><a href="#cb68-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">"Month From 2017 - 2023: {frame_time}"</span>)<span class="sc">+</span></span>
-<span id="cb68-11"><a href="#cb68-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method=</span><span class="st">"lm"</span>,</span>
-<span id="cb68-12"><a href="#cb68-12" aria-hidden="true" tabindex="-1"></a>              <span class="at">se =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb68-13"><a href="#cb68-13" aria-hidden="true" tabindex="-1"></a>              <span class="at">color =</span> <span class="st">"yellow"</span>,</span>
-<span id="cb68-14"><a href="#cb68-14" aria-hidden="true" tabindex="-1"></a>              <span class="at">formula =</span> y <span class="sc">~</span> x)<span class="sc">+</span></span>
-<span id="cb68-15"><a href="#cb68-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(flat_type <span class="sc">~</span> .)<span class="sc">+</span></span>
-<span id="cb68-16"><a href="#cb68-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)<span class="sc">+</span></span>
-<span id="cb68-17"><a href="#cb68-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">transition_time</span>(df_345<span class="sc">$</span>month_no) <span class="sc">+</span> <span class="fu">ease_aes</span>(<span class="st">'linear'</span>)</span>
-<span id="cb68-18"><a href="#cb68-18" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb68-19"><a href="#cb68-19" aria-hidden="true" tabindex="-1"></a><span class="fu">animate</span>(p3, <span class="at">nframes =</span> <span class="dv">10</span> , <span class="at">fps =</span> <span class="fl">0.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 10927 rows containing non-finite values (`stat_smooth()`).</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 1202 rows containing missing values (`geom_point()`).
-Removed 1202 rows containing missing values (`geom_point()`).</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 760 rows containing missing values (`geom_point()`).</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 744 rows containing missing values (`geom_point()`).</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 757 rows containing missing values (`geom_point()`).</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 917 rows containing missing values (`geom_point()`).</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 1169 rows containing missing values (`geom_point()`).</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 1136 rows containing missing values (`geom_point()`).</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 1002 rows containing missing values (`geom_point()`).</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 747 rows containing missing values (`geom_point()`).</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 841 rows containing missing values (`geom_point()`).</code></pre>
-</div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>p3 <span class="ot">&lt;-</span><span class="fu">ggplot</span>(df_345,</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> lease_remains,</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">y =</span> price_per_sqm ,</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>           <span class="at">colour =</span> flat_type)) <span class="sc">+</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Resale price per square meter verus Remaining lease years"</span>,</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Remaining Lease (Years)"</span>,</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Resale price ($psm)"</span>,</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">fill =</span><span class="st">"Flat type"</span>,</span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">"Month From 2017 - 2023: {frame_time}"</span>)<span class="sc">+</span></span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method=</span><span class="st">"lm"</span>,</span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>              <span class="at">se =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>              <span class="at">color =</span> <span class="st">"yellow"</span>,</span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>              <span class="at">formula =</span> y <span class="sc">~</span> x)<span class="sc">+</span></span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(flat_type <span class="sc">~</span> .)<span class="sc">+</span></span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)<span class="sc">+</span></span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">transition_time</span>(df_345<span class="sc">$</span>month_no) <span class="sc">+</span> <span class="fu">ease_aes</span>(<span class="st">'linear'</span>)</span>
+<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a><span class="fu">animate</span>(p3, <span class="at">nframes =</span> <span class="dv">10</span> , <span class="at">fps =</span> <span class="fl">0.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="TakehomeEx03_files/figure-html/unnamed-chunk-21-1.gif" class="img-fluid"></p>
 </div>

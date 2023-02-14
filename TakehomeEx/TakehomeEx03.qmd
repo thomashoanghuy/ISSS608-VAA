@@ -1,5 +1,14 @@
 ---
 title: "Take Home Exercise 03"
+Author: "Thomas Hoang Huy"
+format: html
+date: "14/02/2023"
+date-modified: "`r Sys.Date()`"
+execute:
+  echo: true
+  eval: true
+  warning: false
+editor: visual 
 ---
 
 # The Task
@@ -165,11 +174,11 @@ fiveroom_monthly_avg4 <- fiveroom_monthly_avg3 %>%
 
 ```{r}
 p2 = ggplot(fiveroom_monthly_avg4, aes(x= fiveroom_monthly_avg3$month, y=fiveroom_monthly_avg3$average_price_sqm2 , group = 1)) +
-  geom_smooth() + geom_point()
+  geom_smooth() + geom_point()+
   theme(axis.text.x=element_text(angle=90, hjust=1))+
   xlab("Month")+ylab("Average Price 5 room flat")
 
-animate (p2 + transition_time(fiveroom_monthly_avg4$month_no) + labs(title = "Month from 2017 - 2023: {frame_time}")  )
+animate (p2 + transition_time(fiveroom_monthly_avg4$month_no) + labs(title = "Month from 2017 - 2023: {frame_time}")) 
 ```
 
 As you can see, 4 rooms and 5 room types of flats have similar trends, from 2017, it was on the downtrend up til 2019 before started picking up and increased until current year 2023.
