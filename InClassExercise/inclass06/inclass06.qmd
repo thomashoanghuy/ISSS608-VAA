@@ -1,0 +1,24 @@
+---
+title: "In Class Exercise 06"
+Author: "Thomas Hoang Huy"
+format: html
+date: "18/02/2023"
+date-modified: "`r Sys.Date()`"
+execute:
+  echo: true
+  eval: true
+  warning: false
+editor: visual 
+---
+
+Slopegraph
+
+<https://public.tableau.com/app/profile/thomas.hoang8154/viz/rice_16767029061110/Sheet1>
+
+Bubble Plot and Animation
+
+<https://public.tableau.com/app/profile/thomas.hoang8154/viz/bubbleplotpopulation/AnimatedBubblePlot>
+
+Cycle Plot
+
+<https://public.tableau.com/app/profile/thomas.hoang8154/viz/InClassExercise06/Dashboard1>
