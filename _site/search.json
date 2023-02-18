@@ -179,6 +179,6 @@
     "href": "InClassExercise/inclass06/inclass06.html",
     "title": "In Class Exercise 06",
     "section": "",
-    "text": "Slopegraph\nhttps://public.tableau.com/app/profile/thomas.hoang8154/viz/rice_16767029061110/Sheet1\nBubble Plot and Animation\nhttps://public.tableau.com/app/profile/thomas.hoang8154/viz/bubbleplotpopulation/AnimatedBubblePlot\nCycle Plot\nhttps://public.tableau.com/app/profile/thomas.hoang8154/viz/InClassExercise06/Dashboard1"
+    "text": "Slopegraph\nhttps://public.tableau.com/app/profile/thomas.hoang8154/viz/rice_16767029061110/Sheet1\nIn order to do this on R, u need to install CGPfunction package, and an extension newggslopegraph.\nU should go and read about this package.\nBubble Plot and Animation\nhttps://public.tableau.com/app/profile/thomas.hoang8154/viz/bubbleplotpopulation/AnimatedBubblePlot\nCycle Plot\nhttps://public.tableau.com/app/profile/thomas.hoang8154/viz/InClassExercise06/Dashboard1\nSee more guides about ggplot packages for R under this site.\nhttp://exts.ggplot2.tidyverse.org/gallery\nTo draw overlapping of area graph\nhttps://nsgrantham.github.io/ggbraid/"
   }
 ]

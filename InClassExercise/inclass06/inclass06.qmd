@@ -15,6 +15,10 @@ Slopegraph
 
 <https://public.tableau.com/app/profile/thomas.hoang8154/viz/rice_16767029061110/Sheet1>
 
+In order to do this on R, u need to install CGPfunction package, and an extension newggslopegraph.
+
+U should go and read about this package.
+
 Bubble Plot and Animation
 
 <https://public.tableau.com/app/profile/thomas.hoang8154/viz/bubbleplotpopulation/AnimatedBubblePlot>
@@ -22,3 +26,11 @@ Bubble Plot and Animation
 Cycle Plot
 
 <https://public.tableau.com/app/profile/thomas.hoang8154/viz/InClassExercise06/Dashboard1>
+
+See more guides about ggplot packages for R under this site.
+
+<http://exts.ggplot2.tidyverse.org/gallery>
+
+To draw overlapping of area graph
+
+<https://nsgrantham.github.io/ggbraid/>
