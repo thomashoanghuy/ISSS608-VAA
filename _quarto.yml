@@ -30,6 +30,8 @@ website:
           href: "TakehomeEx/TakehomeEx02.html"
         - text: "Takehome Exercise 3"  
           href: "TakehomeEx/TakehomeEx03.html"
+        - text: "Takehome Exercise 4"  
+          href: "TakehomeEx/TakehomeEx04.html"  
 format:
   html:
     theme: cosmo

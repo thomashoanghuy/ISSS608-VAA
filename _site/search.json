@@ -180,5 +180,40 @@
     "title": "In Class Exercise 06",
     "section": "",
     "text": "Slopegraph\nhttps://public.tableau.com/app/profile/thomas.hoang8154/viz/rice_16767029061110/Sheet1\nIn order to do this on R, u need to install CGPfunction package, and an extension newggslopegraph.\nU should go and read about this package.\nBubble Plot and Animation\nhttps://public.tableau.com/app/profile/thomas.hoang8154/viz/bubbleplotpopulation/AnimatedBubblePlot\nCycle Plot\nhttps://public.tableau.com/app/profile/thomas.hoang8154/viz/InClassExercise06/Dashboard1\nSee more guides about ggplot packages for R under this site.\nhttp://exts.ggplot2.tidyverse.org/gallery\nTo draw overlapping of area graph\nhttps://nsgrantham.github.io/ggbraid/"
+  },
+  {
+    "objectID": "TakehomeEx/TakehomeEx04.html",
+    "href": "TakehomeEx/TakehomeEx04.html",
+    "title": "Take Home Exercise 04",
+    "section": "",
+    "text": "In this take-home exercise, we need to uncover the impact of COVID-19 as well as the global economic and political dynamic in 2022 on Singapore bi-lateral trade (i.e. Import, Export and Trade Balance) by using appropriate analytical visualisation techniques learned in Lesson 6: It’s About Time."
+  },
+  {
+    "objectID": "TakehomeEx/TakehomeEx04.html#import-versus-export",
+    "href": "TakehomeEx/TakehomeEx04.html#import-versus-export",
+    "title": "Take Home Exercise 04",
+    "section": "IMPORT VERSUS EXPORT",
+    "text": "IMPORT VERSUS EXPORT\nWe want to do a comparison between Singapore Import and Export, first let’s import the data.\n\nmonthlyexport_overall <- read_excel(\"C:/thomashoanghuy/ISSS608-VAA/TakehomeEx/data3/outputFile.xlsx\", sheet = \"T1\")\n\nmonthlyimport_overall <- read_excel(\"C:/thomashoanghuy/ISSS608-VAA/TakehomeEx/data3/outputFile.xlsx\", sheet = \"T8\")\n\nSheet T1 = Merchandise Exports By Commodity Division, Monthly snippet\n\nSheet T2 = Merchandise Imports By Commodity Division, Monthly snippet\n\nAs you can see from above 2 snippets of the data table, most of the sub categories are similar between export and import data. However the highlight rows are the difference between the 2 sets of data. We should remove them before we can start any comparisons.\n\nmonthlyexport_overall <- monthlyexport_overall[!grepl(\"Oil Bunkers\", monthlyexport_overall$`Data Series`),]\n\n\nmonthlyimport_overall <- monthlyimport_overall[!grepl(\"Meat & Meat Preparations\", monthlyimport_overall$`Data Series`),]\nmonthlyimport_overall <- monthlyimport_overall[!grepl(\"Footwear\", monthlyimport_overall$`Data Series`),]\n\nNow both tables would have the same sub categories of merchandises for comparison.\nNow. we can extract the total Export Merchandise Import and Export and we can combine them into a separate dataframe\n\nmonthlyexport_total <- monthlyexport_overall[grepl(\"Total Merchandise Exports\", monthlyexport_overall$`Data Series`),]\n\n\nmonthlyimport_total <- monthlyimport_overall[grepl(\"Total Merchandise Imports\", monthlyimport_overall$`Data Series`),]\n\n\nmonthly_tradebalance1 = rbind(monthlyexport_total , monthlyimport_total)\n\nmonthly_tradebalance1= as.data.frame(t(monthly_tradebalance1)) \ncolnames(monthly_tradebalance1) <- monthly_tradebalance1[1,]\nmonthly_tradebalance1 <- monthly_tradebalance1[-1,]\n\nhead(monthly_tradebalance1)\n\n         Total Merchandise Exports Total Merchandise Imports\n2022 Dec                  55000084                  49869770\n2022 Nov                  54162780                  50653907\n2022 Oct                  56576348                  53182943\n2022 Sep                  62507132                  55799312\n2022 Aug                  63363749                  58466009\n2022 Jul                  64124991                  61029374\n\n\n\nmonthly_tradebalance <- monthly_tradebalance1 %>% \n  rownames_to_column(var = \"Month-Year\")\n\n\ntail(monthly_tradebalance1)\n\n         Total Merchandise Exports Total Merchandise Imports\n2020 Jun                  40640766                  35120892\n2020 May                  36482259                  31458238\n2020 Apr                  39946596                  35878828\n2020 Mar                  45800019                  40433029\n2020 Feb                  43512320                  39472637\n2020 Jan                  44501656                  41180224\n\n\nReverse sort the data frame “monthly_tradebalance”\n\nmonthly_tradebalance <- monthly_tradebalance[nrow(monthly_tradebalance):1, ]\nrownames(monthly_tradebalance) <- rownames(monthly_tradebalance[nrow(monthly_tradebalance):1, ])\n\nhead(monthly_tradebalance)\n\n  Month-Year Total Merchandise Exports Total Merchandise Imports\n1   2020 Jan                  44501656                  41180224\n2   2020 Feb                  43512320                  39472637\n3   2020 Mar                  45800019                  40433029\n4   2020 Apr                  39946596                  35878828\n5   2020 May                  36482259                  31458238\n6   2020 Jun                  40640766                  35120892"
+  },
+  {
+    "objectID": "TakehomeEx/TakehomeEx04.html#inflation-vs-real-growth",
+    "href": "TakehomeEx/TakehomeEx04.html#inflation-vs-real-growth",
+    "title": "Take Home Exercise 04",
+    "section": "INFLATION VS REAL GROWTH",
+    "text": "INFLATION VS REAL GROWTH"
+  },
+  {
+    "objectID": "TakehomeEx/TakehomeEx04.html#domestic-export-vs-re-export",
+    "href": "TakehomeEx/TakehomeEx04.html#domestic-export-vs-re-export",
+    "title": "Take Home Exercise 04",
+    "section": "DOMESTIC EXPORT VS RE-EXPORT",
+    "text": "DOMESTIC EXPORT VS RE-EXPORT"
+  },
+  {
+    "objectID": "TakehomeEx/TakehomeEx04.html#by-countries-and-by-segment",
+    "href": "TakehomeEx/TakehomeEx04.html#by-countries-and-by-segment",
+    "title": "Take Home Exercise 04",
+    "section": "By Countries and By Segment?",
+    "text": "By Countries and By Segment?"
   }
 ]

@@ -1,0 +1,106 @@
+---
+title: "Take Home Exercise 04"
+Author: "Thomas Hoang Huy"
+format: html
+date: "20/02/2023"
+date-modified: "`r Sys.Date()`"
+execute:
+  echo: true
+  eval: true
+  warning: false
+editor: visual 
+---
+
+# The Task
+
+In this take-home exercise, we need to uncover the impact of COVID-19 as well as the global economic and political dynamic in 2022 on Singapore bi-lateral trade (i.e. Import, Export and Trade Balance) by using appropriate analytical visualisation techniques learned in **Lesson 6: It's About Time**.
+
+# The Data
+
+For the purpose of this take-home exercise, Merchandise Trade provided by Department of Statistics, Singapore (DOS) will be used. The data are available under the sub-section of Merchandise Trade by Region/Market. The study period should be between **January 2020 to December 2022**.
+
+```{r}
+pacman::p_load(readxl)
+pacman::p_load(readr)
+pacman::p_load(ggstatsplot)
+pacman::p_load(ggbraid)
+pacman::p_load(gganimate)
+pacman::p_load(transformr , gifski)
+pacman::p_load(tidyverse)
+```
+
+## IMPORT VERSUS EXPORT
+
+We want to do a comparison between Singapore Import and Export, first let's import the data.
+
+```{r}
+monthlyexport_overall <- read_excel("C:/thomashoanghuy/ISSS608-VAA/TakehomeEx/data3/outputFile.xlsx", sheet = "T1")
+
+monthlyimport_overall <- read_excel("C:/thomashoanghuy/ISSS608-VAA/TakehomeEx/data3/outputFile.xlsx", sheet = "T8")
+```
+
+Sheet T1 = Merchandise Exports By Commodity Division, Monthly snippet
+
+![](images/monthlyexportt1.JPG){width="645"}
+
+Sheet T2 = Merchandise Imports By Commodity Division, Monthly snippet
+
+![](images/monthlyimportt8.JPG)
+
+As you can see from above 2 snippets of the data table, most of the sub categories are similar between export and import data. However the highlight rows are the difference between the 2 sets of data. We should remove them before we can start any comparisons.
+
+```{r}
+monthlyexport_overall <- monthlyexport_overall[!grepl("Oil Bunkers", monthlyexport_overall$`Data Series`),]
+
+
+monthlyimport_overall <- monthlyimport_overall[!grepl("Meat & Meat Preparations", monthlyimport_overall$`Data Series`),]
+monthlyimport_overall <- monthlyimport_overall[!grepl("Footwear", monthlyimport_overall$`Data Series`),]
+```
+
+Now both tables would have the same sub categories of merchandises for comparison.
+
+Now. we can extract the total Export Merchandise Import and Export and we can combine them into a separate dataframe
+
+```{r}
+monthlyexport_total <- monthlyexport_overall[grepl("Total Merchandise Exports", monthlyexport_overall$`Data Series`),]
+```
+
+```{r}
+monthlyimport_total <- monthlyimport_overall[grepl("Total Merchandise Imports", monthlyimport_overall$`Data Series`),]
+```
+
+```{r}
+monthly_tradebalance1 = rbind(monthlyexport_total , monthlyimport_total)
+
+monthly_tradebalance1= as.data.frame(t(monthly_tradebalance1)) 
+colnames(monthly_tradebalance1) <- monthly_tradebalance1[1,]
+monthly_tradebalance1 <- monthly_tradebalance1[-1,]
+
+head(monthly_tradebalance1)
+```
+
+```{r}
+monthly_tradebalance <- monthly_tradebalance1 %>% 
+  rownames_to_column(var = "Month-Year")
+
+
+```
+
+```{r}
+tail(monthly_tradebalance1)
+```
+
+Reverse sort the data frame "monthly_tradebalance"
+
+```{r}
+monthly_tradebalance <- monthly_tradebalance[nrow(monthly_tradebalance):1, ]
+rownames(monthly_tradebalance) <- rownames(monthly_tradebalance[nrow(monthly_tradebalance):1, ])
+
+head(monthly_tradebalance)
+```
+
+## INFLATION VS REAL GROWTH
+
+## DOMESTIC EXPORT VS RE-EXPORT
+
+## By Countries and By Segment?
