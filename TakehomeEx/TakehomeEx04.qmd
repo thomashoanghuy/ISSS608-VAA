@@ -53,6 +53,10 @@ As you can see from above 2 snippets of the data table, most of the sub categori
 monthlyexport_overall <- monthlyexport_overall[!grepl("Oil Bunkers", monthlyexport_overall$`Data Series`),]
 
 
+```
+
+```{r}
+
 monthlyimport_overall <- monthlyimport_overall[!grepl("Meat & Meat Preparations", monthlyimport_overall$`Data Series`),]
 monthlyimport_overall <- monthlyimport_overall[!grepl("Footwear", monthlyimport_overall$`Data Series`),]
 ```
@@ -98,6 +102,33 @@ rownames(monthly_tradebalance) <- rownames(monthly_tradebalance[nrow(monthly_tra
 
 head(monthly_tradebalance)
 ```
+
+```{r}
+monthly_tradebalance$Time <- as.Date(paste0(monthly_tradebalance$`Month-Year`, " 01"), format = "%Y %b %d")
+```
+
+```{r}
+monthly_tradebalance
+```
+
+```{r}
+monthly_tradebalance$`Total Merchandise Exports` <- as.numeric(monthly_tradebalance$`Total Merchandise Exports`)
+monthly_tradebalance$`Total Merchandise Imports` <- as.numeric(monthly_tradebalance$`Total Merchandise Imports`)
+```
+
+```{r}
+monthly_tradebalanceMelt <- reshape2::melt(monthly_tradebalance, id.var='Month-Year')
+```
+
+```{r}
+ggplot(monthly_tradebalanceMelt, aes(x=monthly_tradebalanceMelt$`Month-Year` , y=value, col=variable, group = 1)) +
+  geom_point() + geom_line(aes(group=factor(variable))) +
+  xlab("Year") + ylab("Trade Volume in Billions")
+```
+
+As evidenced by the above chart, Singapore import and export move quite in tandem with each other. Between 2020-2023, it shows an uptrend. As Export volume increase, so does Import. However Singapore overall Export are more than its Import, consistently since post-covid 2020, Singapore remains with trade surplus overall.
+
+While trade surplus are confirmed, we should examine how Singapore trade surplus is trending post-covid, let's create a graph of the difference between Export and Import ( the trade surplus)
 
 ## INFLATION VS REAL GROWTH
 
