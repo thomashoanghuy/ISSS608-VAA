@@ -253,7 +253,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">February 21, 2023</p>
+      <p class="date-modified">February 22, 2023</p>
     </div>
   </div>
     
@@ -292,28 +292,28 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><img src="images/monthlyimportt8.JPG" class="img-fluid"></p>
 <p>As you can see from above 2 snippets of the data table, most of the sub categories are similar between export and import data. However the highlight rows are the difference between the 2 sets of data. We should remove them before we can start any comparisons.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>monthlyexport_overall <span class="ot">&lt;-</span> monthlyexport_overall[<span class="sc">!</span><span class="fu">grepl</span>(<span class="st">"Oil Bunkers"</span>, monthlyexport_overall<span class="sc">$</span><span class="st">`</span><span class="at">Data Series</span><span class="st">`</span>),]</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>monthlyimport_overall <span class="ot">&lt;-</span> monthlyimport_overall[<span class="sc">!</span><span class="fu">grepl</span>(<span class="st">"Meat &amp; Meat Preparations"</span>, monthlyimport_overall<span class="sc">$</span><span class="st">`</span><span class="at">Data Series</span><span class="st">`</span>),]</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>monthlyimport_overall <span class="ot">&lt;-</span> monthlyimport_overall[<span class="sc">!</span><span class="fu">grepl</span>(<span class="st">"Footwear"</span>, monthlyimport_overall<span class="sc">$</span><span class="st">`</span><span class="at">Data Series</span><span class="st">`</span>),]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>monthlyexport_overall <span class="ot">&lt;-</span> monthlyexport_overall[<span class="sc">!</span><span class="fu">grepl</span>(<span class="st">"Oil Bunkers"</span>, monthlyexport_overall<span class="sc">$</span><span class="st">`</span><span class="at">Data Series</span><span class="st">`</span>),]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>monthlyimport_overall <span class="ot">&lt;-</span> monthlyimport_overall[<span class="sc">!</span><span class="fu">grepl</span>(<span class="st">"Meat &amp; Meat Preparations"</span>, monthlyimport_overall<span class="sc">$</span><span class="st">`</span><span class="at">Data Series</span><span class="st">`</span>),]</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>monthlyimport_overall <span class="ot">&lt;-</span> monthlyimport_overall[<span class="sc">!</span><span class="fu">grepl</span>(<span class="st">"Footwear"</span>, monthlyimport_overall<span class="sc">$</span><span class="st">`</span><span class="at">Data Series</span><span class="st">`</span>),]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now both tables would have the same sub categories of merchandises for comparison.</p>
 <p>Now. we can extract the total Export Merchandise Import and Export and we can combine them into a separate dataframe</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>monthlyexport_total <span class="ot">&lt;-</span> monthlyexport_overall[<span class="fu">grepl</span>(<span class="st">"Total Merchandise Exports"</span>, monthlyexport_overall<span class="sc">$</span><span class="st">`</span><span class="at">Data Series</span><span class="st">`</span>),]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>monthlyexport_total <span class="ot">&lt;-</span> monthlyexport_overall[<span class="fu">grepl</span>(<span class="st">"Total Merchandise Exports"</span>, monthlyexport_overall<span class="sc">$</span><span class="st">`</span><span class="at">Data Series</span><span class="st">`</span>),]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>monthlyimport_total <span class="ot">&lt;-</span> monthlyimport_overall[<span class="fu">grepl</span>(<span class="st">"Total Merchandise Imports"</span>, monthlyimport_overall<span class="sc">$</span><span class="st">`</span><span class="at">Data Series</span><span class="st">`</span>),]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>monthlyimport_total <span class="ot">&lt;-</span> monthlyimport_overall[<span class="fu">grepl</span>(<span class="st">"Total Merchandise Imports"</span>, monthlyimport_overall<span class="sc">$</span><span class="st">`</span><span class="at">Data Series</span><span class="st">`</span>),]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>monthly_tradebalance1 <span class="ot">=</span> <span class="fu">rbind</span>(monthlyexport_total , monthlyimport_total)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>monthly_tradebalance1<span class="ot">=</span> <span class="fu">as.data.frame</span>(<span class="fu">t</span>(monthly_tradebalance1)) </span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(monthly_tradebalance1) <span class="ot">&lt;-</span> monthly_tradebalance1[<span class="dv">1</span>,]</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>monthly_tradebalance1 <span class="ot">&lt;-</span> monthly_tradebalance1[<span class="sc">-</span><span class="dv">1</span>,]</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(monthly_tradebalance1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>monthly_tradebalance1 <span class="ot">=</span> <span class="fu">rbind</span>(monthlyexport_total , monthlyimport_total)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>monthly_tradebalance1<span class="ot">=</span> <span class="fu">as.data.frame</span>(<span class="fu">t</span>(monthly_tradebalance1)) </span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(monthly_tradebalance1) <span class="ot">&lt;-</span> monthly_tradebalance1[<span class="dv">1</span>,]</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>monthly_tradebalance1 <span class="ot">&lt;-</span> monthly_tradebalance1[<span class="sc">-</span><span class="dv">1</span>,]</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(monthly_tradebalance1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>         Total Merchandise Exports Total Merchandise Imports
 2022 Dec                  55000084                  49869770
@@ -325,27 +325,27 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>monthly_tradebalance <span class="ot">&lt;-</span> monthly_tradebalance1 <span class="sc">%&gt;%</span> </span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rownames_to_column</span>(<span class="at">var =</span> <span class="st">"Month-Year"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>monthly_tradebalance <span class="ot">&lt;-</span> monthly_tradebalance1 <span class="sc">%&gt;%</span> </span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rownames_to_column</span>(<span class="at">var =</span> <span class="st">"Month-Year"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(monthly_tradebalance1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(monthly_tradebalance)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>         Total Merchandise Exports Total Merchandise Imports
-2020 Jun                  40640766                  35120892
-2020 May                  36482259                  31458238
-2020 Apr                  39946596                  35878828
-2020 Mar                  45800019                  40433029
-2020 Feb                  43512320                  39472637
-2020 Jan                  44501656                  41180224</code></pre>
+<pre><code>   Month-Year Total Merchandise Exports Total Merchandise Imports
+31   2020 Jun                  40640766                  35120892
+32   2020 May                  36482259                  31458238
+33   2020 Apr                  39946596                  35878828
+34   2020 Mar                  45800019                  40433029
+35   2020 Feb                  43512320                  39472637
+36   2020 Jan                  44501656                  41180224</code></pre>
 </div>
 </div>
 <p>Reverse sort the data frame “monthly_tradebalance”</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>monthly_tradebalance <span class="ot">&lt;-</span> monthly_tradebalance[<span class="fu">nrow</span>(monthly_tradebalance)<span class="sc">:</span><span class="dv">1</span>, ]</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(monthly_tradebalance) <span class="ot">&lt;-</span> <span class="fu">rownames</span>(monthly_tradebalance[<span class="fu">nrow</span>(monthly_tradebalance)<span class="sc">:</span><span class="dv">1</span>, ])</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(monthly_tradebalance)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>monthly_tradebalance <span class="ot">&lt;-</span> monthly_tradebalance[<span class="fu">nrow</span>(monthly_tradebalance)<span class="sc">:</span><span class="dv">1</span>, ]</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(monthly_tradebalance) <span class="ot">&lt;-</span> <span class="fu">rownames</span>(monthly_tradebalance[<span class="fu">nrow</span>(monthly_tradebalance)<span class="sc">:</span><span class="dv">1</span>, ])</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(monthly_tradebalance)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  Month-Year Total Merchandise Exports Total Merchandise Imports
 1   2020 Jan                  44501656                  41180224
@@ -356,6 +356,128 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 6   2020 Jun                  40640766                  35120892</code></pre>
 </div>
 </div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>monthly_tradebalance<span class="sc">$</span><span class="st">`</span><span class="at">Month-Year</span><span class="st">`</span> <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(<span class="fu">paste0</span>(monthly_tradebalance<span class="sc">$</span><span class="st">`</span><span class="at">Month-Year</span><span class="st">`</span>, <span class="st">" 01"</span>), <span class="at">format =</span> <span class="st">"%Y %b %d"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>monthly_tradebalance</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Month-Year Total Merchandise Exports Total Merchandise Imports
+1  2020-01-01                  44501656                  41180224
+2  2020-02-01                  43512320                  39472637
+3  2020-03-01                  45800019                  40433029
+4  2020-04-01                  39946596                  35878828
+5  2020-05-01                  36482259                  31458238
+6  2020-06-01                  40640766                  35120892
+7  2020-07-01                  42892684                  37843646
+8  2020-08-01                  44333640                  36472279
+9  2020-09-01                  43907435                  38801413
+10 2020-10-01                  44088350                  38173829
+11 2020-11-01                  43291938                  38477878
+12 2020-12-01                  46246876                  40154550
+13 2021-01-01                  44988833                  39028616
+14 2021-02-01                  42602227                  37643664
+15 2021-03-01                  55444082                  47668437
+16 2021-04-01                  50591895                  45169547
+17 2021-05-01                  47355225                  41559697
+18 2021-06-01                  49618994                  45039845
+19 2021-07-01                  49834010                  46107788
+20 2021-08-01                  52038522                  44714491
+21 2021-09-01                  52034038                  45980374
+22 2021-10-01                  53639342                  47945213
+23 2021-11-01                  56720130                  50674908
+24 2021-12-01                  59213794                  54349357
+25 2022-01-01                  54845697                  50026788
+26 2022-02-01                  51991457                  44958373
+27 2022-03-01                  63132579                  58079982
+28 2022-04-01                  60237343                  56116002
+29 2022-05-01                  59847424                  57604263
+30 2022-06-01                  64177050                  59649162
+31 2022-07-01                  64124991                  61029374
+32 2022-08-01                  63363749                  58466009
+33 2022-09-01                  62507132                  55799312
+34 2022-10-01                  56576348                  53182943
+35 2022-11-01                  54162780                  50653907
+36 2022-12-01                  55000084                  49869770</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>monthly_tradebalance<span class="sc">$</span><span class="st">`</span><span class="at">Total Merchandise Exports</span><span class="st">`</span> <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(monthly_tradebalance<span class="sc">$</span><span class="st">`</span><span class="at">Total Merchandise Exports</span><span class="st">`</span>)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>monthly_tradebalance<span class="sc">$</span><span class="st">`</span><span class="at">Total Merchandise Imports</span><span class="st">`</span> <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(monthly_tradebalance<span class="sc">$</span><span class="st">`</span><span class="at">Total Merchandise Imports</span><span class="st">`</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>monthly_tradebalanceMelt <span class="ot">&lt;-</span> reshape2<span class="sc">::</span><span class="fu">melt</span>(monthly_tradebalance, <span class="at">id.var=</span><span class="st">'Month-Year'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">=</span> <span class="fu">ggplot</span>(monthly_tradebalanceMelt, <span class="fu">aes</span>(<span class="at">x=</span>monthly_tradebalanceMelt<span class="sc">$</span><span class="st">`</span><span class="at">Month-Year</span><span class="st">`</span> , <span class="at">y=</span>value, <span class="at">col=</span>variable, <span class="at">group =</span> <span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">group=</span><span class="fu">factor</span>(variable))) <span class="sc">+</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Year"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"Trade Volume in Billions"</span>)</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>p1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="TakehomeEx04_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>As evidenced by the above chart, Singapore import and export move quite in tandem with each other. Between 2020-2023, it shows an uptrend. As Export volume increase, so does Import. However Singapore overall Export are more than its Import, consistently since post-covid 2020, Singapore remains with trade surplus overall.</p>
+<p>While trade surplus are confirmed, we should examine how Singapore trade surplus is trending post-covid, let’s create a data table of the difference between Export and Import ( the trade surplus)</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>monthly_tradebalance<span class="sc">$</span>Trade_surplus <span class="ot">=</span> monthly_tradebalance<span class="sc">$</span><span class="st">`</span><span class="at">Total Merchandise Exports</span><span class="st">`</span> <span class="sc">-</span> monthly_tradebalance<span class="sc">$</span><span class="st">`</span><span class="at">Total Merchandise Imports</span><span class="st">`</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>monthly_tradebalance</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Month-Year Total Merchandise Exports Total Merchandise Imports Trade_surplus
+1  2020-01-01                  44501656                  41180224       3321432
+2  2020-02-01                  43512320                  39472637       4039683
+3  2020-03-01                  45800019                  40433029       5366990
+4  2020-04-01                  39946596                  35878828       4067768
+5  2020-05-01                  36482259                  31458238       5024021
+6  2020-06-01                  40640766                  35120892       5519874
+7  2020-07-01                  42892684                  37843646       5049038
+8  2020-08-01                  44333640                  36472279       7861361
+9  2020-09-01                  43907435                  38801413       5106022
+10 2020-10-01                  44088350                  38173829       5914521
+11 2020-11-01                  43291938                  38477878       4814060
+12 2020-12-01                  46246876                  40154550       6092326
+13 2021-01-01                  44988833                  39028616       5960217
+14 2021-02-01                  42602227                  37643664       4958563
+15 2021-03-01                  55444082                  47668437       7775645
+16 2021-04-01                  50591895                  45169547       5422348
+17 2021-05-01                  47355225                  41559697       5795528
+18 2021-06-01                  49618994                  45039845       4579149
+19 2021-07-01                  49834010                  46107788       3726222
+20 2021-08-01                  52038522                  44714491       7324031
+21 2021-09-01                  52034038                  45980374       6053664
+22 2021-10-01                  53639342                  47945213       5694129
+23 2021-11-01                  56720130                  50674908       6045222
+24 2021-12-01                  59213794                  54349357       4864437
+25 2022-01-01                  54845697                  50026788       4818909
+26 2022-02-01                  51991457                  44958373       7033084
+27 2022-03-01                  63132579                  58079982       5052597
+28 2022-04-01                  60237343                  56116002       4121341
+29 2022-05-01                  59847424                  57604263       2243161
+30 2022-06-01                  64177050                  59649162       4527888
+31 2022-07-01                  64124991                  61029374       3095617
+32 2022-08-01                  63363749                  58466009       4897740
+33 2022-09-01                  62507132                  55799312       6707820
+34 2022-10-01                  56576348                  53182943       3393405
+35 2022-11-01                  54162780                  50653907       3508873
+36 2022-12-01                  55000084                  49869770       5130314</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>p2<span class="ot">&lt;-</span> <span class="fu">ggplot</span>(monthly_tradebalance, <span class="fu">aes</span>(<span class="at">x=</span>monthly_tradebalance<span class="sc">$</span><span class="st">`</span><span class="at">Month-Year</span><span class="st">`</span> , <span class="at">y=</span> monthly_tradebalance<span class="sc">$</span>Trade_surplus, <span class="at">group =</span> <span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">geom_line</span>() <span class="sc">+</span> <span class="fu">geom_smooth</span>()<span class="sc">+</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Year"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"Trade Volume in Billions"</span>)</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>p2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="TakehomeEx04_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>If we only look at the figure p1 above, one may say that Singapore trade data displayed a healthy uptrend both covid until recent 2022. However. once we examine the trade balance/surplus, Singapore trade surplus was only fluctuating between 3.5 billions and 8.5 billions on monthly basis and it is not on the steady uptrend at all.</p>
+<p>Even at beginning of 2022, it even dropped to nearly 2.5 billions for April 2022 and that is the lowest level in 2 years period. If we look at the geom_smooth graph, we can see that the trade surplus of Singapore is actually on the downtrend since second half of 2020.</p>
+<p>This contracts the general consensus that post-covid, with resume of physical trades, Singapore trade surplus should be picking up. However, the data here suggests that as the world resumes normality, Singapore trade surplus is on the downtrend instead.</p>
 </section>
 <section id="inflation-vs-real-growth" class="level2">
 <h2 class="anchored" data-anchor-id="inflation-vs-real-growth">INFLATION VS REAL GROWTH</h2>

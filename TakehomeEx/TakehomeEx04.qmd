@@ -91,7 +91,7 @@ monthly_tradebalance <- monthly_tradebalance1 %>%
 ```
 
 ```{r}
-tail(monthly_tradebalance1)
+tail(monthly_tradebalance)
 ```
 
 Reverse sort the data frame "monthly_tradebalance"
@@ -104,7 +104,7 @@ head(monthly_tradebalance)
 ```
 
 ```{r}
-monthly_tradebalance$Time <- as.Date(paste0(monthly_tradebalance$`Month-Year`, " 01"), format = "%Y %b %d")
+monthly_tradebalance$`Month-Year` <- as.Date(paste0(monthly_tradebalance$`Month-Year`, " 01"), format = "%Y %b %d")
 ```
 
 ```{r}
@@ -121,14 +121,38 @@ monthly_tradebalanceMelt <- reshape2::melt(monthly_tradebalance, id.var='Month-Y
 ```
 
 ```{r}
-ggplot(monthly_tradebalanceMelt, aes(x=monthly_tradebalanceMelt$`Month-Year` , y=value, col=variable, group = 1)) +
+p1 = ggplot(monthly_tradebalanceMelt, aes(x=monthly_tradebalanceMelt$`Month-Year` , y=value, col=variable, group = 1)) +
   geom_point() + geom_line(aes(group=factor(variable))) +
   xlab("Year") + ylab("Trade Volume in Billions")
+
+p1
 ```
 
 As evidenced by the above chart, Singapore import and export move quite in tandem with each other. Between 2020-2023, it shows an uptrend. As Export volume increase, so does Import. However Singapore overall Export are more than its Import, consistently since post-covid 2020, Singapore remains with trade surplus overall.
 
-While trade surplus are confirmed, we should examine how Singapore trade surplus is trending post-covid, let's create a graph of the difference between Export and Import ( the trade surplus)
+While trade surplus are confirmed, we should examine how Singapore trade surplus is trending post-covid, let's create a data table of the difference between Export and Import ( the trade surplus)
+
+```{r}
+monthly_tradebalance$Trade_surplus = monthly_tradebalance$`Total Merchandise Exports` - monthly_tradebalance$`Total Merchandise Imports`
+```
+
+```{r}
+monthly_tradebalance
+```
+
+```{r}
+p2<- ggplot(monthly_tradebalance, aes(x=monthly_tradebalance$`Month-Year` , y= monthly_tradebalance$Trade_surplus, group = 1)) +
+  geom_point() + geom_line() + geom_smooth()+
+  xlab("Year") + ylab("Trade Volume in Billions")
+
+p2
+```
+
+If we only look at the figure p1 above, one may say that Singapore trade data displayed a healthy uptrend both covid until recent 2022. However. once we examine the trade balance/surplus, Singapore trade surplus was only fluctuating between 3.5 billions and 8.5 billions on monthly basis and it is not on the steady uptrend at all.
+
+Even at beginning of 2022, it even dropped to nearly 2.5 billions for April 2022 and that is the lowest level in 2 years period. If we look at the geom_smooth graph, we can see that the trade surplus of Singapore is actually on the downtrend since second half of 2020.
+
+This contracts the general consensus that post-covid, with resume of physical trades, Singapore trade surplus should be picking up. However, the data here suggests that as the world resumes normality, Singapore trade surplus is on the downtrend instead.
 
 ## INFLATION VS REAL GROWTH
 
