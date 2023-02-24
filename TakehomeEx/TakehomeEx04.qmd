@@ -29,7 +29,7 @@ pacman::p_load(transformr , gifski)
 pacman::p_load(tidyverse)
 ```
 
-## IMPORT VERSUS EXPORT
+## I) IMPORT VERSUS EXPORT
 
 We want to do a comparison between Singapore Import and Export, first let's import the data.
 
@@ -39,9 +39,11 @@ monthlyexport_overall <- read_excel("C:/thomashoanghuy/ISSS608-VAA/TakehomeEx/da
 monthlyimport_overall <- read_excel("C:/thomashoanghuy/ISSS608-VAA/TakehomeEx/data3/outputFile.xlsx", sheet = "T8")
 ```
 
+Please note all these figures are in Singapore dollar currency.
+
 Sheet T1 = Merchandise Exports By Commodity Division, Monthly snippet
 
-![](images/monthlyexportt1.JPG){width="645"}
+![](images/monthlyexportt1.JPG){width="687"}
 
 Sheet T2 = Merchandise Imports By Commodity Division, Monthly snippet
 
@@ -103,6 +105,8 @@ rownames(monthly_tradebalance) <- rownames(monthly_tradebalance[nrow(monthly_tra
 head(monthly_tradebalance)
 ```
 
+Convert Month-Year into time format (continuous time series)
+
 ```{r}
 monthly_tradebalance$`Month-Year` <- as.Date(paste0(monthly_tradebalance$`Month-Year`, " 01"), format = "%Y %b %d")
 ```
@@ -110,6 +114,8 @@ monthly_tradebalance$`Month-Year` <- as.Date(paste0(monthly_tradebalance$`Month-
 ```{r}
 monthly_tradebalance
 ```
+
+Convert trade volumes numbers from string to numeric values.
 
 ```{r}
 monthly_tradebalance$`Total Merchandise Exports` <- as.numeric(monthly_tradebalance$`Total Merchandise Exports`)
@@ -120,7 +126,7 @@ monthly_tradebalance$`Total Merchandise Imports` <- as.numeric(monthly_tradebala
 monthly_tradebalanceMelt <- reshape2::melt(monthly_tradebalance, id.var='Month-Year')
 ```
 
-```{r}
+```{r fig.width= 14 , fig.height = 7}
 p1 = ggplot(monthly_tradebalanceMelt, aes(x=monthly_tradebalanceMelt$`Month-Year` , y=value, col=variable, group = 1)) +
   geom_point() + geom_line(aes(group=factor(variable))) +
   xlab("Year") + ylab("Trade Volume in Billions")
@@ -128,9 +134,9 @@ p1 = ggplot(monthly_tradebalanceMelt, aes(x=monthly_tradebalanceMelt$`Month-Year
 p1
 ```
 
-As evidenced by the above chart, Singapore import and export move quite in tandem with each other. Between 2020-2023, it shows an uptrend. As Export volume increase, so does Import. However Singapore overall Export are more than its Import, consistently since post-covid 2020, Singapore remains with trade surplus overall.
+As evidenced by the above chart, Singapore import and export move quite in tandem with each other. Between 2020-2023, it shows an uptrend. As Export volume increase, so does Import. However Singapore overall Export are more than its Import, consistently since post-covid 2020, Singapore is sill a country with a positive trade surplus overall.
 
-While trade surplus are confirmed, we should examine how Singapore trade surplus is trending post-covid, let's create a data table of the difference between Export and Import ( the trade surplus)
+While positive trade surplus are confirmed, we should examine how Singapore trade surplus is trending post-covid, let's create a data table of the difference between Export and Import ( the trade surplus)
 
 ```{r}
 monthly_tradebalance$Trade_surplus = monthly_tradebalance$`Total Merchandise Exports` - monthly_tradebalance$`Total Merchandise Imports`
@@ -140,10 +146,10 @@ monthly_tradebalance$Trade_surplus = monthly_tradebalance$`Total Merchandise Exp
 monthly_tradebalance
 ```
 
-```{r}
+```{r fig.width= 14 , fig.height = 7}
 p2<- ggplot(monthly_tradebalance, aes(x=monthly_tradebalance$`Month-Year` , y= monthly_tradebalance$Trade_surplus, group = 1)) +
   geom_point() + geom_line() + geom_smooth()+
-  xlab("Year") + ylab("Trade Volume in Billions")
+  xlab("Year") + ylab("Trade Surplus in Billions")
 
 p2
 ```
@@ -152,10 +158,216 @@ If we only look at the figure p1 above, one may say that Singapore trade data di
 
 Even at beginning of 2022, it even dropped to nearly 2.5 billions for April 2022 and that is the lowest level in 2 years period. If we look at the geom_smooth graph, we can see that the trade surplus of Singapore is actually on the downtrend since second half of 2020.
 
-This contracts the general consensus that post-covid, with resume of physical trades, Singapore trade surplus should be picking up. However, the data here suggests that as the world resumes normality, Singapore trade surplus is on the downtrend instead.
+This contracts the general consensus that post-covid, with resume of commodities trades around the world, Singapore Trade surplus should be picking up. However, the data here suggests that as the world resumes normality, Singapore trade surplus is on the downtrend instead.
 
 ## INFLATION VS REAL GROWTH
 
 ## DOMESTIC EXPORT VS RE-EXPORT
 
-## By Countries and By Segment?
+## III) By Region
+
+```{r}
+regions_mthlyimport <- read_excel("C:/thomashoanghuy/ISSS608-VAA/TakehomeEx/data3/monthly data by countries.xlsx", sheet = "T1")
+
+regions_mthlyexport <- read_excel("C:/thomashoanghuy/ISSS608-VAA/TakehomeEx/data3/monthly data by countries.xlsx", sheet = "T2")
+```
+
+Let's create a sub dataset for regions only, which consist of 6 areas, import and export
+
+1\) America
+
+2\) Asia
+
+3\) Europe
+
+4\) Oceania
+
+5\) Africa
+
+#### Import Data
+
+```{r}
+regions_mthlyimport = regions_mthlyimport[1:6,]
+```
+
+```{r}
+regions_mthlyexport = regions_mthlyexport[1:6,]
+```
+
+Combine 2 dataframes and transpose the data
+
+```{r}
+regions_mthlytrade1 = rbind(regions_mthlyimport , regions_mthlyexport)
+regions_mthlytrade= as.data.frame(t(regions_mthlytrade1)) 
+colnames(regions_mthlytrade) <- regions_mthlytrade[1,]
+regions_mthlytrade <- regions_mthlytrade[-1,]
+```
+
+```{r}
+regions_mthlytrade <- regions_mthlytrade %>% 
+  rownames_to_column(var = "Month-Year")
+```
+
+Reverse sort and convert the format of Month-Year to time and trade numbers into numeric format.
+
+```{r}
+regions_mthlytrade <- regions_mthlytrade[nrow(regions_mthlytrade):1, ]
+rownames(regions_mthlytrade) <- rownames(regions_mthlytrade[nrow(regions_mthlytrade):1, ])
+```
+
+```{r}
+regions_mthlytrade$`Month-Year` <- as.Date(paste0(regions_mthlytrade$`Month-Year`, " 01"), format = "%Y %b %d")
+```
+
+```{r}
+names(regions_mthlytrade)[2:7] <- c("Total Import", "America Import" , "Asia Import" , "Europe Import" , "Oceania Import", "Africa Import")
+```
+
+```{r}
+names(regions_mthlytrade)[8:13] <- c("Total Export", "America Export" , "Asia Export" , "Europe Export" , "Oceania Export", "Africa Export")
+```
+
+```{r}
+head(regions_mthlytrade)
+```
+
+Create dataframe for each
+
+```{r}
+america_data = regions_mthlytrade[, grepl("America", names(regions_mthlytrade))]
+asia_data = regions_mthlytrade[, grepl("Asia", names(regions_mthlytrade))]
+europe_data = regions_mthlytrade[, grepl("Europe", names(regions_mthlytrade))]
+oceania_data = regions_mthlytrade[, grepl("Oceania", names(regions_mthlytrade))]
+africa_data = regions_mthlytrade[, grepl("Africa", names(regions_mthlytrade))]
+totalregion_data = regions_mthlytrade[, grepl("Total", names(regions_mthlytrade))]
+```
+
+```{r}
+america_data <- as.data.frame(lapply(america_data, function(x) as.numeric(as.character(x))))
+asia_data <- as.data.frame(lapply(asia_data, function(x) as.numeric(as.character(x))))
+europe_data <- as.data.frame(lapply(europe_data, function(x) as.numeric(as.character(x))))
+oceania_data <- as.data.frame(lapply(oceania_data, function(x) as.numeric(as.character(x))))
+africa_data <- as.data.frame(lapply(africa_data, function(x) as.numeric(as.character(x))))
+totalregion_data <- as.data.frame(lapply(totalregion_data, function(x) as.numeric(as.character(x))))
+```
+
+```{r}
+america_data$Month_Year <- regions_mthlytrade$`Month-Year`
+asia_data$Month_Year <- regions_mthlytrade$`Month-Year`
+europe_data$Month_Year <- regions_mthlytrade$`Month-Year`
+oceania_data$Month_Year <- regions_mthlytrade$`Month-Year`
+africa_data$Month_Year <- regions_mthlytrade$`Month-Year`
+totalregion_data$Month_Year <- regions_mthlytrade$`Month-Year`
+```
+
+### *AMERICA TRADE Volume*
+
+```{r fig.width= 14 , fig.height = 7}
+americaplot = ggplot(america_data) +
+  geom_line(aes(x = Month_Year , y = america_data$America.Import) , stat = 'identity' ,color = "blue" , size = 1)+
+  geom_line(aes(x = Month_Year , y = america_data$America.Export) , stat = 'identity' , color = "darkred" , size = 1)+
+  geom_ribbon(aes(x = Month_Year, ymin = America.Import, ymax = America.Export), fill = "grey")+
+  labs( x = "Year" , y = "America Trade volume"  , title = "Americas Monthly Trade Balance") +
+  scale_color_manual(name='Legend',
+                     breaks=c('Import', 'Export'),
+                     values=c('Import'='blue', 'Export'='darkred'))
+
+americaplot
+```
+
+As you can see, the blue line represents the monthly Import number from America from Jan 2020 to Jan 2023. While dark red line represents the monthly Export number from America in the same period. With geom_ribbon color the difference area between the two lines in grey color, we can see the difference between the 2 lines clearly.
+
+Throughout the time period, the Export figure was always above the blue line, which indicates Singapore was maintaining a trade surplus with Americas. However, as the grey area was getting smaller, proving Singapore trade surplus with America is getting smaller. And in 2021, the blue Import line started to cross above red Export line, this indicates Singapore import from America had exceeded export volume and Singapore started to enter into trade deficits versus Americas region.
+
+This trade deficit has continued and even grew bigger in 2022, as evidenced by the bigger grey areas between the 2 lines. This concludes that after Covid, Singapore from trade surplus position, has turned into deficit with Americas regions
+
+### *ASIA TRADE VOLUME*
+
+```{r fig.width= 14 , fig.height = 7}
+asiaplot = ggplot(asia_data) +
+  geom_line(aes(x = Month_Year , y = asia_data$Asia.Import) , stat = 'identity' ,color = "blue" , size = 1)+
+  geom_line(aes(x = Month_Year , y = asia_data$Asia.Export) , stat = 'identity' , color = "darkred" , size = 1)+
+  geom_ribbon(aes(x = Month_Year, ymin = Asia.Import, ymax = Asia.Export), fill = "grey")+
+  labs( x = "Year" , y = "Asia Trade volume" , title = "Asia Monthly Trade Balance" ) +
+  scale_color_manual(name='Legend',
+                     breaks=c('Import', 'Export'),
+                     values=c('Import'='blue', 'Export'='darkred'))
+
+asiaplot
+```
+
+### *EUROPE TRADE VOLUME*
+
+```{r fig.width= 14 , fig.height = 7}
+europeplot = ggplot(europe_data) +
+  geom_line(aes(x = Month_Year , y = europe_data$Europe.Import) , stat = 'identity' ,color = "blue" , size = 1)+
+  geom_line(aes(x = Month_Year , y = europe_data$Europe.Export) , stat = 'identity' , color = "darkred" , size = 1)+
+  geom_ribbon(aes(x = Month_Year, ymin = Europe.Import, ymax = Europe.Export), fill = "grey")+
+  labs( x = "Year" , y = "Europe Trade volume" , title = "Europe Monthly Trade Balance"  ) +
+  scale_color_manual(name='Legend',
+                     breaks=c('Import', 'Export'),
+                     values=c('Import'='blue', 'Export'='darkred'))
+
+europeplot
+```
+
+### *OCEANIA TRADE VOLUME*
+
+```{r fig.width= 14 , fig.height = 7}
+oceaniaplot = ggplot(oceania_data) +
+  geom_line(aes(x = Month_Year , y = oceania_data$Oceania.Import) , stat = 'identity' ,color = "blue" , size = 1)+
+  geom_line(aes(x = Month_Year , y = oceania_data$Oceania.Export) , stat = 'identity' , color = "darkred" , size = 1)+
+  geom_ribbon(aes(x = Month_Year, ymin = Oceania.Import, ymax = Oceania.Export), fill = "grey")+
+  labs( x = "Year" , y = "Oceania Trade volume" , title = "Oceania Monthly Trade Balance" ) +
+  scale_color_manual(name='Legend',
+                     breaks=c('Import', 'Export'),
+                     values=c('Import'='blue', 'Export'='darkred'))
+
+oceaniaplot
+```
+
+### *AFRICA TRADE VOLUME*
+
+```{r fig.width= 14 , fig.height = 7}
+africaplot = ggplot(africa_data) +
+  geom_line(aes(x = Month_Year , y = africa_data$Africa.Import) , stat = 'identity' ,color = "blue" , size = 1)+
+  geom_line(aes(x = Month_Year , y = africa_data$Africa.Export) , stat = 'identity' , color = "darkred" , size = 1)+
+  geom_ribbon(aes(x = Month_Year, ymin = Africa.Import, ymax = Africa.Export), fill = "grey")+
+  labs( x = "Year" , y = "Africa Trade volume" , title = "Africa Monthly Trade Balance"  ) +
+  scale_color_manual(name='Legend',
+                     breaks=c('Import', 'Export'),
+                     values=c('Import'='blue', 'Export'='darkred'))
+
+africaplot
+```
+
+### *OVERALL TRADE VOLUME*
+
+```{r fig.width= 14 , fig.height = 7}
+overallplot = ggplot(totalregion_data) +
+  geom_line(aes(x = Month_Year , y = totalregion_data$Total.Import) , stat = 'identity' ,color = "blue" , size = 1)+
+  geom_line(aes(x = Month_Year , y = totalregion_data$Total.Export) , stat = 'identity' , color = "darkred" , size = 1)+
+  geom_ribbon(aes(x = Month_Year, ymin = Total.Import, ymax = Total.Export), fill = "grey")+
+  labs( x = "Year" , y = "Overall Trade volume" , title = "Overall Monthly Trade Balance"  ) +
+  scale_color_manual(name='Legend',
+                     breaks=c('Import', 'Export'),
+                     values=c('Import'='blue', 'Export'='darkred'))
+
+overallplot
+```
+
+### Dashboard for Regions Data
+
+```{r fig.width= 14 , fig.height = 7}
+(americaplot + asiaplot + europeplot) / (oceaniaplot + africaplot + overallplot)
+```
+
+In this dashboard, we can compare Singapore monthly trade blances (surplus / deficits) versus 5 main regions of world geography. In term of volume, Asia trade balance is the highest, with both import and export numbers reaching to the height of more than 40 billions per month, while Oceania trade number is the lowest reaching no more than 4 billions SGD monthly.
+
+In term of trend, Americas portrayed a reverse between 2020 to 2022, where during Covid lockdown, Singapore was holding trade surplus with Americas, but once lockdown was lifted, Singapore has turned into trade deficit versus Americas.
+
+In Oceania, and Africa, Singapore has been maintaining positive trade surplus, regardless of the covid lockdown. The noticeable difference is the grey area (represents the trade surplus if the red line is above the blue line) is getting bigger in 2022, compared to previous years
+
+In Europe, Singapore has been having trade deficit (blue line is above the red line), and the deficit seems to get bigger from 2020 to 2022, too.
+
+Overall plot, we can see that it mimics the trend of 2 biggest trading regional partners with Singapore, Asia and Americas, where the export and import volumes were trending up until mid year 2022, and they both started to trend downward. This can be the impact of Russian invasion on Ukraine, combined with huge inflation and tightening of money supplies by most superpowers around the world, lead to the dampening of trade volume.
