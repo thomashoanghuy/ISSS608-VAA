@@ -1,0 +1,171 @@
+---
+title: "In Class Exercise 07"
+Author: "Thomas Hoang Huy"
+format: html
+date: "25/02/2023"
+date-modified: "`r Sys.Date()`"
+execute:
+  echo: true
+  eval: true
+  warning: false
+editor: visual 
+---
+
+## TABLEAU AND GEOGRAPHICAL DATA
+
+![This is a type of graph called geofacet.](images/image-61493128.png)
+
+![](images/image-1307132222.png)
+
+You rightclick Xcoord / Ycoord and turn data into Geographical Role. Then Xcoord go Column and Y coord go Rows.
+
+Put Name to Details, so the Plot can show all the Pools outlets in Singapore
+
+You can also add in Channel as new
+
+Right click \> Calculated Field \> Insert code
+
+![](images/image-986790888.png)
+
+In Tableau, you can change the Map of Tableau \> Edit Location to change the background map before mapping Geo spatial data.
+
+![](images/image-548675246.png)
+
+Next if you want to bring in our OWN map data (sph format) to use on the Tableau background automatic map.
+
+JOIN 2 data sources (Map data) and create Geographical graph
+
+Add \> More \> Choose data.
+
+![](images/image-523907652.png){width="593"}
+
+![](images/image-497907983.png)
+
+## R and Geographical data : SF package
+
+```{r}
+pacman::p_load(sf, tmap, tidyverse)
+```
+
+```{r}
+sgpools <- read_csv("C:/thomashoanghuy/ISSS608-VAA/InClassExercise/inclass07/aspatial/SGPools_svy21.csv")
+```
+
+```{r}
+sgpools_sf <- st_as_sf(sgpools, 
+                       coords = c("XCOORD", "YCOORD"),
+                       crs= 3414)
+```
+
+Use original data sgpools, and create a new variable "coords" with includes 2 XCOORD and YCOORD column,. Always start with X coordinate ( longitude) then Y coordinate ( latitude ).
+
+crs = 3414 is the PROJECTION code ( unique identifiers for the projection codes which countries will use. \*Search for the system EPSG:3414)
+
+```{r}
+head(sgpools_sf)
+```
+
+Use tmap (view) mode can zoom and out of the map ( more interactive)
+
+If you use tmap_mode plot, then the graph will be static.
+
+```{r}
+tmap_mode('view')
+tm_shape(sgpools_sf)+
+tm_bubbles(col = "red",
+           size = 1,
+           border.col = "black",
+           border.lwd = 1)
+
+tmap_mode('plot')
+```
+
+Let's make it more proportional
+
+```{r}
+tmap_mode('view')
+tm_shape(sgpools_sf)+
+tm_bubbles(col = "red",
+           size = "Gp1Gp2 Winnings",
+           border.col = "black",
+           border.lwd = 1)
+
+tmap_mode('plot')
+```
+
+We can use one of the ordinal categorical data as colors
+
+```{r}
+tmap_mode('view')
+tm_shape(sgpools_sf)+
+tm_bubbles(col = "OUTLET TYPE",
+           size = "Gp1Gp2 Winnings",
+           border.col = "black",
+           border.lwd = 1)
+
+tmap_mode('plot')
+```
+
+## 
+
+Choropleth Mapping
+
+Choropleth mapping involves the symbolisation of enumeration units, such as countries, provinces, states, counties or census units, using area patterns or graduated colors. For example, a social scientist may need to use a choropleth map to portray the spatial distribution of aged population of Singapore by Master Plan 2014 Subzone Boundary.
+
+```{r}
+mpsz <- st_read(dsn = "C:/thomashoanghuy/ISSS608-VAA/InClassExercise/inclass07/geospatial", 
+                layer = "MP14_SUBZONE_WEB_PL")
+```
+
+```{r}
+head(mpsz)
+```
+
+```{r}
+popdata <- read_csv("C:/thomashoanghuy/ISSS608-VAA/InClassExercise/inclass07/aspatial/respopagesextod2011to2020.csv")
+```
+
+```{r}
+popdata2020 <- popdata %>%
+  filter(Time == 2020) %>%
+  group_by(PA, SZ, AG) %>%
+  summarise(`POP` = sum(`Pop`)) %>%
+  ungroup()%>%
+  pivot_wider(names_from=AG, 
+              values_from=POP) %>%
+  mutate(YOUNG = rowSums(.[3:6])
+         +rowSums(.[12])) %>%
+mutate(`ECONOMY ACTIVE` = rowSums(.[7:11])+
+rowSums(.[13:15]))%>%
+mutate(`AGED`=rowSums(.[16:21])) %>%
+mutate(`TOTAL`=rowSums(.[3:21])) %>%  
+mutate(`DEPENDENCY` = (`YOUNG` + `AGED`)
+/`ECONOMY ACTIVE`) %>%
+  select(`PA`, `SZ`, `YOUNG`, 
+       `ECONOMY ACTIVE`, `AGED`, 
+       `TOTAL`, `DEPENDENCY`)
+```
+
+mutate is equal to compute
+
+mutate(YOUNG = rowSums(.\[3:6\]) +rowSums(.\[12\])) %\>% is creating new column YOUNG, where it is the sum of row 3:6 and row 12
+
+Relational Join
+
+In order to join, we need to turn character in PA and SZ to uppercase by this code.
+
+```{r}
+popdata2020 <- popdata2020 %>%
+  mutate_at(.vars = vars(PA, SZ), 
+          .funs = funs(toupper)) %>%
+  filter(`ECONOMY ACTIVE` > 0)
+```
+
+Then we can do a left join with the geometric data mpsz (similar to SQL left join) Note the LEFT HAND SIDE (the first one) MUST always be a the geometric layers ( means the background map) and not the aspatial data (in this case the popdata2020)
+
+```{r}
+mpsz_pop2020 <- left_join(mpsz, popdata2020,
+                          by = c("SUBZONE_N" = "SZ"))
+```
+
+## Analytical Mapping
