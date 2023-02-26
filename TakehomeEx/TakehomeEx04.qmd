@@ -15,6 +15,12 @@ editor: visual
 
 In this take-home exercise, we need to uncover the impact of COVID-19 as well as the global economic and political dynamic in 2022 on Singapore bi-lateral trade (i.e. Import, Export and Trade Balance) by using appropriate analytical visualisation techniques learned in **Lesson 6: It's About Time**.
 
+Background information is that Singapore is a small country with no natural resources. However on the other hands, as robust trade hub and a strong economy, Singapore maintains a relatively stable and strong currency SGD, which gives her a strong advantage for Singapore import as strong Singapore SGD can be used to purchase more goods and services from other countries.
+
+Throughout 2020, 2021 and 2022, Singapore (and the world) just exited the severe climates of Covid pandemics, lockdown lead to disruption of manufacturing, and physical trades, which affect the supply of many commodities / consumer goods. It is a popular belief that as 2022 rolled around, Singapore will be able to leverage on its strong SGD to improve its trade balance.
+
+Let's examine the data and dive deeper into Singapore trade volumes.
+
 # The Data
 
 For the purpose of this take-home exercise, Merchandise Trade provided by Department of Statistics, Singapore (DOS) will be used. The data are available under the sub-section of Merchandise Trade by Region/Market. The study period should be between **January 2020 to December 2022**.
@@ -26,6 +32,7 @@ pacman::p_load(ggstatsplot)
 pacman::p_load(ggbraid)
 pacman::p_load(gganimate)
 pacman::p_load(transformr , gifski)
+pacman::p_load(dplyr , lubridate )
 pacman::p_load(tidyverse)
 ```
 
@@ -92,10 +99,6 @@ monthly_tradebalance <- monthly_tradebalance1 %>%
 
 ```
 
-```{r}
-tail(monthly_tradebalance)
-```
-
 Reverse sort the data frame "monthly_tradebalance"
 
 ```{r}
@@ -109,10 +112,6 @@ Convert Month-Year into time format (continuous time series)
 
 ```{r}
 monthly_tradebalance$`Month-Year` <- as.Date(paste0(monthly_tradebalance$`Month-Year`, " 01"), format = "%Y %b %d")
-```
-
-```{r}
-monthly_tradebalance
 ```
 
 Convert trade volumes numbers from string to numeric values.
@@ -142,10 +141,6 @@ While positive trade surplus are confirmed, we should examine how Singapore trad
 monthly_tradebalance$Trade_surplus = monthly_tradebalance$`Total Merchandise Exports` - monthly_tradebalance$`Total Merchandise Imports`
 ```
 
-```{r}
-monthly_tradebalance
-```
-
 ```{r fig.width= 14 , fig.height = 7}
 p2<- ggplot(monthly_tradebalance, aes(x=monthly_tradebalance$`Month-Year` , y= monthly_tradebalance$Trade_surplus, group = 1)) +
   geom_point() + geom_line() + geom_smooth()+
@@ -160,11 +155,52 @@ Even at beginning of 2022, it even dropped to nearly 2.5 billions for April 2022
 
 This contracts the general consensus that post-covid, with resume of commodities trades around the world, Singapore Trade surplus should be picking up. However, the data here suggests that as the world resumes normality, Singapore trade surplus is on the downtrend instead.
 
-## INFLATION VS REAL GROWTH
+### IMPORT VERSUS EXPORT - Monthly Cycle Plot
 
-## DOMESTIC EXPORT VS RE-EXPORT
+Next, based on the Trade Surplus above, we can create Monthly Cycle plot to compare the all the January between 2020 versus Jan in 2021, 2022 and 2023.
 
-## III) By Region
+First, slice the the monthly_tradebalance into new data table with only 2 columns "Month-Year" and "Trade Surplus"
+
+```{r}
+monthly_tradebalance_test = monthly_tradebalance[, c("Month-Year", "Trade_surplus")]
+head(monthly_tradebalance_test)
+```
+
+Create 2 new columns in that data table, month and year from the Month-Year column
+
+```{r}
+monthly_tradebalance_test <- monthly_tradebalance_test %>%
+  mutate(year = year(monthly_tradebalance_test$`Month-Year`), 
+         month = factor(month(monthly_tradebalance_test$`Month-Year`), levels = 1:12, 
+                        labels = month.name))
+```
+
+We create horizontal lines with the Month that marked the average value of the trade surplus data.
+
+```{r}
+monthly_tradebalance_test
+avgvalue <- mean(monthly_tradebalance_test$Trade_surplus)
+hline.data <- data.frame(avgvalue = avgvalue)
+```
+
+```{r fig.width= 10 , fig.height = 10}
+ggplot(monthly_tradebalance_test, aes(x=year, y=Trade_surplus, group=month)) + 
+  geom_line(colour="blue") +
+  geom_hline(aes(yintercept=avgvalue), data=hline.data, colour="blue", size=2) + 
+  facet_grid(~month) +
+  xlab("Month of the Year") +
+  ylab("Trade Surplus in Billions") +
+  ggtitle("Singapore Trade Surplus Monthly Cycle Plot 2020 to 2023")+
+  scale_x_discrete(labels = function(x) substr(x, 3, 4))
+```
+
+From above analysis, we can see that months with the highest trade surplus are March and August, where most of the trade surplus is above the monthly average of 5.1 billions. While April and July numbers were almost always below the average trade surplus.
+
+Another observation is that almost across all the 12 months, the months of 2022 almost always is lower than the months of 2021 (except February) . In other words, Singapore trade surplus for 2022 are lower YoY basis, compared to 2021.
+
+Contrary to prediction that Singapore trade balance will improve as Covid lockdowns around the world are lifted, as turbulent 2022 with record inflation and large scale war, Singapore trade surplus is actually not as good as previous 2021.
+
+## II) By Region
 
 ```{r}
 mthlyimport <- read_excel("C:/thomashoanghuy/ISSS608-VAA/TakehomeEx/data3/monthly data by countries.xlsx", sheet = "T1")
@@ -270,7 +306,7 @@ america_data <- america_data %>%
 americaplot = ggplot(america_data) +
   geom_line(aes(x = Month_Year, y = America.Import), stat = 'identity', color = "blue", size = 1) +
   geom_line(aes(x = Month_Year, y = America.Export), stat = 'identity', color = "darkred", size = 1) +
-  geom_ribbon(aes(x = Month_Year, ymin = America.Import, ymax = America.Export, fill = fill), alpha = 0.5) +
+  geom_braid(aes(x = Month_Year, ymin = America.Import, ymax = America.Export, fill = fill), alpha = 0.5) +
   labs(x = "Year", y = "America Trade volume", title = "Americas Monthly Trade Balance") +
   scale_fill_manual(name = "Trade Balance",
                     values = c("deficit" = "brown" , "surplus" = "grey"))
@@ -278,7 +314,7 @@ americaplot = ggplot(america_data) +
 americaplot
 ```
 
-As you can see, the blue line represents the monthly Import number from America from Jan 2020 to Jan 2023. While dark red line represents the monthly Export number from America in the same period. With geom_ribbon color the difference area between the two lines in grey color, we can see the difference between the 2 lines clearly.
+As you can see, the blue line represents the monthly Import number from America from Jan 2020 to Jan 2023. While dark red line represents the monthly Export number from America in the same period. With geom_braid color the difference area between the two lines in grey color, we can see the difference between the 2 lines clearly.
 
 Throughout the time period, the Export figure was always above the blue line, which indicates Singapore was maintaining a trade surplus with Americas. However, as the grey area was getting smaller, proving Singapore trade surplus with America is getting smaller. And in 2021, the blue Import line started to cross above red Export line, this indicates Singapore import from America had exceeded export volume and Singapore started to enter into trade deficits versus Americas region.
 
@@ -293,7 +329,7 @@ asia_data <- asia_data %>%
 asiaplot = ggplot(asia_data) +
   geom_line(aes(x = Month_Year, y = Asia.Import), stat = 'identity', color = "blue", size = 1) +
   geom_line(aes(x = Month_Year, y = Asia.Export), stat = 'identity', color = "darkred", size = 1) +
-  geom_ribbon(aes(x = Month_Year, ymin = Asia.Import, ymax = Asia.Export, fill = fill), alpha = 0.5) +
+  geom_braid(aes(x = Month_Year, ymin = Asia.Import, ymax = Asia.Export, fill = fill), alpha = 0.5) +
   labs(x = "Year", y = "Asia Trade volume", title = "Asia Monthly Trade Balance") +
   scale_fill_manual(name = "Trade Balance",
                     values = c("deficit" = "brown" , "surplus" = "grey"))
@@ -311,7 +347,7 @@ europe_data <- europe_data %>%
 europeplot = ggplot(europe_data) +
   geom_line(aes(x = Month_Year, y = Europe.Import), stat = 'identity', color = "blue", size = 1) +
   geom_line(aes(x = Month_Year, y = Europe.Export), stat = 'identity', color = "darkred", size = 1) +
-  geom_ribbon(aes(x = Month_Year, ymin = Europe.Import, ymax = Europe.Export, fill = fill), alpha = 0.5) +
+  geom_braid(aes(x = Month_Year, ymin = Europe.Import, ymax = Europe.Export, fill = fill), alpha = 0.5) +
   labs(x = "Year", y = "Europe Trade volume", title = "Europe Monthly Trade Balance") +
   scale_fill_manual(name = "Trade Balance",
                     values = c("deficit" = "brown" , "surplus" = "grey"))
@@ -329,7 +365,7 @@ oceania_data <- oceania_data %>%
 oceaniaplot = ggplot(oceania_data) +
   geom_line(aes(x = Month_Year, y = Oceania.Import), stat = 'identity', color = "blue", size = 1) +
   geom_line(aes(x = Month_Year, y = Oceania.Export), stat = 'identity', color = "darkred", size = 1) +
-  geom_ribbon(aes(x = Month_Year, ymin = Oceania.Import, ymax = Oceania.Export, fill = fill), alpha = 0.5) +
+  geom_braid(aes(x = Month_Year, ymin = Oceania.Import, ymax = Oceania.Export, fill = fill), alpha = 0.5) +
   labs(x = "Year", y = "Oceania Trade volume", title = "Oceania Monthly Trade Balance") +
   scale_fill_manual(name = "Trade Balance",
                     values = c("deficit" = "brown" , "surplus" = "grey"))
@@ -346,7 +382,7 @@ africa_data <- africa_data %>%
 africaplot = ggplot(africa_data) +
   geom_line(aes(x = Month_Year, y = Africa.Import), stat = 'identity', color = "blue", size = 1) +
   geom_line(aes(x = Month_Year, y = Africa.Export), stat = 'identity', color = "darkred", size = 1) +
-  geom_ribbon(aes(x = Month_Year, ymin = Africa.Import, ymax = Africa.Export, fill = fill), alpha = 0.5) +
+  geom_braid(aes(x = Month_Year, ymin = Africa.Import, ymax = Africa.Export, fill = fill), alpha = 0.5) +
   labs(x = "Year", y = "Africa Trade volume", title = "Africa Monthly Trade Balance") +
   scale_fill_manual(name = "Trade Balance",
                     values = c("deficit" = "brown" , "surplus" = "grey"))
@@ -364,7 +400,7 @@ totalregion_data <- totalregion_data %>%
 overallplot = ggplot(totalregion_data) +
   geom_line(aes(x = Month_Year, y = Total.Import), stat = 'identity', color = "blue", size = 1) +
   geom_line(aes(x = Month_Year, y = Total.Export), stat = 'identity', color = "darkred", size = 1) +
-  geom_ribbon(aes(x = Month_Year, ymin = Total.Import, ymax = Total.Export, fill = fill), alpha = 0.5) +
+  geom_braid(aes(x = Month_Year, ymin = Total.Import, ymax = Total.Export, fill = fill), alpha = 0.5) +
   labs(x = "Year", y = "Overall Trade volume", title = "Overall Monthly Trade Balance") +
   scale_fill_manual(name = "Trade Balance",
                     values = c("deficit" = "brown" , "surplus" = "grey"))
@@ -388,21 +424,19 @@ In Europe, Singapore has always been having trade deficit (blue line is above th
 
 Overall plot, we can see that it mimics the trend of 2 biggest trading regional partners with Singapore, Asia and Americas, where the export and import volumes were trending up until mid year 2022, and they both started to trend downward. This can be the impact of Russian invasion on Ukraine, combined with huge inflation and tightening of money supplies by most superpowers around the world, lead to the dampening of trade volume.
 
-### What about other countries? 
+Both the import and export volumes have pickup tremendeously from 2020 to 2022. However, Americas and Asia graphs above have shown, the second half of 2022 have seen an reverse in the uptrend of trade volumes, signalling that there may be a cool-down in the trade activities, and possibly an negative indicator for economic growth.
+
+## What about other countries?
 
 Using the above code chunks, we can examine other countries, which are major trading partners with Singapore. Let's check out some of them.
 
-#### China 
-
+### China
 
 #### Import Data
-
-
 
 ```{r}
 china_mthlyimport = mthlyimport[grep("China", mthlyimport$`Data Series`, ignore.case = TRUE), ]
 ```
-
 
 ```{r}
 china_mthlyexport = mthlyexport[grep("China", mthlyexport$`Data Series`, ignore.case = TRUE), ]
@@ -422,16 +456,12 @@ china_mthlytrade <- china_mthlytrade %>%
   rownames_to_column(var = "Month-Year")
 ```
 
-
-
 Reverse sort and convert the format of Month-Year to time and trade numbers into numeric format.
 
 ```{r}
 china_mthlytrade <- china_mthlytrade[nrow(china_mthlytrade):1, ]
 rownames(china_mthlytrade) <- rownames(china_mthlytrade[nrow(china_mthlytrade):1, ])
 ```
-
-
 
 ```{r}
 china_mthlytrade$`Month-Year` <- as.Date(paste0(china_mthlytrade$`Month-Year`, " 01"), format = "%Y %b %d")
@@ -443,9 +473,7 @@ china_mthlytrade$`China Import` = as.numeric(china_mthlytrade$`China Import`)
 china_mthlytrade$`China Export` = as.numeric(china_mthlytrade$`China Export`)
 ```
 
-
-
-Now we can plot our data 
+Now we can plot our data
 
 ```{r fig.width= 14 , fig.height = 7}
 
@@ -455,7 +483,7 @@ china_mthlytrade <- china_mthlytrade %>%
 chinaplot = ggplot(china_mthlytrade) +
   geom_line(aes(x = china_mthlytrade$`Month-Year`, y = china_mthlytrade$`China Import`), stat = 'identity', color = "blue", size = 1) +
   geom_line(aes(x = china_mthlytrade$`Month-Year`, y = china_mthlytrade$`China Export`), stat = 'identity', color = "darkred", size = 1) +
-  geom_ribbon(aes(x = china_mthlytrade$`Month-Year`, ymin = china_mthlytrade$`China Export`, ymax = china_mthlytrade$`China Import`, fill = fill), alpha = 0.5) +
+  geom_braid(aes(x = china_mthlytrade$`Month-Year`, ymin = china_mthlytrade$`China Export`, ymax = china_mthlytrade$`China Import`, fill = fill), alpha = 0.5) +
   labs(x = "Year", y = "China Trade volume", title = "China Monthly Trade Balance" ) +
   scale_fill_manual(name = "Trade Balance",
                     values = c("deficit" = "brown" , "surplus" = "grey"))
@@ -463,8 +491,162 @@ chinaplot = ggplot(china_mthlytrade) +
 chinaplot
 ```
 
-As you can see from the above charts, both Singapore import and export volumes with China have increased from 2020 to 2023. The numbers have more than doubled from 4 billions to 9 billions. 
-The dark red line represented the Export, while blue line represents the monthly import. At beginning of 2020, the brown area by geom_ribbon suggested that Singapore has trade deficit with China. However from April 2020 all to April 2022, we can see that the red line always stayed above the blue line, which suggest Singapore is maintaing the trade surplus ( which is represented by the grey area). Understandably, China pursued the zero Covid policy which severely affected their manufacturing capabilities and thus Singapore cannot import from China as much. 
+China is one of the Singapore's largest trade partner. As you can see from the above charts, both Singapore import and export volumes with China have increased from 2020 to 2023. The numbers have more than doubled from 4 billions to 9 billions. The dark red line represented the Export, while blue line represents the monthly import. A
+
+At beginning of 2020, the brown area by geom_braid suggested that Singapore has a small trade deficit with China. However from April 2020 all to April 2022, we can see that the red line always stayed above the blue line, which suggest Singapore was maintaining the trade surplus ( which is represented by the grey area). Understandably, this is due to China pursued the zero Covid policy which severely affected their manufacturing capabilities and thus Singapore cannot import from China as much.
 
 As the Russian invasion happened mid-2022 and covid lockdown lifted by Singapore, the trade balance has turned deficit again, by sharp decrease of Singapore export to China.
 
+However, trade deficit may not be a bad case in this scenario, the reason is SGD is stronger than Chinese yuan. In a trade deficit environment, that allows Singapore to import more goods and service from China at lower cost ( cuz 1 SGD can purchase more of Chinese goods) and ultimately benefit the consumers in Singapore.
+
+### Malaysia
+
+Let's reuse the same code sample and apply on other countries.
+
+```{r}
+Malaysia_mthlyimport = mthlyimport[grep("Malaysia", mthlyimport$`Data Series`, ignore.case = TRUE), ]
+```
+
+```{r}
+Malaysia_mthlyexport = mthlyexport[grep("Malaysia", mthlyexport$`Data Series`, ignore.case = TRUE), ]
+```
+
+Combine 2 dataframes and transpose the data
+
+```{r}
+Malaysia_mthlytrade1 = rbind(Malaysia_mthlyimport , Malaysia_mthlyexport)
+Malaysia_mthlytrade= as.data.frame(t(Malaysia_mthlytrade1)) 
+colnames(Malaysia_mthlytrade) <- Malaysia_mthlytrade[1,]
+Malaysia_mthlytrade <- Malaysia_mthlytrade[-1,]
+```
+
+```{r}
+Malaysia_mthlytrade <- Malaysia_mthlytrade %>% 
+  rownames_to_column(var = "Month-Year")
+```
+
+Reverse sort and convert the format of Month-Year to time and trade numbers into numeric format.
+
+```{r}
+Malaysia_mthlytrade <- Malaysia_mthlytrade[nrow(Malaysia_mthlytrade):1, ]
+rownames(Malaysia_mthlytrade) <- rownames(Malaysia_mthlytrade[nrow(Malaysia_mthlytrade):1, ])
+```
+
+```{r}
+Malaysia_mthlytrade$`Month-Year` <- as.Date(paste0(Malaysia_mthlytrade$`Month-Year`, " 01"), format = "%Y %b %d")
+names(Malaysia_mthlytrade)[2:3] <- c("Malaysia Import", "Malaysia Export")
+```
+
+```{r}
+Malaysia_mthlytrade$`Malaysia Import` = as.numeric(Malaysia_mthlytrade$`Malaysia Import`)
+Malaysia_mthlytrade$`Malaysia Export` = as.numeric(Malaysia_mthlytrade$`Malaysia Export`)
+```
+
+Now we can plot our data
+
+```{r}
+tail(Malaysia_mthlytrade)
+```
+
+```{r fig.width= 14 , fig.height = 7}
+
+Malaysia_mthlytrade <- Malaysia_mthlytrade %>%
+  mutate(fill = ifelse( Malaysia_mthlytrade$`Malaysia Import`> Malaysia_mthlytrade$`Malaysia Export`, "deficit", "surplus"))
+
+Malaysiaplot = ggplot(Malaysia_mthlytrade) +
+  geom_line(aes(x = Malaysia_mthlytrade$`Month-Year`, y = Malaysia_mthlytrade$`Malaysia Import`), stat = 'identity', color = "blue", size = 1) +
+  geom_line(aes(x = Malaysia_mthlytrade$`Month-Year`, y = Malaysia_mthlytrade$`Malaysia Export`), stat = 'identity', color = "darkred", size = 1) +
+  geom_braid(aes(x = Malaysia_mthlytrade$`Month-Year`, ymin = Malaysia_mthlytrade$`Malaysia Export`, ymax = Malaysia_mthlytrade$`Malaysia Import`, fill = fill), alpha = 0.5) +
+  labs(x = "Year", y = "Malaysia Trade volume", title = "Malaysia Monthly Trade Balance" ) +
+  scale_fill_manual(name = "Trade Balance",
+                    values = c("deficit" = "brown" , "surplus" = "grey"))
+
+Malaysiaplot
+```
+
+For Malaysia, Singapore has always been maintaining a trade deficit with northern neighbour Malaysia throughout 2020 to 2023. However as the 2023 coming, the brown area (represents the trade deficit) has been getting smaller, proving that there could be a change in near future. Singapore may actually become net export partner to Malaysia.
+
+Similar to China above, a SGD is stronger than Malaysian ringgit, which allows 1 SGD to purchase more of Malaysian imported goods and services, this may benefit Singapore consumers and boost Singapore economy. So it is understandable that Singapore government wants to maintain trade deficit with Malaysia.
+
+Both the import and export volumes have pickup tremendeously from 2020 to 2022. However similar to Americas and Asia graphs above, the second half of 2022 have seen an reverse in the uptrend of trade volumes, signalling that there may be a cooldown in the trade activities, and possibly an negative indicator for economic growth.
+
+### Vietnam
+
+```{r}
+Vietnam_mthlyimport = mthlyimport[grep("Vietnam", mthlyimport$`Data Series`, ignore.case = TRUE), ]
+```
+
+```{r}
+Vietnam_mthlyexport = mthlyexport[grep("Vietnam", mthlyexport$`Data Series`, ignore.case = TRUE), ]
+```
+
+Combine 2 dataframes and transpose the data
+
+```{r}
+Vietnam_mthlytrade1 = rbind(Vietnam_mthlyimport , Vietnam_mthlyexport)
+Vietnam_mthlytrade= as.data.frame(t(Vietnam_mthlytrade1)) 
+colnames(Vietnam_mthlytrade) <- Vietnam_mthlytrade[1,]
+Vietnam_mthlytrade <- Vietnam_mthlytrade[-1,]
+```
+
+```{r}
+Vietnam_mthlytrade <- Vietnam_mthlytrade %>% 
+  rownames_to_column(var = "Month-Year")
+```
+
+Reverse sort and convert the format of Month-Year to time and trade numbers into numeric format.
+
+```{r}
+Vietnam_mthlytrade <- Vietnam_mthlytrade[nrow(Vietnam_mthlytrade):1, ]
+rownames(Vietnam_mthlytrade) <- rownames(Vietnam_mthlytrade[nrow(Vietnam_mthlytrade):1, ])
+```
+
+```{r}
+Vietnam_mthlytrade$`Month-Year` <- as.Date(paste0(Vietnam_mthlytrade$`Month-Year`, " 01"), format = "%Y %b %d")
+names(Vietnam_mthlytrade)[2:3] <- c("Vietnam Import", "Vietnam Export")
+```
+
+```{r}
+Vietnam_mthlytrade$`Vietnam Import` = as.numeric(Vietnam_mthlytrade$`Vietnam Import`)
+Vietnam_mthlytrade$`Vietnam Export` = as.numeric(Vietnam_mthlytrade$`Vietnam Export`)
+```
+
+Now we can plot our data
+
+```{r fig.width= 14 , fig.height = 7}
+
+Vietnam_mthlytrade <- Vietnam_mthlytrade %>%
+  mutate(fill = ifelse( Vietnam_mthlytrade$`Vietnam Import`> Vietnam_mthlytrade$`Vietnam Export`, "deficit", "surplus"))
+
+Vietnamplot = ggplot(Vietnam_mthlytrade) +
+  geom_line(aes(x = Vietnam_mthlytrade$`Month-Year`, y = Vietnam_mthlytrade$`Vietnam Import`), stat = 'identity', color = "blue", size = 1) +
+  geom_line(aes(x = Vietnam_mthlytrade$`Month-Year`, y = Vietnam_mthlytrade$`Vietnam Export`), stat = 'identity', color = "darkred", size = 1) +
+  geom_braid(aes(x = Vietnam_mthlytrade$`Month-Year`, ymin = Vietnam_mthlytrade$`Vietnam Export`, ymax = Vietnam_mthlytrade$`Vietnam Import`, fill = fill), alpha = 0.5) +
+  labs(x = "Year", y = "Vietnam Trade volume", title = "Vietnam Monthly Trade Balance" ) +
+  scale_fill_manual(name = "Trade Balance",
+                    values = c("deficit" = "brown" , "surplus" = "grey"))
+
+Vietnamplot
+```
+
+Vietnam is one of the huge agricultural export country in the South East Asia region, it's popular belief that a lot of finished consumer goods, and agricultural products in Singapore is imported from Vietnam, however the above graph depicts that Singapore is actually a net-export country to Vietnam where the trade surplus versus Vietnam is huge. Throughout covid, 2020 to 2022, the import of Singapore from Vietnam is actually relatively stable, proving that covid 19 did not affect Vietnam manufacturing of exports to Singapore.
+
+But with 1 SGD = 17,000 VND (as SGD is much stronger currency), this also means Singapore average consumers are paying higher prices for Vietnamese goods and services, and this may intensify the effect of inflation on Singapore population. This is actually not good, considering Singapore inflation is hitting record high in 2022.
+
+# Conclusion
+
+The above analyses have given a few representation of Singapore trade activities post covid pandemic, which have been quite challenging on economies and all countries. Overall, immediately after 2019, Singapore has seen a steady recovery and uptrend in both import and export trade volumes. While Singapore wants to leverage upon her strong SGD and maintain status quo of trade balance versus her trading partners, however there are some reversal in the case of Americas and China.
+
+Ultimately, this also shows that while Covid pandemics may be behind Singapore, Singapore economy is still facing a huge head-winds ahead, facing with uncertainties from global wars, conflicts with superpower and the impending effect of high inflation that directly affected the average consumers in Singapore.
+
+## Self-Relfection
+
+This is a great and very challenging exercise, that teaches me how to deal with Time-series data. In term of Data wrangling, I learnt different ways to manipulate tables, to slice and subset as well as transform the data to fit the suitable formats to be used to plot graph.
+
+Moreover, I have learned and put into practice how to draw graphs such as Cycle Plot, the Geom_braid as well as I also learned we can design and use each geom functions as its own graphs before combining them under ggplot.
+
+I have also learned to combine multiple plots into trellis style dashboard, something I was not able to do a few week earlier.
+
+Area of improvement: still data wrangling. I believe that there are better ways to manipulate data tables, leveraging on mutate() and group_by() function.
+
+I think the best way to learn is backward reverse engineering when I can see / imagine the result desired dataframe (which will be fed into ggplot) and compare them versus the raw data table and figure which methods / functions that can allow me to transform from raw data table to desired datasets.
