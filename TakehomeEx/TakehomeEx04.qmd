@@ -151,7 +151,7 @@ p2
 
 If we only look at the figure p1 above, one may say that Singapore trade data displayed a healthy uptrend both covid until recent 2022. However. once we examine the trade balance/surplus, Singapore trade surplus was only fluctuating between 3.5 billions and 8.5 billions on monthly basis and it is not on the steady uptrend at all.
 
-Even at beginning of 2022, it even dropped to nearly 2.5 billions for April 2022 and that is the lowest level in 2 years period. If we look at the geom_smooth graph, we can see that the trade surplus of Singapore is actually on the downtrend since second half of 2020.
+Even at beginning of 2022, it even dropped to nearly 2.6 billions for Mar 2022 and that is the lowest level in 2 years period. If we look at the geom_smooth graph, we can see that the trade surplus of Singapore is actually on the downtrend since second half of 2020.
 
 This contracts the general consensus that post-covid, with resume of commodities trades around the world, Singapore Trade surplus should be picking up. However, the data here suggests that as the world resumes normality, Singapore trade surplus is on the downtrend instead.
 
