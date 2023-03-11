@@ -278,5 +278,33 @@
     "title": "Take Home Exercise 04",
     "section": "Self-Relfection",
     "text": "Self-Relfection\nThis is a great and very challenging exercise, that teaches me how to deal with Time-series data. In term of Data wrangling, I learnt different ways to manipulate tables, to slice and subset as well as transform the data to fit the suitable formats to be used to plot graph.\nMoreover, I have learned and put into practice how to draw graphs such as Cycle Plot, the Geom_braid as well as I also learned we can design and use each geom functions as its own graphs before combining them under ggplot.\nI have also learned to combine multiple plots into trellis style dashboard, something I was not able to do a few week earlier.\nArea of improvement: still data wrangling. I believe that there are better ways to manipulate data tables, leveraging on mutate() and group_by() function.\nI think the best way to learn is backward reverse engineering when I can see / imagine the result desired dataframe (which will be fed into ggplot) and compare them versus the raw data table and figure which methods / functions that can allow me to transform from raw data table to desired datasets."
+  },
+  {
+    "objectID": "InClassExercise/inclass08/inclass08.html",
+    "href": "InClassExercise/inclass08/inclass08.html",
+    "title": "In Class Exercise 08",
+    "section": "",
+    "text": "NODEXL , opensourced plugin to for Excel to create network graph.\nNeo4j (Network Explroation and Optimization 4 Java) to handle big network graph database.\nNeo4ji is a NoSQL graph database.\nWith R, you can use tidygraph API for graph manipulation.\nNext, we will examine the structure of the data frame using glimpse() of dplyr.\nWrangling time\nThings to learn from the code chunk above:\nAfter formatting, we can see the dataset again.\nWe have 1st column of Source, 2nd Column of target, and the Weight columns represents the number of emails sent from source 1 to target 2, on weekday Sunday."
+  },
+  {
+    "objectID": "InClassExercise/inclass08/inclass08.html#section",
+    "href": "InClassExercise/inclass08/inclass08.html#section",
+    "title": "In Class Exercise 08",
+    "section": "",
+    "text": "Working with facet_node()\n\nset_graph_style()\n\ng <- ggraph(GAStech_graph, \n            layout = \"nicely\") + \n  geom_edge_link(aes(width=Weight), \n                 alpha=0.2) +\n  scale_edge_width(range = c(0.1, 5)) +\n  geom_node_point(aes(colour = Department), \n                  size = 2)\n  \ng + facet_nodes(~Department)+\n  th_foreground(foreground = \"grey80\",  \n                border = TRUE) +\n  theme(legend.position = 'bottom')"
+  },
+  {
+    "objectID": "InClassExercise/inclass08/inclass08.html#computing-centrality-indices",
+    "href": "InClassExercise/inclass08/inclass08.html#computing-centrality-indices",
+    "title": "In Class Exercise 08",
+    "section": "Computing centrality indices",
+    "text": "Computing centrality indices\nCentrality measures are a collection of statistical indices use to describe the relative important of the actors are to a network. There are four well-known centrality measures, namely: degree, betweenness, closeness and eigenvector\n\ng <- GAStech_graph %>%\n  mutate(betweenness_centrality = centrality_betweenness()) %>%\n  ggraph(layout = \"fr\") + \n  geom_edge_link(aes(width=Weight), \n                 alpha=0.2) +\n  scale_edge_width(range = c(0.1, 5)) +\n  geom_node_point(aes(colour = Department,\n            size=betweenness_centrality))\ng + theme_graph()"
+  },
+  {
+    "objectID": "InClassExercise/inclass08/inclass08.html#section-1",
+    "href": "InClassExercise/inclass08/inclass08.html#section-1",
+    "title": "In Class Exercise 08",
+    "section": "",
+    "text": "Building Interactive Graph with VisNetwork\n\nData Preparation\n\nGAStech_edges_aggregated <- GAStech_edges %>%\n  left_join(GAStech_nodes, by = c(\"sourceLabel\" = \"label\")) %>%\n  rename(from = id) %>%\n  left_join(GAStech_nodes, by = c(\"targetLabel\" = \"label\")) %>%\n  rename(to = id) %>%\n  filter(MainSubject == \"Work related\") %>%\n  group_by(from, to) %>%\n    summarise(weight = n()) %>%\n  filter(from!=to) %>%\n  filter(weight > 1) %>%\n  ungroup()\n\nIn the code chunk below, Fruchterman and Reingold layout is used. U can click and drag the graph.\n\nvisNetwork(GAStech_nodes,\n           GAStech_edges_aggregated) %>%\n  visIgraphLayout(layout = \"layout_with_fr\") \n\n\n\n\n\nThis will rename Department column to “Group”\n\nGAStech_nodes <- GAStech_nodes %>%\n  rename(group = Department) \n\nNote: the purpose of randomSeed = 123, is to make sure that the graph will remain the same next time we re-run this code, if not it will change\n\nvisNetwork(GAStech_nodes,\n           GAStech_edges_aggregated) %>%\n  visIgraphLayout(layout = \"layout_with_fr\") %>%\n  visLegend() %>%\n  visLayout(randomSeed = 123)\n\n\n\n\n\n\n\n\nWorking with visual attributes - Edges\nIn the code run below visEdges() is used to symbolise the edges.\n- The argument arrows is used to define where to place the arrow.\n- The smooth argument is used to plot the edges using a smooth curve.\n\nvisNetwork(GAStech_nodes,\n           GAStech_edges_aggregated) %>%\n  visIgraphLayout(layout = \"layout_with_fr\") %>%\n  visEdges(arrows = \"to\", \n           smooth = list(enabled = TRUE, \n                         type = \"curvedCW\")) %>%\n  visLegend() %>%\n  visLayout(randomSeed = 123)\n\n\n\n\n\nHow about we want to choose one particular staff (account) to view related network to that account only?\nWe use visOption\n\nvisNetwork(GAStech_nodes,\n           GAStech_edges_aggregated) %>%\n  visIgraphLayout(layout = \"layout_with_fr\") %>%\n  visOptions(highlightNearest = TRUE,\n             nodesIdSelection = TRUE) %>%\n  visLegend() %>%\n  visLayout(randomSeed = 123)"
   }
 ]
