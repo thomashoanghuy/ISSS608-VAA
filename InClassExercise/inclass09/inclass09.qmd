@@ -1,0 +1,278 @@
+---
+title: "In Class Exercise 09"
+Author: "Thomas Hoang Huy"
+format: html
+date: "18/03/2023"
+date-modified: "`r Sys.Date()`"
+execute:
+  echo: true
+  eval: true
+  warning: false
+editor: visual 
+---
+
+## Bullet Graph by Tableau
+
+![](images/image-1256258810.png){width="603"}
+
+After using Show Me to create the graph, you need to check again to see whether it make sense.
+
+Currently the reference line is using on actual Sales value. But u can swap the reference line field
+
+![](images/image-1976978371.png)
+
+In this way, it will use "Budget Sales" to create reference line
+
+![](images/image-1244386281.png)
+
+If you dont have the SHOW ME option, u can drag
+
+SALES to Column tab \|\| Product to Rows tab. And the Budget Sales to the Detail
+
+![](images/image-691828269.png)
+
+## How to create SparkLine graph
+
+![](images/image-1006477745.png)
+
+Drag and make it smaller.
+
+Edit Axis, remove Zero
+
+Tick the independent axis range for each rows or Column
+
+![](images/image-878891596.png){width="400"}
+
+Create Formula cells to show min and max values of the sparkline graph.
+
+Analysis \> Calculated Field
+
+![](images/image-1446820018.png)
+
+Add in the code for HIGH / LOW point
+
+Drag the new calculated field on the right side Y axis. And right click \> Synchronize the axis
+
+![](images/image-107576776.png)
+
+## Create Sparkline using R-studio
+
+```{r}
+pacman::p_load(lubridate, ggthemes, reactable,
+reactablefmtr, gt, gtExtras, tidyverse)
+```
+
+```{r}
+coffeechain <- read_rds("C:/Users/user/Desktop/School/ISSS608 Visual Analytics/lesson 10/data/CoffeeChain.rds")
+```
+
+The code chunk below is used to aggregate Sales and Budgeted Sales at the Product level.
+
+```{r}
+product <- coffeechain %>%
+  group_by(`Product`) %>%
+  summarise(`target` = sum(`Budget Sales`),
+            `current` = sum(`Sales`)) %>%
+  ungroup()
+```
+
+### Bullet Point Chart
+
+```{r}
+ggplot(product, aes(Product, current)) + 
+  geom_col(aes(Product, max(target) * 1.01),
+           fill="grey85", width=0.85) +
+  geom_col(aes(Product, target * 0.75),
+           fill="grey60", width=0.85) +
+  geom_col(aes(Product, target * 0.5),
+           fill="grey50", width=0.85) +
+  geom_col(aes(Product, current), 
+           width=0.35,
+           fill = "blue") + 
+  geom_errorbar(aes(y = target,
+                    x = Product, 
+                    ymin = target,
+                    ymax= target), 
+                width = .4,
+                colour = "red",
+                size = 1) +
+  coord_flip()
+```
+
+## Sparkline by GGPLOT2
+
+Preparing the month() to extract a MONTH column from the date for each Prod
+
+```{r}
+sales_report <- coffeechain %>%
+  filter(Date >= "2013-01-01") %>%
+  mutate(Month = month(Date)) %>%
+  group_by(Month, Product) %>%
+  summarise(Sales = sum(Sales)) %>%
+  ungroup() %>%
+  select(Month, Product, Sales)
+```
+
+This code chunk can be used to calculate maximum and minimum at the end of each month
+
+```{r}
+mins <- group_by(sales_report, Product) %>% 
+  slice(which.min(Sales))
+maxs <- group_by(sales_report, Product) %>% 
+  slice(which.max(Sales))
+ends <- group_by(sales_report, Product) %>% 
+  filter(Month == max(Month))
+```
+
+We also want to show 25% / 75% quantile
+
+```{r}
+quarts <- sales_report %>%
+  group_by(Product) %>%
+  summarise(quart1 = quantile(Sales, 
+                              0.25),
+            quart2 = quantile(Sales, 
+                              0.75)) %>%
+  right_join(sales_report)
+```
+
+```{r, fig.width=  7, fig.height= 7}
+ggplot(sales_report, aes(x=Month, y=Sales)) + 
+  facet_grid(Product ~ ., scales = "free_y") + 
+  geom_ribbon(data = quarts, aes(ymin = quart1, max = quart2), 
+              fill = 'grey90') +
+  geom_line(size=0.3) +
+  geom_point(data = mins, col = 'red') +
+  geom_point(data = maxs, col = 'blue') +
+  geom_text(data = mins, aes(label = Sales), vjust = -1) +
+  geom_text(data = maxs, aes(label = Sales), vjust = 2.5) +
+  geom_text(data = ends, aes(label = Sales), hjust = 0, nudge_x = 0.2) +
+  geom_text(data = ends, aes(label = Product), hjust = 0, nudge_x = 1.3) +
+  expand_limits(x = max(sales_report$Month) + 
+                  (0.25 * (max(sales_report$Month) - min(sales_report$Month)))) +
+  scale_x_continuous(breaks = seq(1, 12, 1)) +
+  scale_y_continuous(expand = c(0.1, 0)) +
+  theme_tufte(base_size = 3, base_family = "Helvetica") +
+  theme(axis.title=element_blank(), axis.text.y = element_blank(), 
+        axis.ticks = element_blank(), strip.text = element_blank())
+```
+
+Using GT and GTExtra to build instead of Ggplot
+
+```{r}
+product %>%
+  gt::gt() %>%
+  gt_plt_bullet(column = current, 
+              target = target, 
+              width = 60,
+              palette = c("lightblue", 
+                          "black")) %>%
+  gt_theme_538()
+```
+
+## Sparklines by GT
+
+Prepare the data
+
+```{r}
+report <- coffeechain %>%
+  mutate(Year = year(Date)) %>%
+  filter(Year == "2013") %>%
+  mutate (Month = month(Date, 
+                        label = TRUE, 
+                        abbr = TRUE)) %>%
+  group_by(Product, Month) %>%
+  summarise(Sales = sum(Sales)) %>%
+  ungroup()
+```
+
+It is important to note that one of the requirement of gtExtras functions is that almost exclusively they require you to pass data.frame with list columns. In view of this, code chunk below will be used to convert the report data.frame into list columns.
+
+```{r}
+report %>%
+  group_by(Product) %>%
+  summarize('Monthly Sales' = list(Sales), 
+            .groups = "drop")
+```
+
+Adding statistics (Min, Max and Average)
+
+```{r}
+report %>% 
+  group_by(Product) %>% 
+  summarise("Min" = min(Sales, na.rm = T),
+            "Max" = max(Sales, na.rm = T),
+            "Average" = mean(Sales, na.rm = T)
+            ) %>%
+  gt() %>%
+  fmt_number(columns = 4,
+    decimals = 2)
+```
+
+Create a dataset for Spark ( which is monthly sales groupby each Product)
+
+```{r}
+spark <- report %>%
+  group_by(Product) %>%
+  summarize('Monthly Sales' = list(Sales), 
+            .groups = "drop")
+```
+
+Create another dataset (min, max and average for each product)
+
+```{r}
+sales <- report %>% 
+  group_by(Product) %>% 
+  summarise("Min" = min(Sales, na.rm = T),
+            "Max" = max(Sales, na.rm = T),
+            "Average" = mean(Sales, na.rm = T)
+            )
+```
+
+You leftjoin Sales data and Spark dataset
+
+```{r}
+sales_data = left_join(sales, spark)
+```
+
+Plotting by GT
+
+```{r}
+sales_data %>%
+  gt() %>%
+  gt_plt_sparkline('Monthly Sales' , same_limit = FALSE)
+```
+
+What if we combine Bullet Chart and Spark line
+
+Bullet dataset, for each product, Target Budget Sales and Actual Sales
+
+```{r}
+bullet <- coffeechain %>%
+  filter(Date >= "2013-01-01") %>%
+  group_by(`Product`) %>%
+  summarise(`Target` = sum(`Budget Sales`),
+            `Actual` = sum(`Sales`)) %>%
+  ungroup() 
+```
+
+Left join with the above dataset ( for spark + sales data)
+
+```{r}
+sales_data = sales_data %>%
+  left_join(bullet)
+```
+
+Now we can plot both BULLET graph and SPARKLINE graph in same plot
+
+```{r}
+sales_data %>%
+  gt() %>%
+  gt_plt_sparkline('Monthly Sales' , same_limit = FALSE) %>%
+  gt_plt_bullet(column = Actual, 
+                target = Target, 
+                width = 28,
+                palette = c("lightblue", 
+                          "black")) %>%
+  gt_theme_538()
+```

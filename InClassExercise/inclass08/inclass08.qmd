@@ -91,11 +91,11 @@ GAStech_graph <- tbl_graph(nodes = GAStech_nodes,
 GAStech_graph
 ```
 
-### **Reviewing the output tidygraph\'s graph object**
+### **Reviewing the output tidygraph's graph object**
 
 -   The output above reveals that *GAStech_graph* is a tbl_graph object with 54 nodes and 1372 edges.
 
--   The command also prints the first six rows of \"Node Data\" and the first three of \"Edge Data\".
+-   The command also prints the first six rows of "Node Data" and the first three of "Edge Data".
 
 -   It states that the Node Data is **active**. The notion of an active tibble within a tbl_graph object makes it possible to manipulate the data in one tibble at a time.
 
@@ -105,7 +105,7 @@ GAStech_graph
       arrange(desc(Weight))
     ```
 
-    The nodes tibble data frame is activated by default, but you can change which tibble data frame is active with the *activate()* function. Thus, if we wanted to rearrange the rows in the edges tibble to list those with the highest \"weight\" first, we could use *activate()* and then *arrange()*.
+    The nodes tibble data frame is activated by default, but you can change which tibble data frame is active with the *activate()* function. Thus, if we wanted to rearrange the rows in the edges tibble to list those with the highest "weight" first, we could use *activate()* and then *arrange()*.
 
     # **Plotting Network Data with ggraph package**
 
@@ -144,8 +144,6 @@ g + theme_graph()
 Below is the few different layouts ( besides "nicely") we can use
 
 ![](images/image-977039871.png)
-
-
 
 In the code chunk below, the thickness of the edges will be mapped with the *Weight* variable.
 
@@ -197,6 +195,7 @@ g + facet_edges(~Weekday)
 ```
 
 ## 
+
 **Working with *facet_node()***
 
 ```{r}
@@ -233,6 +232,7 @@ g + theme_graph()
 ```
 
 ## 
+
 Building Interactive Graph with VisNetwork
 
 ### Data Preparation
@@ -277,6 +277,7 @@ visNetwork(GAStech_nodes,
 ```
 
 ### 
+
 **Working with visual attributes - Edges**
 
 In the code run below *visEdges()* is used to symbolise the edges.\
@@ -307,3 +308,7 @@ visNetwork(GAStech_nodes,
   visLegend() %>%
   visLayout(randomSeed = 123)
 ```
+
+Above happen will rename Department column to "Group" . If we want to change the nodes to other columns, for example Labour, then then dropdown list will not only for single employees anymore
+
+
