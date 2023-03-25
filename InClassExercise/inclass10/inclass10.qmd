@@ -1,0 +1,99 @@
+---
+title: "In Class Exercise 10 - Financial Data Visualization"
+Author: "Thomas Hoang Huy"
+format: html
+date: "25/03/2023"
+date-modified: "`r Sys.Date()`"
+execute:
+  echo: true
+  eval: true
+  warning: false
+editor: visual 
+---
+
+## Candlestick chart by Tableau
+
+Candle stick chart code in Tableau
+
+#close-open diff
+
+SUM(\[Close\]) - SUM(\[OPEN\])
+
+#hight-low diff
+
+SUM(\[High\]) - SUM(\[Low\])
+
+#bullish or bearish
+
+IF SUM(\[OPEN\]) \> SUM(\[CLOSE\])
+THEN "BEARISH"
+
+ELSE "BULLISH"
+
+END
+
+Add calculated field to add in formula CLOSE- OPEN / HIGH-LOW and BULLISH OR BEARISH
+
+![](images/image-856550871.png)
+
+![](images/image-596051130.png)
+
+Drag variables COLUMNS and ROWS as followed
+
+![](images/image-1662376678.png)
+
+![](images/image-764040921.png)
+
+Drag HIGH LOW into Size for EACH axis ( left y-axis is SUM of Low , and right y-axis is SUM of High)
+
+![](images/image-537742556.png)
+
+Drag HIGH-LOW to the Size of the SUM(LOW) and drag size to smallest
+
+![](images/image-206743811.png)
+
+Drag the Close-Open to the Size of the Sum(Open) and keep the size bigs.
+
+![](images/image-1023264800.png)
+
+Drag the bearish / bullish into the colors for SUM(OPEN) and SUM(LOW)
+
+![](images/image-1277006072.png)
+
+## Bollinger Bands by Tableau
+
+After insert variables into ROWS and COLUMNS
+
+RIGHT CLICK \> CREATE PARAMETER
+
+![](images/image-1748602416.png)
+
+Now we have to create Calculated fields to insert these formula
+
+![](images/336617725_3387474434798278_3968932929940261612_n.jpg){width="437"}
+
+Drag the MOVING AVERAGE to the 2nd right side Y-axis.
+
+Remember to synchronize the axis
+
+![](images/image-944220728.png)
+
+Drag the remaining LOWER BOUND and UPPER BOUND to the 2nd right Y-axis
+
+Drag OUTSIDE THE BOUND into the SUM(CLOSE) color
+
+![](images/image-1525751572.png)
+
+## Financial Data Visualization with R
+
+```{r}
+pacman::p_load(lubridate, tidyquant, ggHoriPlot,
+               timetk, ggthemes, plotly, tidyverse)
+```
+
+```{r}
+company <- read_csv("C:/thomashoanghuy/ISSS608-VAA/InClassExercise/inclass10/data/companySG.csv")
+Top40 <- company %>% 
+  slice_max(`marketcap`, n=40) %>% 
+  select(symbol)
+```

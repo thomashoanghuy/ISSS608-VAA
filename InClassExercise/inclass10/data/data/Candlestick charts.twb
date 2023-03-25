@@ -1,0 +1,460 @@
+<?xml version='1.0' encoding='utf-8' ?>
+
+<!-- build 20224.22.1117.1841                               -->
+<workbook original-version='18.1' source-build='2022.4.0 (20224.22.1117.1841)' source-platform='win' version='18.1' xmlns:user='http://www.tableausoftware.com/xml/user'>
+  <document-format-change-manifest>
+    <_.fcp.AnimationOnByDefault.true...AnimationOnByDefault />
+    <_.fcp.MarkAnimation.true...MarkAnimation />
+    <_.fcp.ObjectModelEncapsulateLegacy.true...ObjectModelEncapsulateLegacy />
+    <_.fcp.ObjectModelTableType.true...ObjectModelTableType />
+    <_.fcp.SchemaViewerObjectModel.true...SchemaViewerObjectModel />
+    <SheetIdentifierTracking />
+    <WindowsPersistSimpleIdentifiers />
+  </document-format-change-manifest>
+  <preferences>
+    <preference name='ui.encoding.shelf.height' value='24' />
+    <preference name='ui.shelf.height' value='26' />
+  </preferences>
+  <_.fcp.AnimationOnByDefault.false...style>
+    <_.fcp.AnimationOnByDefault.false..._.fcp.MarkAnimation.true...style-rule element='animation'>
+      <_.fcp.AnimationOnByDefault.false...format attr='animation-on' value='ao-on' />
+    </_.fcp.AnimationOnByDefault.false..._.fcp.MarkAnimation.true...style-rule>
+  </_.fcp.AnimationOnByDefault.false...style>
+  <datasources>
+    <datasource caption='SGBank' inline='true' name='federated.13f8w800llhp2m1462pis06yoxjw' version='18.1'>
+      <connection class='federated'>
+        <named-connections>
+          <named-connection caption='SGBank' name='textscan.0pu415m1qiv7hk0zv8eek1yg75il'>
+            <connection class='textscan' directory='C:/houtao/ISSS608-VAA/Inclass_Ex/Inclass_Ex10/data' filename='SGBank.csv' password='' server='' />
+          </named-connection>
+        </named-connections>
+        <_.fcp.ObjectModelEncapsulateLegacy.false...relation connection='textscan.0pu415m1qiv7hk0zv8eek1yg75il' name='SGBank.csv' table='[SGBank#csv]' type='table'>
+          <columns character-set='UTF-8' header='yes' locale='en_US' separator=','>
+            <column datatype='string' name='symbol' ordinal='0' />
+            <column datatype='date' name='date' ordinal='1' />
+            <column datatype='real' name='open' ordinal='2' />
+            <column datatype='real' name='high' ordinal='3' />
+            <column datatype='real' name='low' ordinal='4' />
+            <column datatype='real' name='close' ordinal='5' />
+            <column datatype='integer' name='volume' ordinal='6' />
+            <column datatype='real' name='adjusted' ordinal='7' />
+          </columns>
+        </_.fcp.ObjectModelEncapsulateLegacy.false...relation>
+        <_.fcp.ObjectModelEncapsulateLegacy.true...relation connection='textscan.0pu415m1qiv7hk0zv8eek1yg75il' name='SGBank.csv' table='[SGBank#csv]' type='table'>
+          <columns character-set='UTF-8' header='yes' locale='en_US' separator=','>
+            <column datatype='string' name='symbol' ordinal='0' />
+            <column datatype='date' name='date' ordinal='1' />
+            <column datatype='real' name='open' ordinal='2' />
+            <column datatype='real' name='high' ordinal='3' />
+            <column datatype='real' name='low' ordinal='4' />
+            <column datatype='real' name='close' ordinal='5' />
+            <column datatype='integer' name='volume' ordinal='6' />
+            <column datatype='real' name='adjusted' ordinal='7' />
+          </columns>
+        </_.fcp.ObjectModelEncapsulateLegacy.true...relation>
+        <metadata-records>
+          <metadata-record class='capability'>
+            <remote-name />
+            <remote-type>0</remote-type>
+            <parent-name>[SGBank.csv]</parent-name>
+            <remote-alias />
+            <aggregation>Count</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='character-set'>&quot;UTF-8&quot;</attribute>
+              <attribute datatype='string' name='collation'>&quot;en_US&quot;</attribute>
+              <attribute datatype='string' name='field-delimiter'>&quot;,&quot;</attribute>
+              <attribute datatype='string' name='header-row'>&quot;true&quot;</attribute>
+              <attribute datatype='string' name='locale'>&quot;en_US&quot;</attribute>
+              <attribute datatype='string' name='single-char'>&quot;&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>symbol</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[symbol]</local-name>
+            <parent-name>[SGBank.csv]</parent-name>
+            <remote-alias>symbol</remote-alias>
+            <ordinal>0</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+            <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[SGBank.csv_F7380B3010CA49DEB8A3343B717FCDB5]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>date</remote-name>
+            <remote-type>133</remote-type>
+            <local-name>[date]</local-name>
+            <parent-name>[SGBank.csv]</parent-name>
+            <remote-alias>date</remote-alias>
+            <ordinal>1</ordinal>
+            <local-type>date</local-type>
+            <aggregation>Year</aggregation>
+            <contains-null>true</contains-null>
+            <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[SGBank.csv_F7380B3010CA49DEB8A3343B717FCDB5]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>open</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[open]</local-name>
+            <parent-name>[SGBank.csv]</parent-name>
+            <remote-alias>open</remote-alias>
+            <ordinal>2</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[SGBank.csv_F7380B3010CA49DEB8A3343B717FCDB5]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>high</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[high]</local-name>
+            <parent-name>[SGBank.csv]</parent-name>
+            <remote-alias>high</remote-alias>
+            <ordinal>3</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[SGBank.csv_F7380B3010CA49DEB8A3343B717FCDB5]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>low</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[low]</local-name>
+            <parent-name>[SGBank.csv]</parent-name>
+            <remote-alias>low</remote-alias>
+            <ordinal>4</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[SGBank.csv_F7380B3010CA49DEB8A3343B717FCDB5]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>close</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[close]</local-name>
+            <parent-name>[SGBank.csv]</parent-name>
+            <remote-alias>close</remote-alias>
+            <ordinal>5</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[SGBank.csv_F7380B3010CA49DEB8A3343B717FCDB5]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>volume</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[volume]</local-name>
+            <parent-name>[SGBank.csv]</parent-name>
+            <remote-alias>volume</remote-alias>
+            <ordinal>6</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[SGBank.csv_F7380B3010CA49DEB8A3343B717FCDB5]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>adjusted</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[adjusted]</local-name>
+            <parent-name>[SGBank.csv]</parent-name>
+            <remote-alias>adjusted</remote-alias>
+            <ordinal>7</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[SGBank.csv_F7380B3010CA49DEB8A3343B717FCDB5]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+          </metadata-record>
+        </metadata-records>
+      </connection>
+      <aliases enabled='yes' />
+      <column caption='Close-Open-Diff' datatype='real' name='[Calculation_1174032136042237952]' role='measure' type='quantitative'>
+        <calculation class='tableau' formula='SUM([close]) - SUM([open])' />
+      </column>
+      <column caption='High-Low-Diff' datatype='real' name='[Calculation_1174032136042323969]' role='measure' type='quantitative'>
+        <calculation class='tableau' formula='SUM([high]) - SUM([low])' />
+      </column>
+      <column caption='Bullish or Bearish' datatype='string' name='[Calculation_1174032136042508290]' role='measure' type='nominal'>
+        <calculation class='tableau' formula='IF SUM([open]) &gt; SUM([close]) &#13;&#10;THEN &quot;Bearish&quot;&#13;&#10;ELSE &quot;Bullish&quot;&#13;&#10;END' />
+      </column>
+      <_.fcp.ObjectModelTableType.true...column caption='SGBank.csv' datatype='table' name='[__tableau_internal_object_id__].[SGBank.csv_F7380B3010CA49DEB8A3343B717FCDB5]' role='measure' type='quantitative' />
+      <column caption='Adjusted' datatype='real' name='[adjusted]' role='measure' type='quantitative' />
+      <column caption='Close' datatype='real' name='[close]' role='measure' type='quantitative' />
+      <column caption='Date' datatype='date' name='[date]' role='dimension' type='ordinal' />
+      <column caption='High' datatype='real' name='[high]' role='measure' type='quantitative' />
+      <column caption='Low' datatype='real' name='[low]' role='measure' type='quantitative' />
+      <column caption='Open' datatype='real' name='[open]' role='measure' type='quantitative' />
+      <column caption='Symbol' datatype='string' name='[symbol]' role='dimension' type='nominal' />
+      <column caption='Volume' datatype='integer' name='[volume]' role='measure' type='quantitative' />
+      <column-instance column='[Calculation_1174032136042508290]' derivation='User' name='[usr:Calculation_1174032136042508290:nk]' pivot='key' type='nominal' />
+      <layout _.fcp.SchemaViewerObjectModel.false...dim-percentage='0.5' _.fcp.SchemaViewerObjectModel.false...measure-percentage='0.4' dim-ordering='alphabetic' measure-ordering='alphabetic' show-structure='true' />
+      <style>
+        <style-rule element='mark'>
+          <encoding attr='color' field='[usr:Calculation_1174032136042508290:nk]' type='palette'>
+            <map to='#59a14f'>
+              <bucket>&quot;Bullish&quot;</bucket>
+            </map>
+            <map to='#e15759'>
+              <bucket>&quot;Bearish&quot;</bucket>
+            </map>
+          </encoding>
+        </style-rule>
+      </style>
+      <semantic-values>
+        <semantic-value key='[Country].[Name]' value='&quot;Singapore&quot;' />
+      </semantic-values>
+      <_.fcp.ObjectModelEncapsulateLegacy.true...object-graph>
+        <objects>
+          <object caption='SGBank.csv' id='SGBank.csv_F7380B3010CA49DEB8A3343B717FCDB5'>
+            <properties context=''>
+              <relation connection='textscan.0pu415m1qiv7hk0zv8eek1yg75il' name='SGBank.csv' table='[SGBank#csv]' type='table'>
+                <columns character-set='UTF-8' header='yes' locale='en_US' separator=','>
+                  <column datatype='string' name='symbol' ordinal='0' />
+                  <column datatype='date' name='date' ordinal='1' />
+                  <column datatype='real' name='open' ordinal='2' />
+                  <column datatype='real' name='high' ordinal='3' />
+                  <column datatype='real' name='low' ordinal='4' />
+                  <column datatype='real' name='close' ordinal='5' />
+                  <column datatype='integer' name='volume' ordinal='6' />
+                  <column datatype='real' name='adjusted' ordinal='7' />
+                </columns>
+              </relation>
+            </properties>
+          </object>
+        </objects>
+      </_.fcp.ObjectModelEncapsulateLegacy.true...object-graph>
+    </datasource>
+  </datasources>
+  <actions>
+    <action caption='Highlight 1 (generated)' name='[Action1_1FBD3921E5C84862A241A1EC763D0792]'>
+      <activation auto-clear='true' type='on-select' />
+      <source type='sheet' worksheet='Candlestick charts' />
+      <command command='tsc:brush'>
+        <param name='field-captions' value='AGG(Bullish or Bearish)' />
+        <param name='target' value='Candlestick charts' />
+      </command>
+    </action>
+  </actions>
+  <worksheets>
+    <worksheet name='Candlestick charts'>
+      <table>
+        <view>
+          <datasources>
+            <datasource caption='SGBank' name='federated.13f8w800llhp2m1462pis06yoxjw' />
+          </datasources>
+          <datasource-dependencies datasource='federated.13f8w800llhp2m1462pis06yoxjw'>
+            <column caption='Close-Open-Diff' datatype='real' name='[Calculation_1174032136042237952]' role='measure' type='quantitative'>
+              <calculation class='tableau' formula='SUM([close]) - SUM([open])' />
+            </column>
+            <column caption='High-Low-Diff' datatype='real' name='[Calculation_1174032136042323969]' role='measure' type='quantitative'>
+              <calculation class='tableau' formula='SUM([high]) - SUM([low])' />
+            </column>
+            <column caption='Bullish or Bearish' datatype='string' name='[Calculation_1174032136042508290]' role='measure' type='nominal'>
+              <calculation class='tableau' formula='IF SUM([open]) &gt; SUM([close]) &#13;&#10;THEN &quot;Bearish&quot;&#13;&#10;ELSE &quot;Bullish&quot;&#13;&#10;END' />
+            </column>
+            <column caption='Close' datatype='real' name='[close]' role='measure' type='quantitative' />
+            <column caption='Date' datatype='date' name='[date]' role='dimension' type='ordinal' />
+            <column caption='High' datatype='real' name='[high]' role='measure' type='quantitative' />
+            <column caption='Low' datatype='real' name='[low]' role='measure' type='quantitative' />
+            <column-instance column='[date]' derivation='None' name='[none:date:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[symbol]' derivation='None' name='[none:symbol:nk]' pivot='key' type='nominal' />
+            <column caption='Open' datatype='real' name='[open]' role='measure' type='quantitative' />
+            <column-instance column='[low]' derivation='Sum' name='[sum:low:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[open]' derivation='Sum' name='[sum:open:qk]' pivot='key' type='quantitative' />
+            <column caption='Symbol' datatype='string' name='[symbol]' role='dimension' type='nominal' />
+            <column-instance column='[date]' derivation='Day-Trunc' name='[tdy:date:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[Calculation_1174032136042237952]' derivation='User' name='[usr:Calculation_1174032136042237952:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[Calculation_1174032136042323969]' derivation='User' name='[usr:Calculation_1174032136042323969:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[Calculation_1174032136042508290]' derivation='User' name='[usr:Calculation_1174032136042508290:nk]' pivot='key' type='nominal' />
+          </datasource-dependencies>
+          <filter class='quantitative' column='[federated.13f8w800llhp2m1462pis06yoxjw].[none:date:qk]' included-values='in-range'>
+            <min>#2021-09-22#</min>
+            <max>#2022-03-30#</max>
+          </filter>
+          <filter class='categorical' column='[federated.13f8w800llhp2m1462pis06yoxjw].[none:symbol:nk]'>
+            <groupfilter function='member' level='[none:symbol:nk]' member='&quot;DBSDF&quot;' user:ui-domain='database' user:ui-enumeration='inclusive' user:ui-marker='enumerate' />
+          </filter>
+          <slices>
+            <column>[federated.13f8w800llhp2m1462pis06yoxjw].[none:symbol:nk]</column>
+            <column>[federated.13f8w800llhp2m1462pis06yoxjw].[none:date:qk]</column>
+          </slices>
+          <aggregation value='true' />
+        </view>
+        <style>
+          <style-rule element='axis'>
+            <encoding attr='space' class='0' field='[federated.13f8w800llhp2m1462pis06yoxjw].[sum:open:qk]' field-type='quantitative' fold='true' scope='rows' type='space' />
+          </style-rule>
+        </style>
+        <panes>
+          <pane selection-relaxation-option='selection-relaxation-allow'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='GanttBar' />
+            <encodings>
+              <color column='[federated.13f8w800llhp2m1462pis06yoxjw].[usr:Calculation_1174032136042508290:nk]' />
+            </encodings>
+          </pane>
+          <pane id='1' selection-relaxation-option='selection-relaxation-allow' y-axis-name='[federated.13f8w800llhp2m1462pis06yoxjw].[sum:low:qk]'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='GanttBar' />
+            <mark-sizing mark-sizing-setting='marks-scaling-off' />
+            <encodings>
+              <color column='[federated.13f8w800llhp2m1462pis06yoxjw].[usr:Calculation_1174032136042508290:nk]' />
+              <size column='[federated.13f8w800llhp2m1462pis06yoxjw].[usr:Calculation_1174032136042323969:qk]' />
+            </encodings>
+            <style>
+              <style-rule element='mark'>
+                <format attr='size' value='0.13093923032283783' />
+              </style-rule>
+            </style>
+          </pane>
+          <pane id='2' selection-relaxation-option='selection-relaxation-allow' y-axis-name='[federated.13f8w800llhp2m1462pis06yoxjw].[sum:open:qk]'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='GanttBar' />
+            <mark-sizing mark-sizing-setting='marks-scaling-off' />
+            <encodings>
+              <color column='[federated.13f8w800llhp2m1462pis06yoxjw].[usr:Calculation_1174032136042508290:nk]' />
+              <size column='[federated.13f8w800llhp2m1462pis06yoxjw].[usr:Calculation_1174032136042237952:qk]' />
+            </encodings>
+            <style>
+              <style-rule element='mark'>
+                <format attr='size' value='0.3948066234588623' />
+              </style-rule>
+            </style>
+          </pane>
+        </panes>
+        <rows>([federated.13f8w800llhp2m1462pis06yoxjw].[sum:low:qk] + [federated.13f8w800llhp2m1462pis06yoxjw].[sum:open:qk])</rows>
+        <cols>[federated.13f8w800llhp2m1462pis06yoxjw].[tdy:date:qk]</cols>
+      </table>
+      <simple-id uuid='{CA243AF1-BE27-4430-8FF8-8B972B1D20D2}' />
+    </worksheet>
+  </worksheets>
+  <windows source-height='30'>
+    <window class='worksheet' maximized='true' name='Candlestick charts'>
+      <cards>
+        <edge name='left'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'>
+            <card type='columns' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='rows' />
+          </strip>
+          <strip size='31'>
+            <card type='title' />
+          </strip>
+        </edge>
+        <edge name='right'>
+          <strip size='160'>
+            <card param='[federated.13f8w800llhp2m1462pis06yoxjw].[none:date:qk]' show-domain='false' show-null-ctrls='false' type='filter' />
+            <card mode='radiolist' param='[federated.13f8w800llhp2m1462pis06yoxjw].[none:symbol:nk]' type='filter' />
+            <card pane-specification-id='1' param='[federated.13f8w800llhp2m1462pis06yoxjw].[usr:Calculation_1174032136042508290:nk]' type='color' />
+          </strip>
+        </edge>
+      </cards>
+      <viewpoint>
+        <highlight>
+          <color-one-way>
+            <field>[federated.13f8w800llhp2m1462pis06yoxjw].[none:date:qk]</field>
+            <field>[federated.13f8w800llhp2m1462pis06yoxjw].[none:symbol:nk]</field>
+            <field>[federated.13f8w800llhp2m1462pis06yoxjw].[yr:date:ok]</field>
+          </color-one-way>
+        </highlight>
+      </viewpoint>
+      <simple-id uuid='{68D776F7-75CB-4F98-A5F3-53E0467CA238}' />
+    </window>
+  </windows>
+  <thumbnails>
+    <thumbnail height='192' name='Candlestick charts' width='192'>
+      iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAYAAABS3GwHAAAACXBIWXMAAA7DAAAOwwHHb6hk
+      AAAPeElEQVR4nO3dWXAb930H8O8euAGCJA6ekqiDCkXFquRWdiVRtmKlcevajpPWM+20nUk7
+      k2Qmfcr0mmndSdP2oQ/t5KlpHhqrx6SZ+si0lVPHTmz5kO1Kjm5Z1MGb4k2Q4AUsgN3994Ey
+      KQgABYgUKeD//cxohlj8d/e/wH6B/e/+hFWEEAJEktIBgBkgWemf/jE/P1/SjEIIGIYBj8ez
+      5p0iWi/KvR4C2baNRCIBv9+/1n0iWjfqRneAaCMxACQ1BoCkxgCQ1BgAkhoDQFJjAEhqDABJ
+      ragACGFjsL8PqZSB/sEhsHKCKoV+9yYALBMujws3rncjk0oh0tgIp7BhWRZM07zPXSS6f4oK
+      gJ1J4FrXIOpCVUgnM7BsBaqmQtM06HpxGSJ6ELEWiKTGQTBJjQEgqTEAJDUGgKTGAJDUGACS
+      GgNAUmMASGoMAEmNASCpFV0NOtDXi1Qmg/6+AbAYlCpFcZVstgm3143Oi5fgCFTDFgLCZjUo
+      lb/iqkHTCVzvuonmhjBmpycxa7Qg6GI1KJU/VoOS1DgIJqkxACQ1BoCkY83MwJqbA8AAUIUT
+      to34Sy/DtE1krAwuDJ1FqrMT6d5eAMWeBiUqU4qqQlFVvN99Ak7Nhfd7TmBn5Dmo7sX7WjAA
+      VPYyo6NQVBV6NFqwTcgXhlv3oC3aDigqoCoAGAAqY0IIvHz+B3gq3gRF11cMwKee2/N81mOO
+      AdaJGYsh3T+w0d0oK9//v++hJ9aVNU0Igekf/Ad6Yl3om+qBpurQIxFo4UjO/KZlwrRXrlRg
+      ANaJcfES5l5/fcU26b4+LJz8YFXr6Y11I56YXnpsJ5MwOq+uapkbZWTmJoxMMmf63PHXkEwn
+      YJjGbVMFjCudWe1O9ryD0/0fQa+vL7gOBmAD2alU1h060909OW9iqS4On0PaSi89NicmMH3s
+      2KqWud7MsTHMvflTRAP1iAYK77zZFLjbd2VNCfnCCPnC8HUcKjhXadWgpo1YLFZkh+QkLAsi
+      k8madvzyj5C0koCa/XJPf/9F2LffnVNVodwanN0rj8MDjyP3zp3z776H9MDgqpads8y3TyAz
+      NAQA6Il1YS45AzuVXnEec3wCc2+8mfe5i8PnAQBqVRXMsbHFHdgbXtM+36mkatDJ0REMjo6j
+      trYWtuTVoKkLF5Du7kHgy19amiZSKSRPnUK68xqqv/7VpelGxkBV+wGkdC8WzpyFMDMwB28i
+      +LWvQgBLr6HeugNC07BgLODSyHmMzA6hLbobW0PboavZb1Xy/ffhOXgQ0LSs6Xe+L7ZlQQgg
+      8fHPAZcTamPD6jdeCIhMBgunTkMJVkGpq8OlofM4on0GYz98CZG/+lZ2e9uGME0oTifSk5NY
+      +OADOD73WM42XRu7gvboZwGHA95ffRLi5s9gWVbeLli2DQgg4o3CSthQlNx90av7oGsOmKaJ
+      qK8OmqrntCm6GvRG90001NXCNBZgZGy49MqvBv1k9BKS6QRuxgdyzh6kFhKwJyaytn/om38E
+      32OHoahK1nRVVRd/S1VVEX/xGGr+4CvQqqpyXjutrg6O6mrcTIxjNhVHLDGJXQ27IWwbEALK
+      bTu7Z+9eYH4eImnA0dwEW9h46/obUNXs90UJheDcvAmO5mY4QiEkfvIGqp7+9VW9Lqnubky/
+      eAxqoAqqurgu5dY2Ksje9qlj/wI9GkXi1CnU//W3YWkqAAWvXz2OZz/7ZWjq8japqro0rx6J
+      QBlWoGkaFGX5W/HTQ8bG6iYoULC7cQ+My5cBNXdf3B5tXfq7PtiYd1uKOgTSPNU4dGA/tm3b
+      jo6ODnic2t1nqgBvXf8JdtXtztn575Q8exbxl1+BommLO6la+GUNfuk56KEQ1Dw3GFccDmh+
+      P7bUbsXDzY/gc62/AgBId3dj/u0TWW31mhpACFjz80icOYOBrvP46dX/zVmmVlUFx6ZN8Oz9
+      BUDVkDh1uphNXzPmyAjsRGLpsWPLFrhadxRsH//Pl2COj6+4TM/DDyPsiyDku3V4dOti172o
+      3I/vNdAU3ASfa+Vyb9swYM3OwZqYgK/jEHyHO2BcuVKwvf/zR2EvLEDRHSsuN+yPIOxfPLWn
+      en1Qfd6cNno4DD0cRuwfv4v0zrqCywo+98Wlv+v/5tsrrrcUzm1bMVvnx7udxws3um3nTF64
+      CHd7O1SPB72x6+iNdWFH5DMAAMu2YNkWFN0JLVz4uF9RFET+9I+zprnb2+95G3gWKA+RTsOc
+      mMyaNvH3/wAzzwmAsb/8FqzYZM70lag+HxzNTcW3D1bB2dJS8PnQH34Dnv37S+pDKd7tehvD
+      M0O5/XK7MSsMfND7XsF5XW1tcLW1AQDmXvsxjM5O+I8+gU3Vm+HQnEvtbkxcRefYJ2vf+buQ
+      +htACAHLtqBrdwwwL12CcfYc8Mjyp39meAQwlwdk7n174Wprgx6NYP7d92COjUNvyD/AfKhh
+      L1SnC1qo9p76qfn90Ir8j0e/3NIBr9NXVNuLw+ewp3FfweeTmSTO3vwYc6lZ1Hrz911VVLh0
+      14rr0SMROBoaYE0tXp/QamrwfM3v5G2r3HYc71BX/pZcC9J9A8yn5nCq/0MAwIwRxztdP8tp
+      I9JpiHT26TzfwQPQ65YvtWuBAPTo4iGK5+F9CD7/m/AdOgjV54Nz2/aseXdG26BVV8O9e/da
+      b84Sj+5Be/1DqHIHswaWhdjCxtWxwodqqa4uOBdSGJ0dznlO9XoXP9V1HVtD2/HCF/52xXVp
+      NdXQI7lXavOp+uKzS4dMzz70G1kD4PtBugBYtoVZYwbfeefvMDGff7Dl2bcPgWeezprmP/pE
+      wWVqgcDSG6x6vXBual67Dhcp7I/gK49+rej2GSuDQ9seL/i8cf4ChBDY07g35zlHQwNqfu93
+      UfXUr0F1rfzp7z/yOKDrcO/ZU3Tf1tMDHQArHkeqqwsZK3P3xisQpgk7lcqaNhQfRMbKf9FG
+      dbvh3LwZDVXLx+laTc2q+vCgcekuNAWzgzr9b/++dCVacbuhut1ojbStaj1adTUURYFrZyv8
+      nz8KR4HDxGigHl9oe2pV67oXD3QAUl1dmP2v/8b/XH61YJuh+CA+6juJ+MuvwJqby3sKLfHx
+      zzH1T9/DJyMXkcxTW3K77578DmILi4Pag1sPr24DyozicECrCtz6u7Th4ePbn4BDd0FxF/5G
+      8D76CPRI/jM8td4QDrR0lLTOtfBAB+BuZo+/hnrhx4GWDphjYzAuXMTMqz/Cv57+Z8wkZ3La
+      nxk8DUVRYAsbuxv2wK3nnov/Rsc3l88vS6b6t38LjubFb4XAk0/mvVZRSNBTDfeOHah74S/u
+      V/fuiwcuAMMzQ/gwz2k10zaRyqr+A4xLlyFuXdp21NdDceiwDQMHtx5G0BPMWYbP5UdPrAvX
+      xq/g9x/9Omp9ofuzERXm8LYjcN7lTE+52rAACNOCbRg50xuDTTi49bGc6SMzQ3jl/A+zprl2
+      tuY9u9B66+LK3fTEutAb6y6yx3Kwk0ksnDyZNS3oqYaqPHCflWuiqAM9ISwM9PUjUleP0bFJ
+      tLRsXtVKk2fOQggb82+dQPTP/iRvmyujlxBNL19Cr/WFUHuXQxPXzp2LdTN3UHQNisuFozuf
+      hEN1YEd4J4DFIjXDXHlMIBvV44E5OrbR3Vg3RVaD2vD4PIjPJuAUJgxbrOpO8fFXX4V7714I
+      IQrO//HAKTyDNphCYGCqD5NzE7BtO6v97Y/dR45ABAJw7d+fs0znvn1w7lu+4OPS3DBNE7Zt
+      r9gHWd35OleyIqtBF3CjZwgNoQDiyQyiUHKqDkuhQIGiLP4rNP/BrYcRsKuRcXnwSM08/O4A
+      djc8lF1l6XItVw+GSz+eD/sj2B5ureiK1ntxe1VmpduQ3wYd/fMXEHjmaSgOB97zjeDRLQdR
+      U+BSO62/1I0bcLW23r1hBdiQkY2rfRecW1vg/aVfRNAd5M7/gJFl5wf469Akuco8t0VUJAaA
+      pMYAkNQYAJIaA0BSYwBIagwASY0BIKkV99ugtoW+3h4kkgn0DQzxTvFUMYqreBI2vF4PbnT1
+      oanGi5m0gF+V+7dBqTIUXQ3a1TuExrpa3JyYwa5GBSoq/7dBqfKxFoikxkEwSY0BIKkxACQ1
+      BoCkxgCQ1BgAkhoDQFJjAEhqDABJjQEgqRV5p3gLY+MTyKQS6OkdgM1yUKoQRVaDAoZhIG4a
+      mIlNwti8aVW/DUr0oCjyx3FNjI0Mo6amGopiw7KVxTufsxqUyhyrQUlqHAST1BgAkhoDQFJj
+      AEhqDABJjQEgqTEAJDUGgKTGAJDUGACSWtHVoKNjE7DNNHp6+pF7L3ai8lR0NWg6lcLwYD+M
+      jALbFoDNalAqf0VXg46ODKGurg62MYWFtEDAyWpQKn+sBiWpcRBMUmMASGp5AzAzFcPcQnK9
+      +0K07vIGYHyoFz9+7U2k17s3ROssbwCcLhcy6RTvBUYVL28ApmfmEa4JrndfiNZd3gA0NTfB
+      7fVCWe/eEK2znKtYC/EJdN7oQzphwNqIHhGtI14II6nxOgBJrbhqUCuNrp5+CCFw9drV+90n
+      onVTVCWbojnh9zgxNTqIialZbDMtqBCsBqWyV1QAhJnC6NgYGpqa0VgXgqIoUBWF1aBU9jgI
+      JqlxEExSYwBIagwASY0BIKkxACQ1BoCkxgCQ1BgAkhoDQFJjAEhqRVeDXum8juT8DC6ePYck
+      /6cMVYiiq0FrqwNQVRWhxia4VAHb4m+DUvkruhp0Oh6HaVlYSCRgRqLQVf42KJU/VoOS1DgI
+      JqkxACQ1BoCkxgCQ1BgAkhoDQFJjAEhqDABJjQEgqTEAJLWSqkGnxodx/twFpHireKoQJVWD
+      JlMZbIoGkTQFNJXVoFT+SqoGrauvx8xcAi1OBcJmNSiVP1aDktQ4CCapMQAkNQaApMYAkNQY
+      AJIaA0BSYwBIagwASY0BIKkxACS1kgIwMTyAs2fOIclqUKoQJVWyCSjQYME0BRysBqUKUFIA
+      amprMZey4XMogGA1KJU/VoOS1DgIJqkxACQ1BoCkxgCQ1BgAkhoDQFJjAEhqDABJjQEgqTEA
+      JLWSAhCfGEHn9R6wGJQqRUmVbPMLC0jPTyOe3IIqh2A1KJW9kgLQuGkLTDhR7dYAYbMalMoe
+      q0FJahwEk9QYAJIaA0BSYwBIagwASY0BIKkxACQ1BoCkxgCQ1BgAklpJARB2Bic//Oh+9YVo
+      3ZVUyTYy0Id0JoNEyoRTA6tBqeyVXAyXSCbg9XhZDEcVoeQxgNfjvR/9INoQHAST1BgAkhoD
+      QFJjAEhqDABJjQEgqTEAJDUGgKT2/6951gzwqHz6AAAAAElFTkSuQmCC
+    </thumbnail>
+  </thumbnails>
+</workbook>
