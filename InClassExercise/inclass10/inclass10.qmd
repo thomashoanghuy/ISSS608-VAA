@@ -324,7 +324,7 @@ candleStick_plot<-function(symbol, from, to){
 
 And once we plot, we can just indicate symbol of the stock, from timestamp and to timestamp
 
-```{r}
+```{r fig.height = 7 , fig.width = 7}
 p <- candleStick_plot("DBSDF",
                       from = '2022-01-01',
                       to = today())
